@@ -34,7 +34,7 @@
                     <div class="text-center">
                         <h6 class="mb-0 text-white text-shadow-dark mt-3">{{ auth()->user()->name }}</h6>
                         <span
-                            class="font-size-sm text-white text-shadow-dark">{{ ucfirst(auth()->user()->roles->isNotEmpty()? auth()->user()->roles[0]->name: '') }}</span>
+                            class="font-size-sm text-white text-shadow-dark">{{ ucfirst(auth()->user()->roles->isNotEmpty() ? auth()->user()->roles[0]->name: '') }}</span>
                     </div>
                 </div>
 
@@ -112,7 +112,8 @@
                                     <li class="nav-item"><a href="{{ route('touchtable.media.create') }}"
                                             class="nav-link @if (Route::is('touchtable.media.create')) active @endif">Add Item(s)</a></li>
                                 @endcan
-                                @can(['edit-touchtable-screen-media', 'delete-touchtable-screen-media', 'view-touchtable-screen-media'])
+                                @can(['edit-touchtable-screen-media', 'delete-touchtable-screen-media',
+                                    'view-touchtable-screen-media'])
                                     <li class="nav-item"><a href="{{ route('touchtable.media.index') }}"
                                             class="nav-link @if (Route::is(['touchtable.media.index', 'touchtable.media.edit'])) active @endif">Gallery List</a></li>
                                 @endcan
@@ -124,7 +125,7 @@
                 @can('portrait-screen')
                     <li class="nav-item-header">
                         <div class="text-uppercase font-size-xs line-height-xs mt-1">Portrait Screens</div> <i
-                             class="icon-menu" title="Portrait Screens"></i>
+                            class="icon-menu" title="Portrait Screens"></i>
                     </li>
                     @can(['add-portrait-screen', 'edit-portrait-screen', 'delete-portrait-screen', 'view-portrait-screen'])
                         <li class="nav-item nav-item-submenu @if (Route::is('portrait.screens.*')) nav-item-open @endif">
@@ -165,18 +166,19 @@
                         <div class="text-uppercase font-size-xs line-height-xs mt-1">Video Wall Screens</div> <i
                             class="icon-menu" title="Video Wall Screens"></i>
                     </li>
-                    @can(['add-video-wall-screen', 'edit-video-wall-screen', 'delete-video-wall-screen', 'view-video-wall-screen'])
+                    @can(['add-video-wall-screen', 'edit-video-wall-screen', 'delete-video-wall-screen',
+                        'view-video-wall-screen'])
                         <li class="nav-item nav-item-submenu @if (Route::is('videowall.screens.*')) nav-item-open @endif">
                             <a href="#" class="nav-link"><i class="icon-screen3"></i> <span>Screens</span></a>
                             <ul class="nav nav-group-sub" data-submenu-title="Screens"
                                 @if (Route::is('videowall.screens.*')) style="display: block" @endif>
                                 @can('add-video-wall-screen')
                                     <li class="nav-item"><a href="{{ route('videowall.screens.create') }}"
-                                                            class="nav-link @if (Route::is('videowall.screens.create')) active @endif">Add Screen</a></li>
+                                            class="nav-link @if (Route::is('videowall.screens.create')) active @endif">Add Screen</a></li>
                                 @endcan
                                 @can(['edit-video-wall-screen', 'delete-video-wall-screen', 'view-video-wall-screen'])
                                     <li class="nav-item"><a href="{{ route('videowall.screens.index') }}"
-                                                            class="nav-link @if (Route::is(['videowall.screens.index', 'videowall.screens.edit'])) active @endif">Screen List</a></li>
+                                            class="nav-link @if (Route::is(['videowall.screens.index', 'videowall.screens.edit'])) active @endif">Screen List</a></li>
                                 @endcan
                             </ul>
                         </li>
@@ -188,11 +190,11 @@
                                 @if (Route::is('videowall.media.*')) style="display: block" @endif>
                                 @can('add-video-wall-screen-video')
                                     <li class="nav-item"><a href="{{ route('videowall.media.create') }}"
-                                                            class="nav-link @if (Route::is('videowall.media.create')) active @endif">Add Media</a></li>
+                                            class="nav-link @if (Route::is('videowall.media.create')) active @endif">Add Media</a></li>
                                 @endcan
                                 @can(['delete-video-wall-screen-video', 'view-video-wall-screen-video'])
                                     <li class="nav-item"><a href="{{ route('videowall.media.index') }}"
-                                                            class="nav-link @if (Route::is('videowall.media.index')) active @endif">Media List</a></li>
+                                            class="nav-link @if (Route::is('videowall.media.index')) active @endif">Media List</a></li>
                                 @endcan
                             </ul>
                         </li>
@@ -222,8 +224,7 @@
 
                 {{-- With RFID Screen Media --}}
 
-                    {{--
-                    @can(['add-with-rfid-screen-screen-video', 'delete-with-rfid-screen-video', 'view-with-rfid-screen-video'])
+                {{-- @can(['add-with-rfid-screen-screen-video', 'delete-with-rfid-screen-video', 'view-with-rfid-screen-video'])
                     <li class="nav-item nav-item-submenu @if (Route::is('withrfid.media.*')) nav-item-open @endif">
                         <a href="#" class="nav-link"><i class="icon-film4"></i> <span>Media</span></a>
                         <ul class="nav nav-group-sub" data-submenu-title="Media"
@@ -238,11 +239,10 @@
                             @endcan
                         </ul>
                     </li>
-                @endcan
-                --}}
+                @endcan --}}
                 {{-- /With RFID Screen Media --}}
 
-            @can(['add-card', 'edit-card', 'delete-card', 'view-card'])
+                @can(['add-card', 'edit-card', 'delete-card', 'view-card'])
                     <li class="nav-item nav-item-submenu @if (Route::is('cards.*')) nav-item-open @endif">
                         <a href="#" class="nav-link"><i class="icon-credit-card2"></i> <span>RFID Cards</span></a>
                         <ul class="nav nav-group-sub" data-submenu-title="Cards"

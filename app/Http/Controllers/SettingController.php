@@ -31,6 +31,7 @@ class SettingController extends Controller
             return back()->with('error', 'Error: Something went wrong!');
         }
     }
+    
     /**
      * Display a listing of the resource.
      *
