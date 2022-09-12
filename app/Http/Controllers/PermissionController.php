@@ -56,7 +56,7 @@ class PermissionController extends Controller
                 'name' => $request->name,
                 'guard_name' => 'web'
             ]);
-            if(!empty($request->roles)) {
+            if (!empty($request->roles)) {
                 $permission->syncRoles($request->roles);
             }
             return redirect()->route('permissions.index')->with('success', 'Permission created!');
