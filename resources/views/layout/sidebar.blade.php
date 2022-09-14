@@ -121,7 +121,6 @@
                         </li>
                     @endcan
                 @endcan
-
                 @can('portrait-screen')
                     <li class="nav-item-header">
                         <div class="text-uppercase font-size-xs line-height-xs mt-1">Portrait Screens</div> <i

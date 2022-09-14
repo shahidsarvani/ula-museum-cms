@@ -29,7 +29,6 @@
             letter-spacing: 0.05rem;
             color: #292c42;
         }
-
         .hidden:not(.show) {
             display: none;
         }
