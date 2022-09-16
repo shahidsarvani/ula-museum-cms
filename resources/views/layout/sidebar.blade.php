@@ -121,10 +121,11 @@
                         </li>
                     @endcan
                 @endcan
+
                 @can('portrait-screen')
                     <li class="nav-item-header">
                         <div class="text-uppercase font-size-xs line-height-xs mt-1">Portrait Screens</div> <i
-                            class="icon-menu" title="Portrait Screens"></i>
+                             class="icon-menu" title="Portrait Screens"></i>
                     </li>
                     @can(['add-portrait-screen', 'edit-portrait-screen', 'delete-portrait-screen', 'view-portrait-screen'])
                         <li class="nav-item nav-item-submenu @if (Route::is('portrait.screens.*')) nav-item-open @endif">
