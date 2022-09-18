@@ -22,96 +22,6 @@ class MediaController extends Controller
         return view('media.index', compact('media'));
     }
 
-    public function portrait_video_index()
-    {
-        $media = Media::where('screen_type', 'portrait')->get();
-        // return $media;
-        $media_grouped = $media->groupBy('screen_slug');
-        return view('portrait_media.index', compact('media_grouped'));
-    }
-    public function portrait_video_create()
-    {
-        $screens = Screen::where('is_touch', 1)->where('is_model', 1)->get();
-        return view('portrait_media.create', compact('screens'));
-    }
-    public function portrait_video_store(Request $request)
-    {
-        //
-        // return $request;
-        if (!$request->lang) {
-            return back()->with('error', 'Select Language');
-        }
-
-        if ($request->file_names) {
-            foreach ($request->file_names as $index => $fileName) {
-                // $media = Media::whereName($fileName)->first();
-                $media = Media::create([
-                    'lang' => $request->lang,
-                    'name' => $fileName,
-                    'screen_slug' => $request->screen_id,
-                    'screen_type' => 'portrait',
-                    'type' => $request->types[$index],
-                ]);
-            }
-            return redirect()->route('portrait.media.index');
-        } else {
-            return back()->with('error', 'Error! Uploading Media File');
-        }
-    }
-    public function portrait_video_delete($id)
-    {
-        $media = Media::findOrFail($id);
-        Storage::delete('/public/media/' . $media->name);
-        $media->delete();
-        return redirect()->route('portrait.media.index')->with('success', 'Media deleted');
-    }
-
-    public function touchtable_media_index()
-    {
-        $media = Media::where('screen_type', 'touchtable')->get();
-        // return $media;
-        $media_grouped = $media->groupBy('screen_slug');
-        return view('touchtable_media.index', compact('media_grouped'));
-    }
-    public function touchtable_media_create()
-    {
-        $screens = Screen::where('is_touch', 1)->where('screen_type', 'touchtable')->get();
-        // $menus = Menu::all();
-        // return $menus;
-        return view('touchtable_media.create', compact('screens'));
-    }
-    public function touchtable_media_store(Request $request)
-    {
-        //
-        // return $request;
-        if (!$request->lang) {
-            return back()->with('error', 'Select Language');
-        }
-
-        if ($request->file_names) {
-            foreach ($request->file_names as $index => $fileName) {
-                // $media = Media::whereName($fileName)->first();
-                $media = Media::create([
-                    'lang' => $request->lang,
-                    'name' => $fileName,
-                    'screen_slug' => $request->screen_id,
-                    'screen_type' => 'touchtable',
-                    'type' => $request->types[$index],
-                ]);
-            }
-            return redirect()->route('touchtable.media.index');
-        } else {
-            return back()->with('error', 'Error! Uploading Media File');
-        }
-    }
-    public function touchtable_media_delete($id)
-    {
-        $media = Media::findOrFail($id);
-        Storage::delete('/public/media/' . $media->name);
-        $media->delete();
-        return redirect()->route('touchtable.media.index')->with('success', 'Media deleted');
-    }
-
     public function upload_media_dropzone(Request $request)
     {
         // create the file receiver
@@ -175,7 +85,7 @@ class MediaController extends Controller
         $filename = 'media';
 
         // Add timestamp hash to name of the file
-        $filename .= "_" . md5(time()) . "." . $extension;
+        $filename .= "_" . md5(uniqId()) . "." . $extension;
 
         return $filename;
     }

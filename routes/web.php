@@ -9,7 +9,9 @@ use App\Http\Controllers\ScreenController;
 use App\Http\Controllers\SlideController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\PortraitScreenController;
+use App\Http\Controllers\PortraitScreenMediaController;
 use App\Http\Controllers\SettingController;
+use App\Http\Controllers\TouchScreenMediaController;
 use App\Http\Controllers\TouchScreenMenuController;
 use App\Http\Controllers\VideoWallMediaController;
 use App\Http\Controllers\VideoWallScreenController;
@@ -48,22 +50,20 @@ Route::middleware([
     Route::resource('slides', SlideController::class);
     Route::prefix('touchtable-screen')->name('touchtable.')->group(function () {
         Route::resource('menus', TouchScreenMenuController::class);
-        Route::get('media', [MediaController::class, 'touchtable_media_index'])->name('media.index');
-        Route::get('media/create', [MediaController::class, 'touchtable_media_create'])->name('media.create');
-        Route::post('media', [MediaController::class, 'touchtable_media_store'])->name('media.store');
-        // Route::get('media/{id}/edit', [MediaController::class, 'touchtable_media_edit'])->name('media.edit');
-        // Route::put('media/{id}', [MediaController::class, 'touchtable_media_update'])->name('media.update');
-        Route::delete('media/{id}', [MediaController::class, 'touchtable_media_delete'])->name('media.delete');
+        Route::get('media', [TouchScreenMediaController::class, 'touchtable_media_index'])->name('media.index');
+        Route::get('media/create', [TouchScreenMediaController::class, 'touchtable_media_create'])->name('media.create');
+        Route::post('media', [TouchScreenMediaController::class, 'touchtable_media_store'])->name('media.store');
+        Route::get('media/{id}/edit', [TouchScreenMediaController::class, 'touchtable_media_edit'])->name('media.edit');
+        Route::put('media/{id}', [TouchScreenMediaController::class, 'touchtable_media_update'])->name('media.update');
+        Route::delete('media/{id}', [TouchScreenMediaController::class, 'touchtable_media_delete'])->name('media.delete');
         Route::post('/upload_media', [MediaController::class, 'upload_media_dropzone'])->name('media.upload');
     });
     Route::prefix('portrait-screen')->name('portrait.')->group(function () {
         Route::resource('screens', PortraitScreenController::class);
-        Route::get('media', [MediaController::class, 'portrait_video_index'])->name('media.index');
-        Route::get('media/create', [MediaController::class, 'portrait_video_create'])->name('media.create');
-        Route::post('media', [MediaController::class, 'portrait_video_store'])->name('media.store');
-        // Route::get('media/{id}/edit', [MediaController::class, 'portrait_video_edit'])->name('media.edit');
-        // Route::put('media/{id}', [MediaController::class, 'portrait_video_update'])->name('media.update');
-        Route::delete('media/{id}', [MediaController::class, 'portrait_video_delete'])->name('media.delete');
+        Route::get('media', [PortraitScreenMediaController::class, 'portrait_video_index'])->name('media.index');
+        Route::get('media/create', [PortraitScreenMediaController::class, 'portrait_video_create'])->name('media.create');
+        Route::post('media', [PortraitScreenMediaController::class, 'portrait_video_store'])->name('media.store');
+        Route::delete('media/{id}', [PortraitScreenMediaController::class, 'portrait_video_delete'])->name('media.delete');
         Route::post('/upload_media', [MediaController::class, 'upload_media_dropzone'])->name('media.upload');
     });
 
@@ -74,7 +74,7 @@ Route::middleware([
         Route::get('media/create', [VideoWallMediaController::class, 'video_wall_video_create'])->name('media.create');
         Route::post('media', [VideoWallMediaController::class, 'video_wall_video_store'])->name('media.store');
         Route::delete('media/{id}', [VideoWallMediaController::class, 'video_wall_video_delete'])->name('media.delete');
-        Route::post('/upload_media', [VideoWallMediaController::class, 'upload_media_dropzone'])->name('media.upload');
+        Route::post('/upload_media', [MediaController::class, 'upload_media_dropzone'])->name('media.upload');
     });
     //-------- /Video Wall Screen --------//
 

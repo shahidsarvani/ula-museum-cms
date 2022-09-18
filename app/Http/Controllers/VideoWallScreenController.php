@@ -11,7 +11,7 @@ class VideoWallScreenController extends Controller
 
     public function index()
     {
-        $screens = Screen::where('is_touch', 1)->where('is_model', 1)->get();
+        $screens = Screen::where('screen_type', 'videowall')->where('is_touch', 0)->get();
         return view('video_wall_screens.index', compact('screens'));
     }
 

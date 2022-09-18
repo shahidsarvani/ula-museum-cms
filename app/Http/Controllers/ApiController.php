@@ -15,9 +15,9 @@ class ApiController extends Controller
         ]);
     }
     //
-    public function get_main_menu()
+    public function get_touchtable_main_menu()
     {
-        $menus = Menu::where('menu_id', 0)->orderBy('order', 'ASC')->get();
+        $menus = Menu::where('screen_type', 'touchtable')->where('menu_id', 0)->orderBy('order', 'ASC')->get();
         $response = array();
         foreach ($menus as $menu) {
             $temp = [
@@ -31,9 +31,9 @@ class ApiController extends Controller
         }
         return response()->json($response, 200);
     }
-    public function get_footer_menu($menu_id)
+    public function get_touchtable_footer_menu($menu_id)
     {
-        $menus = Menu::where('menu_id', $menu_id)->where('type', 'footer')->orderBy('order', 'ASC')->get();
+        $menus = Menu::where('screen_type', 'touchtable')->where('menu_id', $menu_id)->where('type', 'footer')->orderBy('order', 'ASC')->get();
         // return $menus;
         $response = array();
         foreach ($menus as $menu) {
@@ -48,9 +48,9 @@ class ApiController extends Controller
         }
         return response()->json($response, 200);
     }
-    public function get_side_menu($menu_id)
+    public function get_touchtable_side_menu($menu_id)
     {
-        $menus = Menu::with(['children' => function($q) {
+        $menus = Menu::where('screen_type', 'touchtable')->with(['children' => function($q) {
             $q->orderBy('order', 'ASC');
         }])->where('menu_id', $menu_id)->where('type', 'side')->where('level', 1)->orderBy('order', 'ASC')->get();
         $response = array();
@@ -72,6 +72,22 @@ class ApiController extends Controller
                     $temp['sub_menu'][] = $sub_menu;
                 }
             }
+            array_push($response, $temp);
+        }
+        return response()->json($response, 200);
+    }
+    public function get_touchtable_gallery($menu_id, $lang)
+    {
+        $mediaItems = Media::where('screen_type', 'touchtable')->where('menu_id', $menu_id)->where('lang', $lang)->orderBy('order', 'ASC')->get();
+        // return $mediaItems;
+        $response = array();
+        foreach ($mediaItems as $key => $value) {
+            $temp = [
+                'id' => $value->id,
+                'url' => asset('public/storage/media/' . $value->name),
+                'type' => $value->type,
+                'description' => $value->description
+            ];
             array_push($response, $temp);
         }
         return response()->json($response, 200);

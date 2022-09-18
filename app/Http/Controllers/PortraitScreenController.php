@@ -17,7 +17,7 @@ class PortraitScreenController extends Controller
     public function index()
     {
         //
-        $screens = Screen::where('is_touch', 1)->where('is_model', 1)->get();
+        $screens = Screen::where('screen_type', 'portrait')->get();
         return view('portrait_screens.index', compact('screens'));
     }
 

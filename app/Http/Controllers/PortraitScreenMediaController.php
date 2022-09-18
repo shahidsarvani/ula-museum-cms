@@ -12,7 +12,7 @@ use Pion\Laravel\ChunkUpload\Exceptions\UploadMissingFileException;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Log;
 
-class VideoWallMediaController extends Controller
+class PortraitScreenMediaController extends Controller
 {
     //
     public function index()
@@ -21,20 +21,19 @@ class VideoWallMediaController extends Controller
         return view('media.index', compact('media'));
     }
 
-    public function video_wall_video_index()
+    public function portrait_video_index()
     {
-        $media = Media::where('screen_type', 'videowall')->get();
+        $media = Media::where('screen_type', 'portrait')->get();
         // return $media;
         $media_grouped = $media->groupBy('screen_slug');
-        return view('videowall_media.index', compact('media_grouped'));
+        return view('portrait_media.index', compact('media_grouped'));
     }
-
-    public function video_wall_video_create()
+    public function portrait_video_create()
     {
-        $screens = Screen::where('screen_type', 'videowall')->where('is_touch', 0)->get();
-        return view('videowall_media.create', compact('screens'));
+        $screens = Screen::where('is_touch', 1)->where('is_model', 1)->get();
+        return view('portrait_media.create', compact('screens'));
     }
-    public function video_wall_video_store(Request $request)
+    public function portrait_video_store(Request $request)
     {
         //
         // return $request;
@@ -49,20 +48,20 @@ class VideoWallMediaController extends Controller
                     'lang' => $request->lang,
                     'name' => $fileName,
                     'screen_slug' => $request->screen_id,
-                    'screen_type' => 'videowall',
+                    'screen_type' => 'portrait',
                     'type' => $request->types[$index],
                 ]);
             }
-            return redirect()->route('videowall_media.media.index');
+            return redirect()->route('portrait.media.index');
         } else {
             return back()->with('error', 'Error! Uploading Media File');
         }
     }
-    public function video_wall_video_delete($id)
+    public function portrait_video_delete($id)
     {
         $media = Media::findOrFail($id);
         Storage::delete('/public/media/' . $media->name);
         $media->delete();
-        return redirect()->route('videowall_media.media.index')->with('success', 'Media deleted');
+        return redirect()->route('portrait.media.index')->with('success', 'Media deleted');
     }
 }

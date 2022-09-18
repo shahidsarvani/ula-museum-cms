@@ -14,7 +14,7 @@
 
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-md-4">
+                        <div class="col-md-6">
                             <div class="form-group">
                                 <label>Language *</label>
                                 <select id="lang" class="form-control" required>
@@ -24,24 +24,13 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label>Screen *</label>
-                                <select id="screen_id" class="form-control" required>
-                                    <option value="">Select Screen</option>
-                                    @foreach ($screens as $item)
-                                        <option value="{{ $item->slug }}">{{ $item->name_en }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
+                        <div class="col-md-6">
                             <div class="form-group">
                                 <label>Menu *</label>
                                 <select id="menu_id" class="form-control" required>
-                                    <option value="">Select Screen</option>
-                                    @foreach ($screens as $item)
-                                        <option value="{{ $item->slug }}">{{ $item->name_en }}</option>
+                                    <option value="">Select Menu *</option>
+                                    @foreach ($menus as $item)
+                                        <option value="{{ $item->id }}">{{ $item->name_en }}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -50,10 +39,10 @@
                     <div class="form-group">
                         <label>Upload Media:</label>
                         {{-- <input type="file" name="media" class="file-input-ajax" accept="video/*" multiple="multiple" data-fouc> --}}
-                        <form action="{{ route('portrait.media.upload') }}" class="dropzone" id="dropzone_multiple">
+                        <form action="{{ route('touchtable.media.upload') }}" class="dropzone" id="dropzone_multiple">
                         </form>
 
-                        <form action="{{ route('portrait.media.store') }}" method="post" id="mediaForm">
+                        <form action="{{ route('touchtable.media.store') }}" method="post" id="mediaForm">
                             @csrf
                             <ul id="file-upload-list" class="list-unstyled">
                             </ul>
@@ -79,7 +68,7 @@
             if (!$('input[name=lang]').length) {
                 err = 1;
             }
-            if (!$('input[name=screen_id]').length) {
+            if (!$('input[name=menu_id]').length) {
                 err = 1;
             }
             if (!err) {
@@ -100,7 +89,7 @@
             chunkSize: 2000000,
             // If true, the individual chunks of a file are being uploaded simultaneously.
             parallelChunkUploads: true,
-            acceptedFiles: 'video/*',
+            acceptedFiles: 'video/*, image/*',
             init: function() {
                 this.on('addedfile', function() {
                         list.append('<li>Uploading</li>')
@@ -128,11 +117,11 @@
             }
         };
 
-        $('#screen_id').change(function() {
-            if ($("input[name=screen_id]").length) {
-                $("input[name=screen_id]").remove();
+        $('#menu_id').change(function() {
+            if ($("input[name=menu_id]").length) {
+                $("input[name=menu_id]").remove();
             }
-            list.append('<input type="hidden" name="screen_id" value="' + this.value + '" >')
+            list.append('<input type="hidden" name="menu_id" value="' + this.value + '" >')
             err = 0
         })
 

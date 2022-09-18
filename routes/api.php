@@ -21,8 +21,12 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::get('test',[ApiController::class,'test']);
 
-Route::get('main_menu', [ApiController::class, 'get_main_menu']);
-Route::get('side_menu/{menu_id}', [ApiController::class, 'get_side_menu']);
-Route::get('footer_menu/{menu_id}', [ApiController::class, 'get_footer_menu']);
+Route::prefix('touchtable')->group(function() {
+    Route::get('main_menu', [ApiController::class, 'get_touchtable_main_menu']);
+    Route::get('side_menu/{menu_id}', [ApiController::class, 'get_touchtable_side_menu']);
+    Route::get('footer_menu/{menu_id}', [ApiController::class, 'get_touchtable_footer_menu']);
+    Route::get('gallery/{menu_id}/{lang}', [ApiController::class, 'get_touchtable_gallery']);
+});
+
 Route::get('portrait_screen_videos/{screen_id}/{lang}', [ApiController::class, 'get_portrait_screen_videos']);
 Route::get('video_wall_screen_videos/{screen_id}/{lang}', [ApiController::class, 'get_video_wall_screen_videos']);
