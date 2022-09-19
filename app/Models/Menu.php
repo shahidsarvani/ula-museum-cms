@@ -46,6 +46,11 @@ class Menu extends Model
         return $this->hasOne(TouchScreenContent::class);
     }
 
+    public function videowall_content()
+    {
+        return $this->hasOne(VideowallContent::class);
+    }
+
     public function media()
     {
         return $this->hasMany(Media::class);
