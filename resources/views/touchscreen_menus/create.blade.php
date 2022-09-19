@@ -72,10 +72,10 @@
                     </div>
                     <div class="col-md-12">
                         <div class="hidden" id="image_partial">
-                            @include('menus.image_partial')
+                            @include('touchscreen_menus.image_partial')
                         </div>
                         <div class="hidden" id="icon_partial">
-                            @include('menus.icon_partial')
+                            @include('touchscreen_menus.icon_partial')
                         </div>
                     </div>
                 </div>

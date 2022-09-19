@@ -42,18 +42,19 @@ class VideoWallMediaController extends Controller
             return back()->with('error', 'Select Language');
         }
 
+        $slug = Screen::where('screen_type', 'videowall')->where('is_touch', 0)->first()->slug;
         if ($request->file_names) {
             foreach ($request->file_names as $index => $fileName) {
                 // $media = Media::whereName($fileName)->first();
                 $media = Media::create([
                     'lang' => $request->lang,
                     'name' => $fileName,
-                    'screen_slug' => $request->screen_id,
+                    'screen_slug' => $slug,
                     'screen_type' => 'videowall',
                     'type' => $request->types[$index],
                 ]);
             }
-            return redirect()->route('videowall_media.media.index');
+            return redirect()->route('videowall.media.index');
         } else {
             return back()->with('error', 'Error! Uploading Media File');
         }
@@ -63,6 +64,6 @@ class VideoWallMediaController extends Controller
         $media = Media::findOrFail($id);
         Storage::delete('/public/media/' . $media->name);
         $media->delete();
-        return redirect()->route('videowall_media.media.index')->with('success', 'Media deleted');
+        return redirect()->route('videowall.media.index')->with('success', 'Media deleted');
     }
 }

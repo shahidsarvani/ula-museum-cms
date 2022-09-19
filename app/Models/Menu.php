@@ -50,4 +50,9 @@ class Menu extends Model
     {
         return $this->hasMany(Media::class);
     }
+
+    public function screen()
+    {
+        return $this->belongsTo(Screen::class);
+    }
 }

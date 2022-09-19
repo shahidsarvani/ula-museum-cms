@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Menu;
 use App\Models\Screen;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -11,7 +12,7 @@ class VideoWallScreenController extends Controller
 
     public function index()
     {
-        $screens = Screen::where('screen_type', 'videowall')->where('is_touch', 0)->get();
+        $screens = Screen::where('screen_type', 'videowall')->get();
         return view('video_wall_screens.index', compact('screens'));
     }
 
@@ -75,5 +76,12 @@ class VideoWallScreenController extends Controller
             Log::error($th->getMessage());
             return redirect()->back()->with('error', 'Error: Something went wrong!');
         }
+    }
+
+    public function getscreenmenu($screen_id)
+    {
+        // return $screen_id;
+        $menus = Menu::where('screen_id', $screen_id)->select('name_en', 'id')->get();
+        return response()->json($menus);
     }
 }

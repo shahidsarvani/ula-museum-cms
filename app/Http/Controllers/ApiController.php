@@ -101,8 +101,25 @@ class ApiController extends Controller
         }, 'media' => function ($q) use ($lang) {
             $q->whereLang($lang);
         }])->find($menu_id);
+        $response = array();
+        if($menu->touch_screen_content) {
+            $response['menu_content'] = [
+                'id' => $menu->touch_screen_content->id,
+                'content' => $menu->touch_screen_content->content
+            ];
+        }
+        if($menu->media->isNotEmpty()) {
+            foreach($menu->media as $media) {
+                $temp = [
+                    'id' => $media->id,
+                    'url' => asset('public/storage/media/' . $media->name),
+                    'type' => $media->type
+                ];
+                $response['menu_content']['media'][] = $temp;
+            }
+        }
 
-        return response()->json($menu, 200);
+        return response()->json($response, 200);
     }
     public function get_portrait_screen_videos($screen_id, $lang)
     {

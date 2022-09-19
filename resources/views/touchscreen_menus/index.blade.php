@@ -51,11 +51,11 @@
                                 </td>
                                 <td>
                                     <div class="list-icons">
-                                        @can('edit-role')
+                                        @can('edit-touchtable-screen-menu')
                                             <a href="{{ route('touchtable.menus.edit', $item->id) }}" class="list-icons-item text-primary"><i
                                                     class="icon-pencil7"></i></a>
                                         @endcan
-                                        @can('delete-role')
+                                        @can('delete-touchtable-screen-menu')
                                             <a href="{{ route('touchtable.menus.destroy', $item->id) }}"
                                                 class="list-icons-item text-danger"
                                                 onclick="event.preventDefault(); document.getElementById('my-form{{ $item->id }}').submit();"><i

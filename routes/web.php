@@ -14,7 +14,9 @@ use App\Http\Controllers\SettingController;
 use App\Http\Controllers\TouchScreenContentController;
 use App\Http\Controllers\TouchScreenMediaController;
 use App\Http\Controllers\TouchScreenMenuController;
+use App\Http\Controllers\VideoWallGalleryController;
 use App\Http\Controllers\VideoWallMediaController;
+use App\Http\Controllers\VideoWallMenuController;
 use App\Http\Controllers\VideoWallScreenController;
 use Illuminate\Support\Facades\Route;
 
@@ -72,10 +74,20 @@ Route::middleware([
     //-------- Video Wall Screen --------//
     Route::prefix('video-wall-screen')->name('videowall.')->group(function () {
         Route::resource('screens', VideoWallScreenController::class);
+        Route::get('getscreenmenu/{screen_id}', [VideoWallScreenController::class, 'getscreenmenu'])->name('getscreenmenu');
+        Route::resource('menus', VideoWallMenuController::class);
         Route::get('media', [VideoWallMediaController::class, 'video_wall_video_index'])->name('media.index');
         Route::get('media/create', [VideoWallMediaController::class, 'video_wall_video_create'])->name('media.create');
         Route::post('media', [VideoWallMediaController::class, 'video_wall_video_store'])->name('media.store');
         Route::delete('media/{id}', [VideoWallMediaController::class, 'video_wall_video_delete'])->name('media.delete');
+
+        Route::get('gallery', [VideoWallGalleryController::class, 'index'])->name('gallery.index');
+        Route::get('gallery/create', [VideoWallGalleryController::class, 'create'])->name('gallery.create');
+        Route::post('gallery', [VideoWallGalleryController::class, 'store'])->name('gallery.store');
+        Route::get('gallery/{id}/edit', [VideoWallGalleryController::class, 'edit'])->name('gallery.edit');
+        Route::put('gallery/{id}', [VideoWallGalleryController::class, 'update'])->name('gallery.update');
+        Route::delete('gallery/{id}', [VideoWallGalleryController::class, 'delete'])->name('gallery.delete');
+
         Route::post('/upload_media', [MediaController::class, 'upload_media_dropzone'])->name('media.upload');
     });
     //-------- /Video Wall Screen --------//

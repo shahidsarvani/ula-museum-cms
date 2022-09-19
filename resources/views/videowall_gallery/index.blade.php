@@ -1,7 +1,7 @@
 @extends('layout.app')
 
 @section('title')
-    Media Gallery
+    Videowall Media Gallery
 @endsection
 @section('header_scripts')
     <script src="{{ asset('assets/global_assets/js/demo_pages/components_modals.js') }}"></script>
@@ -23,13 +23,13 @@
         <div class="row">
             <div class="col-md-6">
                 <h6 class="mb-0 font-weight-semibold">
-                    Media Gallery
+                    Videowall Media Gallery
                 </h6>
                 {{-- <span class="text-muted d-block">Video grid with 4 - 2 - 1 columns</span> --}}
             </div>
             <div class="col-md-6">
-                <a href="{{ route('touchtable.media.create') }}" type="button" class="btn btn-primary float-right"><i
-                        class="icon-plus3 mr-2"></i>Add Media</a>
+                <a href="{{ route('videowall.gallery.create') }}" type="button" class="btn btn-primary float-right"><i
+                        class="icon-plus3 mr-2"></i>Add Videowall Media</a>
             </div>
         </div>
     </div>
@@ -37,7 +37,7 @@
     <div class="row">
         @if ($media_grouped)
             @foreach ($media_grouped as $key => $media)
-                <div class="col-md-6">
+                <div class="col-md-3">
                     @php
                         $screen = App\Models\Menu::find($key);
                         // dd($screen);
@@ -45,7 +45,7 @@
                     <h3>{{ $screen->name_en }}</h3>
                     <div class="row">
                         @foreach ($media as $item)
-                            <div class="col-sm-6">
+                            <div class="col-sm-12">
                                 <div class="card">
                                     <div class="card-img-actions m-1">
                                         @if ($item->type == 'image')
@@ -85,7 +85,7 @@
                                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                                 </div>
 
-                                <form action="{{ route('touchtable.media.update', $item->id) }}" method="post">
+                                <form action="{{ route('videowall.gallery.update', $item->id) }}" method="post">
                                     @csrf
                                     @method('put')
                                     <div class="modal-body">

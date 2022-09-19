@@ -1,17 +1,17 @@
 @extends('layout.app')
 
 @section('title')
-    Edit Menu
+    Edit Video Wall Menu
 @endsection
 
 @section('content')
     <div class="card">
         <div class="card-header">
-            <h5 class="card-title">Edit Menu</h5>
+            <h5 class="card-title">Edit Video Wall Menu</h5>
         </div>
 
         <div class="card-body">
-            <form action="{{ route('touchtable.menus.update', $menu->id) }}" method="post" enctype="multipart/form-data">
+            <form action="{{ route('videowall.menus.update', $menu->id) }}" method="post" enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
                 <div class="row">
@@ -25,6 +25,17 @@
                         <div class="form-group">
                             <label>Name (Arabic):</label>
                             <input type="text" class="form-control" name="name_ar" value="{{$menu->name_ar}}" required>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Screen:</label>
+                            <select name="screen_id" class="form-control">
+                                <option value="">Select Screen</option>
+                                @foreach ($screens as $item)
+                                    <option value="{{ $item->id }}" @if($menu->screen_id === $item->id) selected @endif>{{ $item->name_en }}</option>
+                                @endforeach
+                            </select>
                         </div>
                     </div>
                     <div class="col-md-6">
@@ -49,13 +60,13 @@
                             </select>
                         </div>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-6">
                         <div class="form-group">
                             <label>Level:</label>
                             <input type="number" name="level" class="form-control" id="level" value="{{$menu->level}}" required>
                         </div>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-6">
                         <div class="form-group">
                             <label>Status:</label>
                             <select name="is_active" class="form-control" required>
@@ -65,7 +76,7 @@
                             </select>
                         </div>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-6">
                         <div class="form-group">
                             <label>Order:</label>
                             <input type="number" name="order" class="form-control" value="{{$menu->order}}"required>
@@ -73,10 +84,10 @@
                     </div>
                     <div class="col-md-12">
                         <div class="hidden {{ (($menu->image_en && $menu->image_en != '') || ($menu->image_ar && $menu->image_ar != '')) ? 'show' : '' }}" id="image_partial">
-                            @include('touchscreen_menus.image_partial')
+                            @include('videowallscreen_menus.image_partial')
                         </div>
                         <div class="hidden {{ (($menu->icon_en && $menu->icon_en != '') || ($menu->icon_ar && $menu->icon_ar != '')) ? 'show' : '' }}" id="icon_partial">
-                            @include('touchscreen_menus.icon_partial')
+                            @include('videowallscreen_menus.icon_partial')
                         </div>
                     </div>
                 </div>

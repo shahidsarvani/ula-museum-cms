@@ -1,6 +1,6 @@
 @extends('layout.app')
 
-@section('title', 'Add Portrait Media')
+@section('title', 'Add Touchtable Media')
 @section('header_scripts')
     <script src="{{ asset('assets/global_assets/js/plugins/uploaders/dropzone.min.js') }}"></script>
 @endsection
@@ -9,12 +9,12 @@
         <div class="col-md-12">
             <div class="card">
                 <div class="card-header header-elements-inline">
-                    <h5 class="card-title">Add Media</h5>
+                    <h5 class="card-title">Add Touchtable Media</h5>
                 </div>
 
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-md-6">
+                        <div class="col-md-4">
                             <div class="form-group">
                                 <label>Language *</label>
                                 <select id="lang" class="form-control" required>
@@ -24,17 +24,25 @@
                                 </select>
                             </div>
                         </div>
-                        {{-- <div class="col-md-6">
+                        <div class="col-md-4">
                             <div class="form-group">
                                 <label>Screen *</label>
                                 <select id="screen_id" class="form-control" required>
-                                    <option value="">Select Screen</option>
+                                    <option value="">Select Screen *</option>
                                     @foreach ($screens as $item)
-                                        <option value="{{ $item->slug }}">{{ $item->name_en }}</option>
+                                        <option value="{{ $item->id }}">{{ $item->name_en }}</option>
                                     @endforeach
                                 </select>
                             </div>
-                        </div> --}}
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>Menu *</label>
+                                <select id="menu_id" class="form-control" required>
+                                    <option value="">Select Menu *</option>
+                                </select>
+                            </div>
+                        </div>
                     </div>
                     <div class="form-group">
                         <label>Upload Media:</label>
@@ -42,17 +50,16 @@
                         <form action="{{ route('videowall.media.upload') }}" class="dropzone" id="dropzone_multiple">
                         </form>
 
-                        <form action="{{ route('videowall.media.store') }}" method="post" id="mediaForm">
+                        <form action="{{ route('videowall.gallery.store') }}" method="post" id="mediaForm">
                             @csrf
                             <ul id="file-upload-list" class="list-unstyled">
                             </ul>
-                        </form>
                     </div>
 
                     <div class="text-right">
-                        <button type="submit" form="mediaForm" class="btn btn-primary add_media">Add <i
+                        <button type="submit" class="btn btn-primary add_media">Add <i
                                 class="icon-plus-circle2 ml-2"></i></button>
-
+                        </form>
                     </div>
                 </div>
             </div>
@@ -69,9 +76,12 @@
             if (!$('input[name=lang]').length) {
                 err = 1;
             }
-            // if (!$('input[name=screen_id]').length) {
-            //     err = 1;
-            // }
+            if (!$('input[name=screen_id]').length) {
+                err = 1;
+            }
+            if (!$('input[name=menu_id]').length) {
+                err = 1;
+            }
             if (!err) {
                 form.submit();
             } else {
@@ -90,7 +100,7 @@
             chunkSize: 2000000,
             // If true, the individual chunks of a file are being uploaded simultaneously.
             parallelChunkUploads: true,
-            acceptedFiles: 'video/*',
+            acceptedFiles: 'video/*, image/*',
             init: function() {
                 this.on('addedfile', function() {
                         list.append('<li>Uploading</li>')
@@ -118,13 +128,21 @@
             }
         };
 
-        // $('#screen_id').change(function() {
-        //     if ($("input[name=screen_id]").length) {
-        //         $("input[name=screen_id]").remove();
-        //     }
-        //     list.append('<input type="hidden" name="screen_id" value="' + this.value + '" >')
-        //     err = 0
-        // })
+        $('#screen_id').change(function() {
+            getScreenMenus(this.value)
+            if ($("input[name=screen_id]").length) {
+                $("input[name=screen_id]").remove();
+            }
+            list.append('<input type="hidden" name="screen_id" value="' + this.value + '" >')
+            err = 0
+        })
+        $('#menu_id').change(function() {
+            if ($("input[name=menu_id]").length) {
+                $("input[name=menu_id]").remove();
+            }
+            list.append('<input type="hidden" name="menu_id" value="' + this.value + '" >')
+            err = 0
+        })
 
         $('#lang').change(function() {
             if ($("input[name=lang]").length) {
@@ -133,5 +151,26 @@
             list.append('<input type="hidden" name="lang" value="' + this.value + '" >')
             err = 0
         })
+
+        function getScreenMenus(screen_id) {
+            screen_id = screen_id | 0
+            var url = "../getscreenmenu/" + screen_id
+            console.log(url)
+            $.ajax({
+                url: url,
+                method: 'get',
+                dataType: 'json',
+                success: function(response) {
+                    var html_text = '<option value="">Select Menu *</option>'
+                    if (response.length) {
+                        for (var i = 0; i < response.length; i++) {
+                            html_text += '<option value="' + response[i].id + '">' + response[i].name_en +
+                                '</option>'
+                        }
+                    }
+                    $('#menu_id').empty().append(html_text);
+                }
+            })
+        }
     </script>
 @endsection

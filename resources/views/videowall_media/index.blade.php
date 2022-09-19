@@ -36,7 +36,7 @@
     <div class="row">
         @if ($media_grouped)
             @foreach ($media_grouped as $key => $media)
-                <div class="col-md-4">
+                <div class="col-md-12">
                     @php
                         $screen = App\Models\Screen::whereSlug($key)->first();
                         // dd($screen);
@@ -44,7 +44,7 @@
                     <h3>{{ $screen->name_en }}</h3>
                     <div class="row">
                         @foreach ($media as $item)
-                            <div class="col-sm-12">
+                            <div class="col-sm-4">
                                 <div class="card">
                                     <div class="card-img-actions m-1">
                                         @if ($item->type == 'image')

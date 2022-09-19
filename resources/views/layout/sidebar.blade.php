@@ -217,6 +217,60 @@
                             </ul>
                         </li>
                     @endcan
+                    @can(['add-videowall-screen-menu', 'edit-videowall-screen-menu', 'delete-videowall-screen-menu',
+                        'view-videowall-screen-menu'])
+                        <li class="nav-item nav-item-submenu @if (Route::is('videowall.menus.*')) nav-item-open @endif">
+                            <a href="#" class="nav-link"><i class="icon-menu3"></i> <span>Menu</span></a>
+                            <ul class="nav nav-group-sub" data-submenu-title="Menu"
+                                @if (Route::is('videowall.menus.*')) style="display: block" @endif>
+                                @can('add-videowall-screen-menu')
+                                    <li class="nav-item"><a href="{{ route('videowall.menus.create') }}"
+                                            class="nav-link @if (Route::is('videowall.menus.create')) active @endif">Add Menu</a></li>
+                                @endcan
+                                @can(['edit-videowall-screen-menu', 'delete-videowall-screen-menu',
+                                    'view-videowall-screen-menu'])
+                                    <li class="nav-item"><a href="{{ route('videowall.menus.index') }}"
+                                            class="nav-link @if (Route::is(['videowall.menus.index', 'videowall.menus.edit'])) active @endif">Menu List</a></li>
+                                @endcan
+                            </ul>
+                        </li>
+                    @endcan
+                    @can(['add-videowall-gallery', 'edit-videowall-gallery', 'delete-videowall-gallery',
+                        'view-videowall-gallery'])
+                        <li class="nav-item nav-item-submenu @if (Route::is('videowall.gallery.*')) nav-item-open @endif">
+                            <a href="#" class="nav-link"><i class="icon-camera"></i> <span>Gallery</span></a>
+                            <ul class="nav nav-group-sub" data-submenu-title="Videos"
+                                @if (Route::is('videowall.gallery.*')) style="display: block" @endif>
+                                @can('add-videowall-gallery')
+                                    <li class="nav-item"><a href="{{ route('videowall.gallery.create') }}"
+                                            class="nav-link @if (Route::is('videowall.gallery.create')) active @endif">Add Item(s)</a></li>
+                                @endcan
+                                @can(['edit-videowall-gallery', 'delete-videowall-gallery',
+                                    'view-videowall-gallery'])
+                                    <li class="nav-item"><a href="{{ route('videowall.gallery.index') }}"
+                                            class="nav-link @if (Route::is(['videowall.gallery.index', 'videowall.gallery.edit'])) active @endif">Gallery List</a></li>
+                                @endcan
+                            </ul>
+                        </li>
+                    @endcan
+                    {{-- @can(['add-touchtable-screen-content', 'edit-touchtable-screen-content', 'delete-touchtable-screen-content',
+                        'view-touchtable-screen-content'])
+                        <li class="nav-item nav-item-submenu @if (Route::is('touchtable.content.*')) nav-item-open @endif">
+                            <a href="#" class="nav-link"><i class="icon-camera"></i> <span>Content</span></a>
+                            <ul class="nav nav-group-sub" data-submenu-title="Videos"
+                                @if (Route::is('touchtable.content.*')) style="display: block" @endif>
+                                @can('add-touchtable-screen-content')
+                                    <li class="nav-item"><a href="{{ route('touchtable.content.create') }}"
+                                            class="nav-link @if (Route::is('touchtable.content.create')) active @endif">Add Content</a></li>
+                                @endcan
+                                @can(['edit-touchtable-screen-content', 'delete-touchtable-screen-content',
+                                    'view-touchtable-screen-content'])
+                                    <li class="nav-item"><a href="{{ route('touchtable.content.index') }}"
+                                            class="nav-link @if (Route::is(['touchtable.content.index', 'touchtable.content.edit'])) active @endif">Content</a></li>
+                                @endcan
+                            </ul>
+                        </li>
+                    @endcan --}}
                 @endcan
                 {{-- /Video Wall Screens --}}
                 <li class="nav-item-header">
