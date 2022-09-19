@@ -9,7 +9,8 @@ use Illuminate\Support\Facades\Log;
 
 class ApiController extends Controller
 {
-    public function test(){
+    public function test()
+    {
         return response()->json([
             "test" => "pass"
         ]);
@@ -50,7 +51,7 @@ class ApiController extends Controller
     }
     public function get_touchtable_side_menu($menu_id)
     {
-        $menus = Menu::where('screen_type', 'touchtable')->with(['children' => function($q) {
+        $menus = Menu::where('screen_type', 'touchtable')->with(['children' => function ($q) {
             $q->orderBy('order', 'ASC');
         }])->where('menu_id', $menu_id)->where('type', 'side')->where('level', 1)->orderBy('order', 'ASC')->get();
         $response = array();
@@ -91,6 +92,17 @@ class ApiController extends Controller
             array_push($response, $temp);
         }
         return response()->json($response, 200);
+    }
+    public function get_touchtable_content($menu_id, $lang)
+    {
+
+        $menu = Menu::with(['touch_screen_content' => function($q) use ($lang) {
+            $q->whereLang($lang);
+        }, 'media' => function ($q) use ($lang) {
+            $q->whereLang($lang);
+        }])->find($menu_id);
+
+        return response()->json($menu, 200);
     }
     public function get_portrait_screen_videos($screen_id, $lang)
     {

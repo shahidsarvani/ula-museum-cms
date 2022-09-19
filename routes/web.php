@@ -11,6 +11,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\PortraitScreenController;
 use App\Http\Controllers\PortraitScreenMediaController;
 use App\Http\Controllers\SettingController;
+use App\Http\Controllers\TouchScreenContentController;
 use App\Http\Controllers\TouchScreenMediaController;
 use App\Http\Controllers\TouchScreenMenuController;
 use App\Http\Controllers\VideoWallMediaController;
@@ -50,6 +51,7 @@ Route::middleware([
     Route::resource('slides', SlideController::class);
     Route::prefix('touchtable-screen')->name('touchtable.')->group(function () {
         Route::resource('menus', TouchScreenMenuController::class);
+        Route::resource('content', TouchScreenContentController::class);
         Route::get('media', [TouchScreenMediaController::class, 'touchtable_media_index'])->name('media.index');
         Route::get('media/create', [TouchScreenMediaController::class, 'touchtable_media_create'])->name('media.create');
         Route::post('media', [TouchScreenMediaController::class, 'touchtable_media_store'])->name('media.store');

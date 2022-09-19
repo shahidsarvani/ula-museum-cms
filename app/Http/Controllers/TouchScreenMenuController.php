@@ -20,7 +20,7 @@ class TouchScreenMenuController extends Controller
     {
         //
         $menus = Menu::with('parent')->where('screen_type', 'touchtable')->get();
-        return view('menus.index', compact('menus'));
+        return view('touchscreen_menus.index', compact('menus'));
     }
 
     /**
@@ -56,7 +56,7 @@ class TouchScreenMenuController extends Controller
             array_push($menus, $temp);
         }
         // return $menus;
-        return view('menus.create', compact('menus'));
+        return view('touchscreen_menus.create', compact('menus'));
     }
 
     /**
@@ -166,7 +166,7 @@ class TouchScreenMenuController extends Controller
             array_push($menus, $temp);
         }
         // return $menu;
-        return view('menus.edit', compact('menus', 'menu'));
+        return view('touchscreen_menus.edit', compact('menus', 'menu'));
     }
 
     /**

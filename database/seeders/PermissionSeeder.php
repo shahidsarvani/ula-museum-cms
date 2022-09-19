@@ -115,6 +115,18 @@ class PermissionSeeder extends Seeder
                 'name' => 'delete-touchtable-screen-media'
             ],
             [
+                'name' => 'add-touchtable-screen-content'
+            ],
+            [
+                'name' => 'edit-touchtable-screen-content'
+            ],
+            [
+                'name' => 'view-touchtable-screen-content'
+            ],
+            [
+                'name' => 'delete-touchtable-screen-content'
+            ],
+            [
                 'name' => 'touchtable-screen'
             ],
             [

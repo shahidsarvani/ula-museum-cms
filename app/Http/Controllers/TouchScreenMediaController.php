@@ -24,7 +24,9 @@ class TouchScreenMediaController extends Controller
 
     public function touchtable_media_index()
     {
-        $media = Media::where('screen_type', 'touchtable')->get();
+        $media = Media::whereHas('menu', function ($q) {
+            $q->whereLevel(0);
+        })->where('screen_type', 'touchtable')->get();
         // return $media;
         $media_grouped = $media->groupBy('menu_id');
         return view('touchtable_media.index', compact('media_grouped'));

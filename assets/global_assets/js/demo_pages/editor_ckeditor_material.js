@@ -32,12 +32,21 @@ var CKEditor = function() {
         // ------------------------------
 
         // Setup
-        CKEDITOR.replace('content_en', {
-            height: 300
-        });
-        CKEDITOR.replace('content_ar', {
-            height: 300
-        });
+        if($('textarea[name=content_en]').length) {
+            CKEDITOR.replace('content_en', {
+                height: 300
+            });
+        }
+        if($('textarea[name=content_ar]').length) {
+            CKEDITOR.replace('content_ar', {
+                height: 300
+            });
+        }
+        if($('textarea[name=content]').length) {
+            CKEDITOR.replace('content', {
+                height: 300
+            });
+        }
 
 
         // Readonly editor

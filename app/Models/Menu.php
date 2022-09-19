@@ -40,4 +40,14 @@ class Menu extends Model
     {
         return EnumGeneral::getEnumValues('screens',$columnName);
     }
+
+    public function touch_screen_content()
+    {
+        return $this->hasOne(TouchScreenContent::class);
+    }
+
+    public function media()
+    {
+        return $this->hasMany(Media::class);
+    }
 }
