@@ -171,6 +171,18 @@ class PermissionSeeder extends Seeder
             [
                 'name' => 'delete-videowall-screen-menu'
             ],
+            [
+                'name' => 'add-videowall-screen-content'
+            ],
+            [
+                'name' => 'edit-videowall-screen-content'
+            ],
+            [
+                'name' => 'view-videowall-screen-content'
+            ],
+            [
+                'name' => 'delete-videowall-screen-content'
+            ],
         ];
         Schema::disableForeignKeyConstraints();
         DB::table('permissions')->truncate();

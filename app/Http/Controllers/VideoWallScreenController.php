@@ -78,10 +78,42 @@ class VideoWallScreenController extends Controller
         }
     }
 
-    public function getscreenmenu($screen_id)
+    public function getscreenmainmenu($screen_id)
     {
         // return $screen_id;
-        $menus = Menu::where('screen_id', $screen_id)->select('name_en', 'id')->get();
+        $menus = Menu::where('screen_id', $screen_id)->where('level', 0)->select('name_en', 'id')->get();
+        return response()->json($menus);
+    }
+
+    public function getscreensidemenu($screen_id)
+    {
+        // return $screen_id;
+
+        $all_menus = Menu::where('screen_id', $screen_id)->where('type', 'side')->get();
+        $menus = array();
+        foreach ($all_menus as $value) {
+            $name = array();
+            if ($value->parent) {
+                array_unshift($name, $value->parent->name_en);
+                if ($value->parent->parent) {
+                    array_unshift($name, $value->parent->parent->name_en);
+                    if ($value->parent->parent->parent) {
+                        array_unshift($name, $value->parent->parent->parent->name_en);
+                        if ($value->parent->parent->parent->parent) {
+                            array_unshift($name, $value->parent->parent->parent->parent->name_en);
+                        }
+                    }
+                }
+            }
+            array_push($name, $value->name_en);
+            $name = implode(' -> ', $name);
+            $temp = [
+                'id' => $value->id,
+                'name' => $name
+            ];
+            array_push($menus, $temp);
+        }
+        // $menus = Menu::where('screen_id', $screen_id)->where('level', 0)->select('name_en', 'id')->get();
         return response()->json($menus);
     }
 }

@@ -116,7 +116,8 @@ class TouchScreenContentController extends Controller
     public function edit(TouchScreenContent $touchScreenContent)
     {
         //
-        $cards = RfidCard::where('is_active', 1)->get();
+        return $touchScreenContent;
+        // $cards = RfidCard::where('is_active', 1)->get();
         return view('slides.edit', compact('cards', 'slide'));
     }
 

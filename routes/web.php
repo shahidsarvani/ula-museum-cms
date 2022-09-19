@@ -14,6 +14,7 @@ use App\Http\Controllers\SettingController;
 use App\Http\Controllers\TouchScreenContentController;
 use App\Http\Controllers\TouchScreenMediaController;
 use App\Http\Controllers\TouchScreenMenuController;
+use App\Http\Controllers\VideoWallContentController;
 use App\Http\Controllers\VideoWallGalleryController;
 use App\Http\Controllers\VideoWallMediaController;
 use App\Http\Controllers\VideoWallMenuController;
@@ -74,7 +75,9 @@ Route::middleware([
     //-------- Video Wall Screen --------//
     Route::prefix('video-wall-screen')->name('videowall.')->group(function () {
         Route::resource('screens', VideoWallScreenController::class);
-        Route::get('getscreenmenu/{screen_id}', [VideoWallScreenController::class, 'getscreenmenu'])->name('getscreenmenu');
+        Route::get('getscreenmainmenu/{screen_id}', [VideoWallScreenController::class, 'getscreenmainmenu'])->name('getscreenmainmenu');
+        Route::get('getscreensidemenu/{screen_id}', [VideoWallScreenController::class, 'getscreensidemenu'])->name('getscreensidemenu');
+        Route::resource('content', VideoWallContentController::class);
         Route::resource('menus', VideoWallMenuController::class);
         Route::get('media', [VideoWallMediaController::class, 'video_wall_video_index'])->name('media.index');
         Route::get('media/create', [VideoWallMediaController::class, 'video_wall_video_create'])->name('media.create');

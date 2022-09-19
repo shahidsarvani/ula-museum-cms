@@ -154,7 +154,7 @@
 
         function getScreenMenus(screen_id) {
             screen_id = screen_id | 0
-            var url = "../getscreenmenu/" + screen_id
+            var url = "../getscreenmainmenu/" + screen_id
             console.log(url)
             $.ajax({
                 url: url,

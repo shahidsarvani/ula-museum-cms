@@ -253,24 +253,24 @@
                             </ul>
                         </li>
                     @endcan
-                    {{-- @can(['add-touchtable-screen-content', 'edit-touchtable-screen-content', 'delete-touchtable-screen-content',
-                        'view-touchtable-screen-content'])
-                        <li class="nav-item nav-item-submenu @if (Route::is('touchtable.content.*')) nav-item-open @endif">
+                    @can(['add-videowall-screen-content', 'edit-videowall-screen-content', 'delete-videowall-screen-content',
+                        'view-videowall-screen-content'])
+                        <li class="nav-item nav-item-submenu @if (Route::is('videowall.content.*')) nav-item-open @endif">
                             <a href="#" class="nav-link"><i class="icon-camera"></i> <span>Content</span></a>
                             <ul class="nav nav-group-sub" data-submenu-title="Videos"
-                                @if (Route::is('touchtable.content.*')) style="display: block" @endif>
-                                @can('add-touchtable-screen-content')
-                                    <li class="nav-item"><a href="{{ route('touchtable.content.create') }}"
-                                            class="nav-link @if (Route::is('touchtable.content.create')) active @endif">Add Content</a></li>
+                                @if (Route::is('videowall.content.*')) style="display: block" @endif>
+                                @can('add-videowall-screen-content')
+                                    <li class="nav-item"><a href="{{ route('videowall.content.create') }}"
+                                            class="nav-link @if (Route::is('videowall.content.create')) active @endif">Add Content</a></li>
                                 @endcan
-                                @can(['edit-touchtable-screen-content', 'delete-touchtable-screen-content',
-                                    'view-touchtable-screen-content'])
-                                    <li class="nav-item"><a href="{{ route('touchtable.content.index') }}"
-                                            class="nav-link @if (Route::is(['touchtable.content.index', 'touchtable.content.edit'])) active @endif">Content</a></li>
+                                @can(['edit-videowall-screen-content', 'delete-videowall-screen-content',
+                                    'view-videowall-screen-content'])
+                                    <li class="nav-item"><a href="{{ route('videowall.content.index') }}"
+                                            class="nav-link @if (Route::is(['videowall.content.index', 'videowall.content.edit'])) active @endif">Content</a></li>
                                 @endcan
                             </ul>
                         </li>
-                    @endcan --}}
+                    @endcan
                 @endcan
                 {{-- /Video Wall Screens --}}
                 <li class="nav-item-header">
