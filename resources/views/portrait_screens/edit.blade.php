@@ -33,6 +33,16 @@
                             <input type="text" class="form-control" id="slug" name="slug" value="{{ $screen->slug }}" required>
                         </div>
                     </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Screen Type:</label>
+                            <select class="form-control" name="screen_type" id="screen_type">
+                                @foreach(\App\Models\Screen::get_enums('screen_type') as $screen_type)
+                                    <option @if($screen->screen_type == $screen_type) selected @endif value="{{$screen_type}}">{{\App\Models\Screen::get_enums('screen_type')[$screen_type]}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
                 </div>
                 <div class="text-right">
                     <button type="submit" class="btn btn-primary">Update <i class="icon-paperplane ml-2"></i></button>

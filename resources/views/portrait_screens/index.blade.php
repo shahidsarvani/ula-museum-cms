@@ -18,6 +18,7 @@
                         <th>Name (English)</th>
                         <th>Name (Arabic)</th>
                         <th>Slug</th>
+                        <th>Type</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -29,6 +30,7 @@
                                 <td>{{ $item->name_en }}</td>
                                 <td>{{ $item->name_ar }}</td>
                                 <td>{{ $item->slug }}</td>
+                                <td>{{ \App\Models\Screen::get_enums('screen_type')[$item->screen_type] }}</td>
                                 <td>
                                     <div class="list-icons">
                                         @can('edit-portrait-screen')
