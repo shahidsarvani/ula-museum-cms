@@ -12,11 +12,12 @@ class PortraitScreenController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\Response
+     * @return \Illuminate\Http\Response
      */
     public function index()
     {
-        $screens = Screen::all();
+        //
+        $screens = Screen::where('screen_type', 'portrait')->get();
         return view('portrait_screens.index', compact('screens'));
     }
 
@@ -46,7 +47,7 @@ class PortraitScreenController extends Controller
             $data['is_touch'] = 1;
             $data['is_model'] = 1;
             $data['is_rfid'] = 0;
-//            $data['screen_type'] = 'portrait';
+            $data['screen_type'] = 'portrait';
             Screen::create($data);
             return redirect()->route('portrait.screens.index')->with('success', 'Portrait Screen is added!');
         } catch (\Throwable $th) {

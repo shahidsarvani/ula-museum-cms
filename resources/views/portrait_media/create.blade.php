@@ -42,17 +42,17 @@
                         <form action="{{ route('portrait.media.upload') }}" class="dropzone" id="dropzone_multiple">
                         </form>
 
-                        <form action="{{ route('portrait.media.store') }}" method="post" id="mediaForm">
+                    </div>
+                    <form action="{{ route('portrait.media.store') }}" method="post" id="mediaForm">
                             @csrf
                             <ul id="file-upload-list" class="list-unstyled">
                             </ul>
-                    </div>
 
                     <div class="text-right">
                         <button type="submit" class="btn btn-primary add_media">Add <i
                                 class="icon-plus-circle2 ml-2"></i></button>
-                        </form>
                     </div>
+                    </form>
                 </div>
             </div>
         </div>
@@ -78,9 +78,9 @@
             }
         })
         var list = $('#file-upload-list');
-        console.log(list)
         // Multiple files
         Dropzone.options.dropzoneMultiple = {
+            parallelUploads: 1,
             paramName: "media", // The name that will be used to transfer the file
             dictDefaultMessage: 'Drop files to upload <span>or CLICK</span>',
             maxFilesize: 1024, // MB
@@ -90,6 +90,8 @@
             // If true, the individual chunks of a file are being uploaded simultaneously.
             parallelChunkUploads: true,
             acceptedFiles: 'video/*',
+            retryChunks: true,   // retry chunks on failure
+            retryChunksLimit: 3, // retry maximum of 3 times (default is 3)
             init: function() {
                 this.on('addedfile', function() {
                         list.append('<li>Uploading</li>')

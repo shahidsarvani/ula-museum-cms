@@ -24,6 +24,10 @@ class Menu extends Model
         'order',
         'screen_type', //['portrait', 'videowall', 'withrfid', 'touchtable']);
         'screen_id',
+        'bg_image',
+        'is_timeline',
+        'intro_video',
+        'intro_video_ar',
     ];
 
     public function parent()
@@ -38,12 +42,17 @@ class Menu extends Model
 
     public static function get_enums($columnName)
     {
-        return EnumGeneral::getEnumValues('screens',$columnName);
+        return EnumGeneral::getEnumValues('screens', $columnName);
     }
 
     public function touch_screen_content()
     {
         return $this->hasOne(TouchScreenContent::class);
+    }
+
+    public function touch_screen_timeline()
+    {
+        return $this->hasMany(TimelineItem::class);
     }
 
     public function videowall_content()
@@ -59,5 +68,35 @@ class Menu extends Model
     public function screen()
     {
         return $this->belongsTo(Screen::class);
+    }
+
+    public function get_timeline_items($menu_id, $lang)
+    {
+        $items = TimelineItem::with(['timeline_media' => function ($q) use ($lang) {
+            $q->whereLang($lang);
+        }])->where('menu_id', $menu_id)->where('lang', $lang)->get();
+        $response = array();
+        if ($items) {
+            foreach ($items as $item) {
+                $temp = array();
+                $temp['item'] = [
+                    'id' => $item->id,
+                    'title' => $item->title,
+                    'description' => $item->description,
+                ];
+                if ($item->timeline_media->isNotEmpty()) {
+                    foreach ($item->timeline_media as $media) {
+                        $temp2 = [
+                            'id' => $media->id,
+                            'url' => asset('public/storage/media/' . $media->name),
+                            'type' => $media->type
+                        ];
+                        $temp['item']['media'][] = $temp2;
+                    }
+                }
+                array_push($response, $temp);
+            }
+        }
+        return $response;
     }
 }

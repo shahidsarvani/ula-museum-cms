@@ -183,6 +183,30 @@ class PermissionSeeder extends Seeder
             [
                 'name' => 'delete-videowall-screen-content'
             ],
+            [
+                'name' => 'add-layout'
+            ],
+            [
+                'name' => 'edit-layout'
+            ],
+            [
+                'name' => 'view-layout'
+            ],
+            [
+                'name' => 'delete-layout'
+            ],
+            [
+                'name' => 'add-touchtable-timeline-item'
+            ],
+            [
+                'name' => 'edit-touchtable-timeline-item'
+            ],
+            [
+                'name' => 'view-touchtable-timeline-item'
+            ],
+            [
+                'name' => 'delete-touchtable-timeline-item'
+            ],
         ];
         Schema::disableForeignKeyConstraints();
         DB::table('permissions')->truncate();

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\Helper;
 use App\Models\Menu;
 use App\Models\Screen;
 use Illuminate\Http\Request;
@@ -26,11 +27,10 @@ class VideoWallMenuController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\Response
      */
     public function create()
     {
-        //
         $screens = Screen::where('screen_type', 'videowall')->whereIsTouch(1)->get();
         $all_menus = Menu::with('parent')->where('screen_type', 'videowall')->where('is_active', 1)->get();
         $menus = array();
@@ -68,16 +68,27 @@ class VideoWallMenuController extends Controller
      */
     public function store(Request $request)
     {
-        //
-        // return $request;
+
         try {
-            $data = $request->except('_token', 'image_en', 'image_ar', 'icon_en', 'icon_ar');
+            $data = $request->except('_token', 'intro_video_ar', 'intro_video', 'image_en', 'image_ar', 'icon_en', 'icon_ar');
             // return $data;
             if (!$request->menu_id) {
                 // return $data;
                 $data['menu_id'] = 0;
             }
             $imagePath = 'public/media';
+            if ($file = $request->file('intro_video')) {
+                $ext = $file->getClientOriginalExtension();
+                $name = 'intro_video_' . md5(uniqId()) . '.' . $ext;
+                $file->storeAs($imagePath, $name);
+                $data['intro_video'] = $name;
+            }
+            if ($file = $request->file('intro_video_ar')) {
+                $ext = $file->getClientOriginalExtension();
+                $name = 'intro_video_ar_' . md5(uniqId()) . '.' . $ext;
+                $file->storeAs($imagePath, $name);
+                $data['intro_video_ar'] = $name;
+            }
             if ($file = $request->file('image_en')) {
                 $ext = $file->getClientOriginalExtension();
                 $name = 'image_en_' . md5(uniqId()) . '.' . $ext;
@@ -101,6 +112,12 @@ class VideoWallMenuController extends Controller
                 $name = 'icon_ar_' . md5(uniqId()) . '.' . $ext;
                 $file->storeAs($imagePath, $name);
                 $data['icon_ar'] = $name;
+            }
+            if ($file = $request->file('bg_image')) {
+                $ext = $file->getClientOriginalExtension();
+                $name = 'bg_' . md5(uniqId()) . '.' . $ext;
+                $file->storeAs($imagePath, $name);
+                $data['bg_image'] = $name;
             }
             $data['screen_type'] = 'videowall';
             // return $data;
@@ -167,7 +184,7 @@ class VideoWallMenuController extends Controller
             ];
             array_push($menus, $temp);
         }
-        
+
         return view('videowallscreen_menus.edit', compact('menus', 'menu', 'screens'));
     }
 
@@ -209,6 +226,24 @@ class VideoWallMenuController extends Controller
                 $data['icon_ar'] = null;
             }
             $imagePath = 'public/media';
+            if ($file = $request->file('intro_video')) {
+                $ext = $file->getClientOriginalExtension();
+                $name = 'intro_video_' . md5(uniqId()) . '.' . $ext;
+                $file->storeAs($imagePath, $name);
+                $data['intro_video'] = $name;
+            }
+            if ($file = $request->file('intro_video_ar')) {
+                $ext = $file->getClientOriginalExtension();
+                $name = 'intro_video_ar_' . md5(uniqId()) . '.' . $ext;
+                $file->storeAs($imagePath, $name);
+                $data['intro_video_ar'] = $name;
+            }
+            if ($file = $request->file('bg_image')) {
+                $ext = $file->getClientOriginalExtension();
+                $name = 'bg_' . md5(uniqId()) . '.' . $ext;
+                $file->storeAs($imagePath, $name);
+                $data['bg_image'] = $name;
+            }
             if ($file = $request->file('image_en')) {
                 $ext = $file->getClientOriginalExtension();
                 $name = 'image_en_' . md5(uniqId()) . '.' . $ext;
@@ -270,5 +305,22 @@ class VideoWallMenuController extends Controller
             Log::error($th->getMessage());
             return redirect()->back()->with('error', 'Error: Something went wrong!');
         }
+    }
+
+    public function removeBgImage($id) {
+        $menu = Menu::where('id', $id)->first();
+        Helper::removePhysicalFile('media/' . $menu->bg_image);
+        $menu->bg_image = null;
+        $menu->save();
+        return redirect()->back()->with('success', 'Image deleted successfully!');
+    }
+
+    public function removeIntroVideo($id, $key): \Illuminate\Http\RedirectResponse
+    {
+        $menu = Menu::where('id', $id)->first();
+        Helper::removePhysicalFile('media/' . $menu->bg_image);
+        $menu[$key] = null;
+        $menu->save();
+        return redirect()->back()->with('success', 'Video deleted successfully!');
     }
 }

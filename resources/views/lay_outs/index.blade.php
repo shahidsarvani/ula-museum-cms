@@ -1,13 +1,13 @@
 @extends('layout.app')
 
 @section('title')
-    Portrait Screen List
+    Layout List
 @endsection
 
 @section('content')
     <div class="card">
         <div class="card-header">
-            <h5 class="card-title">Portrait Screen List</h5>
+            <h5 class="card-title">Layout List</h5>
         </div>
 
         <div class="table-responsive">
@@ -15,32 +15,40 @@
                 <thead>
                     <tr>
                         <th>#</th>
-                        <th>Name (English)</th>
-                        <th>Name (Arabic)</th>
+                        <th>Name</th>
                         <th>Slug</th>
+                        <th>Image</th>
+                        <th>Status</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @if (!$screens->isEmpty())
-                        @foreach ($screens as $item)
+                    @if (!$layouts->isEmpty())
+                        @foreach ($layouts as $item)
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
-                                <td>{{ $item->name_en }}</td>
-                                <td>{{ $item->name_ar }}</td>
+                                <td>{{ $item->name }}</td>
                                 <td>{{ $item->slug }}</td>
+                                <td>{{ $item->image }}</td>
+                                <td>
+                                    @if ($item->is_active)
+                                        <span class="badge badge-info">Active</span>
+                                    @else
+                                        <span class="badge badge-warning">Inactive</span>
+                                    @endif
+                                </td>
                                 <td>
                                     <div class="list-icons">
-                                        @can('edit-portrait-screen')
-                                            <a href="{{ route('portrait.screens.edit', $item->id) }}" class="list-icons-item text-primary"><i
+                                        @can('edit-layout')
+                                            <a href="{{ route('layouts.edit', $item->id) }}" class="list-icons-item text-primary"><i
                                                     class="icon-pencil7"></i></a>
                                         @endcan
-                                        @can('delete-portrait-screen')
-                                            <a href="{{ route('portrait.screens.destroy', $item->id) }}"
+                                        @can('delete-layout')
+                                            <a href="{{ route('layouts.destroy', $item->id) }}"
                                                 class="list-icons-item text-danger"
                                                 onclick="event.preventDefault(); document.getElementById('my-form{{ $item->id }}').submit();"><i
                                                     class="icon-trash"></i></a>
-                                            <form action="{{ route('portrait.screens.destroy', $item->id) }}" method="post"
+                                            <form action="{{ route('layouts.destroy', $item->id) }}" method="post"
                                                 id="my-form{{ $item->id }}" class="d-none">
                                                 @csrf
                                                 @method('delete')
@@ -52,7 +60,7 @@
                         @endforeach
                     @else
                         <tr>
-                            <td colspan="7">No record found!</td>
+                            <td colspan="9">No record found!</td>
                         </tr>
                     @endif
                 </tbody>

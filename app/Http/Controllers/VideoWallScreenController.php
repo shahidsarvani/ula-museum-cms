@@ -29,11 +29,11 @@ class VideoWallScreenController extends Controller
          //return $request;
         try {
             $data = $request->except('_token');
-            $data['is_touch'] = 1;
             $data['is_model'] = 1;
             $data['is_rfid'] = 0;
+            $data['screen_type'] = 'videowall';
             Screen::create($data);
-            return redirect()->route('video_wall.screens.index')->with('success', 'Video Wall Screen is added!');
+            return redirect()->route('videowall.screens.index')->with('success', 'Video Wall Screen is added!');
         } catch (\Throwable $th) {
             Log::error($th->getMessage());
             return redirect()->back()->with('error', 'Error: Something went wrong!');
@@ -57,7 +57,7 @@ class VideoWallScreenController extends Controller
             $screen = Screen::find($id);
             $data = $request->except('_token', '_method');
             $screen->update($data);
-            return redirect()->route('video_wall.screens.index')->with('success', 'video_wall Screen is updated!');
+            return redirect()->route('videowall.screens.index')->with('success', 'video_wall Screen is updated!');
         } catch (\Throwable $th) {
             Log::error($th->getMessage());
             return redirect()->back()->with('error', 'Error: Something went wrong!');
@@ -71,7 +71,7 @@ class VideoWallScreenController extends Controller
         try {
             $screen = Screen::find($id);
             $screen->delete();
-            return redirect()->route('video_wall.screens.index')->with('success', 'Video Wall Screen is deleted!');
+            return redirect()->route('videowall.screens.index')->with('success', 'Video Wall Screen is deleted!');
         } catch (\Throwable $th) {
             Log::error($th->getMessage());
             return redirect()->back()->with('error', 'Error: Something went wrong!');
@@ -89,7 +89,7 @@ class VideoWallScreenController extends Controller
     {
         // return $screen_id;
 
-        $all_menus = Menu::where('screen_id', $screen_id)->where('type', 'side')->get();
+        $all_menus = Menu::where('screen_id', $screen_id)->/* where('type', 'side')-> */get();
         $menus = array();
         foreach ($all_menus as $value) {
             $name = array();
@@ -109,6 +109,7 @@ class VideoWallScreenController extends Controller
             $name = implode(' -> ', $name);
             $temp = [
                 'id' => $value->id,
+                'level' => $value->level,
                 'name' => $name
             ];
             array_push($menus, $temp);

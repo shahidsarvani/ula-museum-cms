@@ -1,13 +1,13 @@
 @extends('layout.app')
 
 @section('title')
-    Portrait Screen List
+    Touchscreen Content List
 @endsection
 
 @section('content')
     <div class="card">
         <div class="card-header">
-            <h5 class="card-title">Portrait Screen List</h5>
+            <h5 class="card-title">Touchscreen Content List</h5>
         </div>
 
         <div class="table-responsive">
@@ -15,32 +15,34 @@
                 <thead>
                     <tr>
                         <th>#</th>
-                        <th>Name (English)</th>
-                        <th>Name (Arabic)</th>
-                        <th>Slug</th>
+                        <th>Title</th>
+                        <th>Description</th>
+                        <th>Language</th>
+                        <th>Menu</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @if (!$screens->isEmpty())
-                        @foreach ($screens as $item)
+                    @if (!$timeline_items->isEmpty())
+                        @foreach ($timeline_items as $item)
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
-                                <td>{{ $item->name_en }}</td>
-                                <td>{{ $item->name_ar }}</td>
-                                <td>{{ $item->slug }}</td>
+                                <td>{{ $item->title }}</td>
+                                <td>{!! $item->description !!}</td>
+                                <td>{{ $item->lang === 'en' ? 'English' : 'Arabic' }}</td>
+                                <td>{{ $item->menu->name_en }}</td>
                                 <td>
                                     <div class="list-icons">
-                                        @can('edit-portrait-screen')
-                                            <a href="{{ route('portrait.screens.edit', $item->id) }}" class="list-icons-item text-primary"><i
+                                        @can('edit-touchtable-timeline-item')
+                                            <a href="{{ route('touchtable.timeline.edit', $item->id) }}" class="list-icons-item text-primary"><i
                                                     class="icon-pencil7"></i></a>
                                         @endcan
-                                        @can('delete-portrait-screen')
-                                            <a href="{{ route('portrait.screens.destroy', $item->id) }}"
+                                        @can('delete-touchtable-timeline-item')
+                                            <a href="{{ route('touchtable.timeline.destroy', $item->id) }}"
                                                 class="list-icons-item text-danger"
                                                 onclick="event.preventDefault(); document.getElementById('my-form{{ $item->id }}').submit();"><i
                                                     class="icon-trash"></i></a>
-                                            <form action="{{ route('portrait.screens.destroy', $item->id) }}" method="post"
+                                            <form action="{{ route('touchtable.timeline.destroy', $item->id) }}" method="post"
                                                 id="my-form{{ $item->id }}" class="d-none">
                                                 @csrf
                                                 @method('delete')
@@ -52,7 +54,7 @@
                         @endforeach
                     @else
                         <tr>
-                            <td colspan="7">No record found!</td>
+                            <td colspan="6">No record found!</td>
                         </tr>
                     @endif
                 </tbody>

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\LayoutController;
 use App\Http\Controllers\MediaController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\RfidCardController;
@@ -14,6 +15,7 @@ use App\Http\Controllers\SettingController;
 use App\Http\Controllers\TouchScreenContentController;
 use App\Http\Controllers\TouchScreenMediaController;
 use App\Http\Controllers\TouchScreenMenuController;
+use App\Http\Controllers\TouchScreenTimelineItemController;
 use App\Http\Controllers\VideoWallContentController;
 use App\Http\Controllers\VideoWallGalleryController;
 use App\Http\Controllers\VideoWallMediaController;
@@ -44,6 +46,8 @@ Route::middleware([
     'verified'
 ])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    Route::delete('media/{id}', [PortraitScreenMediaController::class, 'portrait_video_delete'])->name('media.delete');
+
     Route::get('permissions/crud_create', [PermissionController::class, 'crud_create'])->name('permissions.crud_create');
     Route::post('permissions/crud_store', [PermissionController::class, 'crud_store'])->name('permissions.crud_store');
     Route::resource('permissions', PermissionController::class);
@@ -52,15 +56,20 @@ Route::middleware([
     Route::resource('screens', ScreenController::class);
     Route::resource('cards', RfidCardController::class);
     Route::resource('slides', SlideController::class);
+    Route::resource('layouts', LayoutController::class);
     Route::prefix('touchtable-screen')->name('touchtable.')->group(function () {
         Route::resource('menus', TouchScreenMenuController::class);
+        Route::get('content/edit/{id}', [TouchScreenContentController::class, 'edit']);
         Route::resource('content', TouchScreenContentController::class);
-        Route::get('media', [TouchScreenMediaController::class, 'touchtable_media_index'])->name('media.index');
-        Route::get('media/create', [TouchScreenMediaController::class, 'touchtable_media_create'])->name('media.create');
-        Route::post('media', [TouchScreenMediaController::class, 'touchtable_media_store'])->name('media.store');
-        Route::get('media/{id}/edit', [TouchScreenMediaController::class, 'touchtable_media_edit'])->name('media.edit');
-        Route::put('media/{id}', [TouchScreenMediaController::class, 'touchtable_media_update'])->name('media.update');
-        Route::delete('media/{id}', [TouchScreenMediaController::class, 'touchtable_media_delete'])->name('media.delete');
+        Route::resource('timeline', TouchScreenTimelineItemController::class);
+        Route::controller(TouchScreenMediaController::class)->group(function () {
+            Route::get('media', 'touchtable_media_index')->name('media.index');
+            Route::get('media/create', 'touchtable_media_create')->name('media.create');
+            Route::post('media', 'touchtable_media_store')->name('media.store');
+            Route::get('media/{id}/edit', 'touchtable_media_edit')->name('media.edit');
+            Route::put('media/{id}', 'touchtable_media_update')->name('media.update');
+            Route::delete('media/{id}', 'touchtable_media_delete')->name('media.delete');
+        });
         Route::post('/upload_media', [MediaController::class, 'upload_media_dropzone'])->name('media.upload');
     });
     Route::prefix('portrait-screen')->name('portrait.')->group(function () {
@@ -68,7 +77,6 @@ Route::middleware([
         Route::get('media', [PortraitScreenMediaController::class, 'portrait_video_index'])->name('media.index');
         Route::get('media/create', [PortraitScreenMediaController::class, 'portrait_video_create'])->name('media.create');
         Route::post('media', [PortraitScreenMediaController::class, 'portrait_video_store'])->name('media.store');
-        Route::delete('media/{id}', [PortraitScreenMediaController::class, 'portrait_video_delete'])->name('media.delete');
         Route::post('/upload_media', [MediaController::class, 'upload_media_dropzone'])->name('media.upload');
     });
 
@@ -79,17 +87,20 @@ Route::middleware([
         Route::get('getscreensidemenu/{screen_id}', [VideoWallScreenController::class, 'getscreensidemenu'])->name('getscreensidemenu');
         Route::resource('content', VideoWallContentController::class);
         Route::resource('menus', VideoWallMenuController::class);
+        Route::get('menu/bg/remove/{id}', [VideoWallMenuController::class, 'removeBgImage']);
+        Route::get('menu/intro/video/remove/{id}/{key}', [VideoWallMenuController::class, 'removeIntroVideo']);
         Route::get('media', [VideoWallMediaController::class, 'video_wall_video_index'])->name('media.index');
         Route::get('media/create', [VideoWallMediaController::class, 'video_wall_video_create'])->name('media.create');
         Route::post('media', [VideoWallMediaController::class, 'video_wall_video_store'])->name('media.store');
         Route::delete('media/{id}', [VideoWallMediaController::class, 'video_wall_video_delete'])->name('media.delete');
+        Route::get('image/remove/{id}', [VideoWallMediaController::class, 'remove_image']);
 
         Route::get('gallery', [VideoWallGalleryController::class, 'index'])->name('gallery.index');
         Route::get('gallery/create', [VideoWallGalleryController::class, 'create'])->name('gallery.create');
         Route::post('gallery', [VideoWallGalleryController::class, 'store'])->name('gallery.store');
         Route::get('gallery/{id}/edit', [VideoWallGalleryController::class, 'edit'])->name('gallery.edit');
         Route::put('gallery/{id}', [VideoWallGalleryController::class, 'update'])->name('gallery.update');
-        Route::delete('gallery/{id}', [VideoWallGalleryController::class, 'delete'])->name('gallery.delete');
+        Route::get('gallery/{id}', [VideoWallGalleryController::class, 'delete'])->name('gallery.delete');
 
         Route::post('/upload_media', [MediaController::class, 'upload_media_dropzone'])->name('media.upload');
     });

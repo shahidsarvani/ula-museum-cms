@@ -81,6 +81,24 @@
                             <input type="number" name="order" class="form-control" required>
                         </div>
                     </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Background Image:</label>
+                            <input type="file" name="bg_image" class="form-control">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Introductory Video English:</label>
+                            <input type="file" name="intro_video" class="form-control" accept="video/mp4,video/x-m4v,video/*">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Introductory Video Arabic:</label>
+                            <input type="file" name="intro_video_ar" class="form-control" accept="video/mp4,video/x-m4v,video/*">
+                        </div>
+                    </div>
                     <div class="col-md-12">
                         <div class="hidden" id="image_partial">
                             @include('videowallscreen_menus.image_partial')
