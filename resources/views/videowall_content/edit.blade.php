@@ -177,8 +177,7 @@
                         </div>
                     @endif
 
-                    <div id="content-title" class="col-md-12 mt-2"
-                         @if($content->layout != 'layout_1') style="display: none" @endif>
+                    <div id="content-title" class="col-md-12 mt-2">
                         <div class="form-group">
                             <label for="title">Title:</label>
                             <input name="title" id="title" class="form-control" type="text"

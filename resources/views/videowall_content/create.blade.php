@@ -115,7 +115,7 @@
                             @endforeach
                         </div>
                     </div>
-                    <div id="content-title" class="col-md-12 mt-2" style="display: none">
+                    <div id="content-title" class="col-md-12 mt-2">
                         <div class="form-group">
                             <label for="title">Title:</label>
                             <input name="title" id="title" class="form-control" type="text">

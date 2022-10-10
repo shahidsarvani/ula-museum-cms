@@ -383,6 +383,7 @@ class ApiController extends Controller
             if ($content->lang === 'en') {
                 $res['en']['content'] = [
                     'id' => $content->id,
+                    'title' => $content->title,
                     'menu_name' => $menuu->name_en,
                     'intro_video' => collect(json_decode($menuu->intro_video))->map(function ($media) {
                         return [
@@ -406,6 +407,7 @@ class ApiController extends Controller
             if ($content->lang === 'ar') {
                 $res['ar']['content'] = [
                     'id' => $content->id,
+                    'title' => $content->title,
                     'menu_name' => $menuu->name_ar,
                     'intro_video' => collect(json_decode($menuu->intro_video))->map(function ($media) {
                         return [
