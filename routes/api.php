@@ -34,6 +34,7 @@ Route::prefix('videowall')->group(function() {
     Route::get('main_menu', [ApiController::class, 'get_videowall_main_menu']);
     Route::get('side/menu/content', [ApiController::class, 'getSideMenuContent']);
     Route::get('menu/content/{id}', [ApiController::class, 'getSideMenuContentById']);
+    Route::get('menu/content/{id}/gallery', [ApiController::class, 'getFirstGalleryById']);
     Route::get('side_menu/{menu_id}', [ApiController::class, 'get_videowall_side_menu']);
     Route::get('footer_menu/{menu_id}', [ApiController::class, 'get_videowall_footer_menu']);
     Route::get('gallery/{menu_id}/{lang}', [ApiController::class, 'get_videowall_gallery']);
