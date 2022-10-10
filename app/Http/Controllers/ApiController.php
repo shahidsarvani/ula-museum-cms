@@ -397,11 +397,12 @@ class ApiController extends Controller
                     'text_bg_image' => env('APP_URL') . '/storage/app/public/media/' . $content->text_bg_image,
                     'media' =>
                         $content->media->map(function ($media) {
+                            if ($media->lang == 'en')
                             return [
                                 'type' => $media->type,
                                 'path' => env('APP_URL') . '/storage/app/public/media/' . $media->name
                             ];
-                        }),
+                        })->filter()->values(),
                 ];
             }
             if ($content->lang === 'ar') {
@@ -421,11 +422,12 @@ class ApiController extends Controller
                     'text_bg_image' => env('APP_URL') . '/storage/app/public/media/' . $content->text_bg_image,
                     'media' =>
                         $content->media->map(function ($media) {
-                            return [
+                            if ($media->lang == 'ar')
+                                return [
                                 'type' => $media->type,
                                 'path' => env('APP_URL') . '/storage/app/public/media/' . $media->name
                             ];
-                        }),
+                        })->filter()->values(),
                 ];
             }
         }
