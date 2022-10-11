@@ -223,7 +223,8 @@
                         <div class="col-md-6">
                             <div class="image-area">
                                 <img src="{{asset('/storage/app/public/media/' . $content->text_bg_image)}}">
-                                <a class="remove-image" href="{{ route('image.remove.gallery', $content->id) }}"
+                                <a class="remove-image" href="{{ env('APP_URL') . '/video-wall-screen/image/remove/' . $content->id }}"
+{{--                                <a class="remove-image" href="{{ route('image.remove.gallery', $content->id) }}"--}}
                                    style="display: inline;">&#215;</a>
                             </div>
                         </div>
