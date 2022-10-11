@@ -246,18 +246,10 @@
                 }
             })
         });
-        // $('#menu_id').change(function () {
-        //     let menu = listScreenMenu.find(l => l.id === parseInt($('#menu_id').val()))
-        //     $('#menu_level').val(menu.level)
-        //     if (menu.level >= 2) {
-        //         $('#content-layout').show()
-        //         $('.level-3-menu').show()
-        //     } else {
-        //         $('#content-layout').hide()
-        //         $('#content-title').hide()
-        //         $('.level-3-menu').hide()
-        //     }
-        // });
+        $('#menu_id').change(function () {
+            let menu = listScreenMenu.find(l => l.id === parseInt($('#menu_id').val()))
+            $('#menu_level').val(menu.level)
+        });
 
         function checkSelectedLayout(layout) {
             if (1 === parseInt(layout)) {
