@@ -52,7 +52,6 @@ class VideoWallContentController extends Controller
             'screen_id' => 'required|integer',
             'menu_id' => 'required|integer',
             'content' => 'required',
-            'menu_level' => 'required|integer'
         ]);
 
 //        if ($request->menu_level >= 2) {
@@ -184,7 +183,6 @@ class VideoWallContentController extends Controller
             'screen_id' => 'required|integer',
             'menu_id' => 'required|integer',
             'content' => 'required',
-            'menu_level' => 'required|integer'
         ]);
 
 //        if ($request->menu_level >= 2) {
