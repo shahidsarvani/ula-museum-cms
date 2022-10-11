@@ -93,7 +93,7 @@ Route::middleware([
         Route::get('media/create', [VideoWallMediaController::class, 'video_wall_video_create'])->name('media.create');
         Route::post('media', [VideoWallMediaController::class, 'video_wall_video_store'])->name('media.store');
         Route::delete('media/{id}', [VideoWallMediaController::class, 'video_wall_video_delete'])->name('media.delete');
-        Route::get('image/remove/{id}', [VideoWallMediaController::class, 'remove_image']);
+        Route::get('image/remove/{id}', [VideoWallMediaController::class, 'remove_image'])->name('image.remove.gallery');
 
         Route::get('gallery', [VideoWallGalleryController::class, 'index'])->name('gallery.index');
         Route::get('gallery/create', [VideoWallGalleryController::class, 'create'])->name('gallery.create');
