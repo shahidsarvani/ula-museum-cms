@@ -101,7 +101,7 @@ class ApiController extends Controller
             $response['en'][] = [
                 'id' => $menu->id,
                 'name' => $menu->name_en,
-                'content' => $menu->touch_screen_content->content,
+                'content' => $menu->touch_screen_content ? $menu->touch_screen_content->content : null,
                 'media' => $menu->media->map(function ($med) {
                     return env('APP_URL') . '/storage/app/public/media/' . $med->name;
                 }),
