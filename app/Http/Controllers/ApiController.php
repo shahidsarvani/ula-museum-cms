@@ -206,7 +206,7 @@ class ApiController extends Controller
                     return [
                         'id' => $media->id,
                         'type' => $media->type,
-                        'path' => $media->name,
+                        'path' => env('APP_URL') . '/storage/app/public/media/' . $media->name,
                     ];
                 })
             ];
