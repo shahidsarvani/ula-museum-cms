@@ -20,7 +20,6 @@ class TouchScreenContentController extends Controller
     {
         //
         $content = TouchScreenContent::with('menu')->get();
-        // return $content;
         return view('touchscreen_content.index', compact('content'));
     }
 
@@ -185,10 +184,11 @@ class TouchScreenContentController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  \App\Models\TouchScreenContent  $touchScreenContent
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
-    public function destroy(TouchScreenContent $touchScreenContent)
+    public function destroy($id)
     {
-        //
+        TouchScreenContent::where('id', $id)->delete();
+        return redirect()->back();
     }
 }
