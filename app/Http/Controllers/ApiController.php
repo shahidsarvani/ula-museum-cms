@@ -99,6 +99,7 @@ class ApiController extends Controller
         $response = array();
         foreach ($menus as $menu) {
             $response['en'][] = [
+                'id' => $menu->id,
                 'name' => $menu->name_en,
                 'content' => $menu->touch_screen_content->content,
                 'media' => $menu->media->map(function ($med) {
@@ -106,6 +107,7 @@ class ApiController extends Controller
                 }),
                 'child' => $menu->children->map(function ($m) {
                    return [
+                       'id' => $m->id,
                        'name' => $m->name_en,
                        'content' => !!$m->touch_screen_content ? $m->touch_screen_content->content : null,
                        'media' => $m->media->map(function ($med) {
@@ -115,6 +117,7 @@ class ApiController extends Controller
                 })
             ];
             $response['ar'][] = [
+                'id' => $menu->id,
                 'name' => $menu->name_ar,
                 'content' => $menu->touch_screen_content->content,
                 'media' => $menu->media->map(function ($med) {
@@ -122,6 +125,7 @@ class ApiController extends Controller
                 }),
                 'child' => $menu->children->map(function ($m) {
                     return [
+                        'id' => $m->id,
                         'name' => $m->name_en,
                         'content' => !!$m->touch_screen_content ? $m->touch_screen_content->content : null,
                         'media' => $m->media->map(function ($med) {
@@ -187,34 +191,45 @@ class ApiController extends Controller
         return response()->json($response, 200);
     }
 
-    public function get_touchtable_content($menu_id, $lang)
+    public function get_touchtable_content($menu_id)
     {
 
-        $menu = Menu::with(['touch_screen_content' => function ($q) use ($lang) {
-            $q->whereLang($lang);
-        }, 'media' => function ($q) use ($lang) {
-            $q->whereLang($lang);
-        }])->find($menu_id);
+        $menu = Menu::where('id', $menu_id)->first();
+        $contents = TouchScreenContent::where('menu_id', $menu_id)->with('media')->get();
         $response = array();
-        if ($menu->touch_screen_content) {
-            $response['menu_content'] = [
-                'id' => $menu->touch_screen_content->id,
-                'content' => $menu->touch_screen_content->content
+        foreach ($contents as $content) {
+            $response[$content->lang] = [
+                'id' => $menu->id,
+                'content' => $content->content,
+                'name' => $content->lang == 'ar' ? $menu->name_ar : $menu->name_en,
+                'media' => $content->media->map(function ($media) {
+                    return [
+                        'id' => $media->id,
+                        'type' => $media->type,
+                        'path' => $media->name,
+                    ];
+                })
             ];
         }
-        if ($menu->media->isNotEmpty()) {
-            foreach ($menu->media as $media) {
-                $temp = [
-                    'id' => $media->id,
-                    'url' => asset('public/storage/media/' . $media->name),
-                    'type' => $media->type
-                ];
-                $response['menu_content']['media'][] = $temp;
-            }
-        }
-        if ($menu->is_timeline) {
-            $response['timeline_items'] = $menu->get_timeline_items($menu_id, $lang);
-        }
+//        if ($menu->touch_screen_content) {
+//            $response['menu_content'] = [
+//                'id' => $menu->touch_screen_content->id,
+//                'content' => $menu->touch_screen_content->content
+//            ];
+//        }
+//        if ($menu->media->isNotEmpty()) {
+//            foreach ($menu->media as $media) {
+//                $temp = [
+//                    'id' => $media->id,
+//                    'url' => asset('public/storage/media/' . $media->name),
+//                    'type' => $media->type
+//                ];
+//                $response['menu_content']['media'][] = $temp;
+//            }
+//        }
+//        if ($menu->is_timeline) {
+//            $response['timeline_items'] = $menu->get_timeline_items($menu_id);
+//        }
 
         return response()->json($response, 200);
     }

@@ -28,7 +28,7 @@ Route::prefix('touchtable')->group(function() {
     Route::get('footer_menu/{menu_id}', [ApiController::class, 'get_touchtable_footer_menu']);
     Route::get('media/{menu_id}/{lang}', [ApiController::class, 'get_all_media']);
     Route::get('gallery/{menu_id}/{lang}', [ApiController::class, 'get_touchtable_gallery']);
-    Route::get('content/{menu_id}/{lang}', [ApiController::class, 'get_touchtable_content']);
+    Route::get('content/{menu_id}', [ApiController::class, 'get_touchtable_content']);
 });
 
 Route::prefix('videowall')->group(function() {
