@@ -165,7 +165,7 @@ class ApiController extends Controller
         foreach ($mediaItems as $key => $value) {
             $temp = [
                 'id' => $value->id,
-                'url' => env('APP_URL') . '/storage/app/public/media/' . $value->name,
+                'path' => env('APP_URL') . '/storage/app/public/media/' . $value->name,
                 'type' => $value->type,
                 'description' => $value->description
             ];
@@ -211,25 +211,6 @@ class ApiController extends Controller
                 })
             ];
         }
-//        if ($menu->touch_screen_content) {
-//            $response['menu_content'] = [
-//                'id' => $menu->touch_screen_content->id,
-//                'content' => $menu->touch_screen_content->content
-//            ];
-//        }
-//        if ($menu->media->isNotEmpty()) {
-//            foreach ($menu->media as $media) {
-//                $temp = [
-//                    'id' => $media->id,
-//                    'url' => asset('public/storage/media/' . $media->name),
-//                    'type' => $media->type
-//                ];
-//                $response['menu_content']['media'][] = $temp;
-//            }
-//        }
-//        if ($menu->is_timeline) {
-//            $response['timeline_items'] = $menu->get_timeline_items($menu_id);
-//        }
 
         return response()->json($response, 200);
     }
