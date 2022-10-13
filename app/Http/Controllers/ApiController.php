@@ -6,6 +6,7 @@ use App\Models\Media;
 use App\Models\Menu;
 use App\Models\Screen;
 use App\Models\Setting;
+use App\Models\TouchScreenContent;
 use App\Models\VideowallContent;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -24,17 +25,47 @@ class ApiController extends Controller
     //
     public function get_touchtable_main_menu()
     {
-        $menus = Menu::where('screen_type', 'touchtable')->where('menu_id', 0)->orderBy('order', 'ASC')->get();
+        $menus = Menu::where('screen_type', 'touchtable')->where('menu_id', 0)->with('media')->orderBy('order', 'ASC')->get();
+        $contents = TouchScreenContent::whereIn('menu_id', $menus->pluck('id')->toArray())->with('media')->get();
+
         $response = array();
         foreach ($menus as $menu) {
-            $temp = [
+            $response[] = [
                 'id' => $menu->id,
                 'name_en' => $menu->name_en,
                 'name_ar' => $menu->name_ar,
-                'image_en' => asset('public/storage/media/' . $menu->image_en),
-                'image_ar' => asset('public/storage/media/' . $menu->image_ar),
+                'content' => [
+                    'ar' => $contents->map(function ($c) use ($menu) {
+                        if ($c->lang == 'ar' && $c->menu_id == $menu->id) {
+                            return [
+                                'name' => $menu->name_ar,
+                                'content' => $c->content,
+                                'media' => $c->media->map(function ($med) {
+                                    if ($med->lang == 'en')
+                                        return env('APP_URL') . '/storage/app/public/media/' . $med->name;
+                                })->filter()->values(),
+                            ];
+                        }
+                    })->filter()->values(),
+                    'en' => $contents->map(function ($c) use ($menu) {
+                        if ($c->lang == 'en' && $c->menu_id == $menu->id) {
+                            return [
+                                'name' => $menu->name_en,
+                                'content' => $c->content,
+                                'media' => $c->media->map(function ($med) {
+                                    if ($med->lang == 'ar')
+                                        return env('APP_URL') . '/storage/app/public/media/' . $med->name;
+                                })->filter()->values(),
+                            ];
+                        }
+                    })->filter()->values(),
+                ],
+                'image_en' => env('APP_URL') . '/storage/app/public/media/' . $menu->image_en,
+                'image_ar' => env('APP_URL') . '/storage/app/public/media/' . $menu->image_ar,
+                'media' => $menu->media->map(function ($med) {
+                    return env('APP_URL') . '/storage/app/public/media/' . $med->name;
+                }),
             ];
-            array_push($response, $temp);
         }
         return response()->json($response, 200);
     }
@@ -60,10 +91,45 @@ class ApiController extends Controller
     public function get_touchtable_side_menu($menu_id)
     {
         $menus = Menu::where('screen_type', 'touchtable')->with(['children' => function ($q) {
-            $q->orderBy('order', 'ASC');
-        }])->where('menu_id', $menu_id)->where('type', 'side')->where('level', 1)->orderBy('order', 'ASC')->get();
+            $q->orderBy('order', 'ASC')->with('touch_screen_content');
+        }])->where('menu_id', $menu_id)->where('type', 'side')->where('level', 1)->orderBy('order', 'ASC')
+            ->with('touch_screen_content', 'media')
+            ->get();
+
         $response = array();
         foreach ($menus as $menu) {
+            $response['en'][] = [
+                'name' => $menu->name_en,
+                'content' => $menu->touch_screen_content->content,
+                'media' => $menu->media->map(function ($med) {
+                    return env('APP_URL') . '/storage/app/public/media/' . $med->name;
+                }),
+                'child' => $menu->children->map(function ($m) {
+                   return [
+                       'name' => $m->name_en,
+                       'content' => !!$m->touch_screen_content ? $m->touch_screen_content->content : null,
+                       'media' => $m->media->map(function ($med) {
+                           return env('APP_URL') . '/storage/app/public/media/' . $med->name;
+                }),
+                   ];
+                })
+            ];
+            $response['ar'][] = [
+                'name' => $menu->name_ar,
+                'content' => $menu->touch_screen_content->content,
+                'media' => $menu->media->map(function ($med) {
+                    return env('APP_URL') . '/storage/app/public/media/' . $med->name;
+                }),
+                'child' => $menu->children->map(function ($m) {
+                    return [
+                        'name' => $m->name_en,
+                        'content' => !!$m->touch_screen_content ? $m->touch_screen_content->content : null,
+                        'media' => $m->media->map(function ($med) {
+                            return env('APP_URL') . '/storage/app/public/media/' . $med->name;
+                }),
+                    ];
+                })
+            ];
             $temp = array();
             $temp = [
                 'id' => $menu->id,
@@ -81,6 +147,24 @@ class ApiController extends Controller
                     $temp['sub_menu'][] = $sub_menu;
                 }
             }
+//            array_push($response, $temp);
+        }
+        return response()->json($response, 200);
+    }
+
+    public function get_all_media($menu_id, $lang)
+    {
+        $menus = Menu::where('menu_id', $menu_id)->get()->pluck('id')->toArray();
+        $mediaItems = Media::whereIn('menu_id', $menus)->where('screen_type', 'touchtable')->where('lang', $lang)->orderBy('order', 'ASC')->get();
+        // return $mediaItems;
+        $response = array();
+        foreach ($mediaItems as $key => $value) {
+            $temp = [
+                'id' => $value->id,
+                'url' => env('APP_URL') . '/storage/app/public/media/' . $value->name,
+                'type' => $value->type,
+                'description' => $value->description
+            ];
             array_push($response, $temp);
         }
         return response()->json($response, 200);

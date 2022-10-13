@@ -27,7 +27,7 @@
                             <input type="text" class="form-control" name="name_ar" value="{{$menu->name_ar}}" required>
                         </div>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-6">
                         <div class="form-group">
                             <label>Parent Menu:</label>
                             <select name="menu_id" class="form-control">
@@ -38,7 +38,18 @@
                             </select>
                         </div>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Screen:</label>
+                            <select name="screen_id" class="form-control">
+                                <option value="">Select Screen</option>
+                                @foreach ($screens as $item)
+                                    <option @if($menu->screen_id == $item->id) selected @endif value="{{ $item->id }}">{{ $item->name_en }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
                         <div class="form-group">
                             <label>Type:</label>
                             <select name="type" class="form-control" onchange="menuTypeChanged(this)" required>
@@ -49,13 +60,13 @@
                             </select>
                         </div>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-6">
                         <div class="form-group">
                             <label>Level:</label>
                             <input type="number" name="level" class="form-control" id="level" value="{{$menu->level}}" required>
                         </div>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-6">
                         <div class="form-group">
                             <label>Status:</label>
                             <select name="is_active" class="form-control" required>
@@ -65,7 +76,7 @@
                             </select>
                         </div>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-6">
                         <div class="form-group">
                             <label>Timeline Menu:</label>
                             <select name="is_timeline" class="form-control" required>
@@ -75,7 +86,7 @@
                             </select>
                         </div>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-6">
                         <div class="form-group">
                             <label>Order:</label>
                             <input type="number" name="order" class="form-control" value="{{$menu->order}}"required>
@@ -90,7 +101,7 @@
                         </div>
                     </div>
                 </div>
-                
+
                 <div class="text-right">
                     <button type="submit" class="btn btn-primary">Update <i class="icon-add ml-2"></i></button>
                 </div>

@@ -26,6 +26,7 @@ Route::prefix('touchtable')->group(function() {
     Route::get('main_menu', [ApiController::class, 'get_touchtable_main_menu']);
     Route::get('side_menu/{menu_id}', [ApiController::class, 'get_touchtable_side_menu']);
     Route::get('footer_menu/{menu_id}', [ApiController::class, 'get_touchtable_footer_menu']);
+    Route::get('media/{menu_id}/{lang}', [ApiController::class, 'get_all_media']);
     Route::get('gallery/{menu_id}/{lang}', [ApiController::class, 'get_touchtable_gallery']);
     Route::get('content/{menu_id}/{lang}', [ApiController::class, 'get_touchtable_content']);
 });

@@ -57,7 +57,9 @@ Route::middleware([
     Route::resource('cards', RfidCardController::class);
     Route::resource('slides', SlideController::class);
     Route::resource('layouts', LayoutController::class);
+
     Route::prefix('touchtable-screen')->name('touchtable.')->group(function () {
+        Route::resource('screens', \App\Http\Controllers\TouchTableScreenController::class);
         Route::resource('menus', TouchScreenMenuController::class);
         Route::get('content/edit/{id}', [TouchScreenContentController::class, 'edit']);
         Route::resource('content', TouchScreenContentController::class);
@@ -71,6 +73,7 @@ Route::middleware([
             Route::delete('media/{id}', 'touchtable_media_delete')->name('media.delete');
         });
         Route::post('/upload_media', [MediaController::class, 'upload_media_dropzone'])->name('media.upload');
+        Route::get('getscreensidemenu/{screen_id}', [VideoWallScreenController::class, 'getscreensidemenu'])->name('getscreensidemenu');
     });
     Route::prefix('portrait-screen')->name('portrait.')->group(function () {
         Route::resource('screens', PortraitScreenController::class);

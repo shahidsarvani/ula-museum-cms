@@ -33,6 +33,7 @@ class TouchScreenContentController extends Controller
     {
         //
         $all_menus = Menu::where('screen_type', 'touchtable')->where('type', 'side')->get();
+        $screens = Screen::where('screen_type', 'touchtable')->whereIsTouch(1)->get();
         $menus = array();
         foreach ($all_menus as $value) {
             $name = array();
@@ -56,7 +57,7 @@ class TouchScreenContentController extends Controller
             ];
             $menus[] = $temp;
         }
-        return view('touchscreen_content.create', compact('menus'));
+        return view('touchscreen_content.create', compact('menus', 'screens'));
     }
 
     /**
@@ -140,7 +141,7 @@ class TouchScreenContentController extends Controller
             $menus[] = $temp;
         }
         $content = TouchScreenContent::whereId($id)->first();
-        $media = Media::where('menu_id', $content->menu_id)->get();
+        $media = Media::where('menu_id', $content->menu_id)->where('lang', $content->lang)->get();
         return view('touchscreen_content.edit', compact('content', 'menus', 'media'));
     }
 

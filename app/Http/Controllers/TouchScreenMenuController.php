@@ -32,6 +32,7 @@ class TouchScreenMenuController extends Controller
     {
         //
         $all_menus = Menu::with('parent')->where('screen_type', 'touchtable')->where('is_active', 1)->get();
+        $screens = Screen::where('screen_type', 'touchtable')->whereIsTouch(1)->get();
         $menus = array();
         foreach ($all_menus as $menu) {
             $name = array();
@@ -56,7 +57,7 @@ class TouchScreenMenuController extends Controller
             array_push($menus, $temp);
         }
         // return $menus;
-        return view('touchscreen_menus.create', compact('menus'));
+        return view('touchscreen_menus.create', compact('menus', 'screens'));
     }
 
     /**
@@ -101,7 +102,7 @@ class TouchScreenMenuController extends Controller
                 $file->storeAs($imagePath, $name);
                 $data['icon_ar'] = $name;
             }
-            $data['screen_id'] = Screen::where('screen_type', 'touchtable')->first()->id;
+//            $data['screen_id'] = Screen::where('screen_type', 'touchtable')->first()->id;
             $data['screen_type'] = 'touchtable';
             // return $data;
 
@@ -142,6 +143,7 @@ class TouchScreenMenuController extends Controller
         $menu = Menu::with('parent')->find($id);
 
         $all_menus = Menu::with('parent')->where('screen_type', 'touchtable')->where('is_active', 1)->get();
+        $screens = Screen::where('screen_type', 'touchtable')->whereIsTouch(1)->get();
         $menus = array();
         foreach ($all_menus as $value) {
             $name = array();
@@ -166,7 +168,7 @@ class TouchScreenMenuController extends Controller
             array_push($menus, $temp);
         }
         // return $menu;
-        return view('touchscreen_menus.edit', compact('menus', 'menu'));
+        return view('touchscreen_menus.edit', compact('menus', 'menu', 'screens'));
     }
 
     /**

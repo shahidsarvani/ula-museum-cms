@@ -83,7 +83,7 @@ class VideoWallContentController extends Controller
             return redirect()->back()->with('error', 'Minimum 1 images required');
         }
 
-//        try {
+        try {
             $data = $request->except('_token');
 
             $v_content = VideowallContent::create($data);
@@ -109,10 +109,10 @@ class VideoWallContentController extends Controller
                 $v_content->save();
             }
             return redirect()->route('videowall.content.index')->with('success', 'Content Item is added!');
-//        } catch (\Throwable $th) {
-//            Log::error($th->getMessage());
-//            return redirect()->back()->with('error', 'Error: Something went wrong!');
-//        }
+        } catch (\Throwable $th) {
+            Log::error($th->getMessage());
+            return redirect()->back()->with('error', 'Error: Something went wrong!');
+        }
     }
 
     /**
