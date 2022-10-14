@@ -33,6 +33,10 @@
         .hidden:not(.show) {
             display: none;
         }
+
+        .image-area- img, .image-area- video, .image-area- {
+            width: 100%;
+        }
     </style>
 
 </head>
