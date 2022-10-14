@@ -37,6 +37,8 @@
         .image-area- img, .image-area- video, .image-area- {
             width: 100%;
         }
+        .remove-image { right: 0px; }
+
     </style>
 
 </head>
