@@ -237,6 +237,7 @@ class ApiController extends Controller
                 'id' => $menu->id,
                 'screen_id' => $menu->screen->id,
                 'bg_image' => env('APP_URL') . '/storage/app/public/media/' . $menu->bg_image,
+                'bg_video' => !!$menu->bg_video ? env('APP_URL') . '/storage/app/public/media/' . $menu->bg_video : null,
                 'name' => $menu->name_en,
                 'image' => env('APP_URL') . '/storage/app/public/media/' . $menu->image_en,
             ];
@@ -244,6 +245,7 @@ class ApiController extends Controller
                 'id' => $menu->id,
                 'screen_id' => $menu->screen->id,
                 'bg_image' => env('APP_URL') . '/storage/app/public/media/' . $menu->bg_image,
+                'bg_video' => !!$menu->bg_video ? env('APP_URL') . '/storage/app/public/media/' . $menu->bg_video : null,
                 'name' => $menu->name_ar,
                 'image' => env('APP_URL') . '/storage/app/public/media/' . $menu->image_ar,
             ];
