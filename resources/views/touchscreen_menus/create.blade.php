@@ -3,6 +3,9 @@
 @section('title')
     Add Menu
 @endsection
+@section('header_scripts')
+    <script src="{{ asset('assets/global_assets/js/plugins/uploaders/dropzone.min.js') }}"></script>
+@endsection
 
 @section('content')
     <div class="card">
@@ -100,17 +103,66 @@
                         </div>
                     </div>
                 </div>
-
+                <ul id="file-upload-list2" class="list-unstyled">
+                </ul>
                 <div class="text-right">
                     <button type="submit" class="btn btn-primary">Add <i class="icon-add ml-2"></i></button>
                 </div>
             </form>
+            <form action="{{ route('touchtable.media.upload') }}" class="dropzone mt-3" id="dropzone_multiple">
+            </form>
+
+            <ul id="file-upload-list" class="list-unstyled">
+            </ul>
         </div>
     </div>
 @endsection
 
 @section('footer_scripts')
     <script>
+        var list = $('#file-upload-list');
+        var list2 = $('#file-upload-list2');
+        console.log(list)
+        // Multiple files
+        Dropzone.options.dropzoneMultiple = {
+            paramName: "media", // The name that will be used to transfer the file
+            dictDefaultMessage: 'Drop Video for background <span>or CLICK</span>',
+            maxFilesize: 1024, // MB
+            addRemoveLinks: true,
+            chunking: true,
+            chunkSize: 2000000,
+            // If true, the individual chunks of a file are being uploaded simultaneously.
+            parallelChunkUploads: true,
+            acceptedFiles: 'video/*',
+            init: function() {
+                this.on('addedfile', function() {
+                    list.append('<li>Uploading</li>')
+                }),
+                    this.on('sending', function(file, xhr, formData) {
+                        formData.append("_token", "{{ csrf_token() }}");
+
+                        // This will track all request so we can get the correct request that returns final response:
+                        // We will change the load callback but we need to ensure that we will call original
+                        // load callback from dropzone
+                        var dropzoneOnLoad = xhr.onload;
+                        xhr.onload = function(e) {
+                            dropzoneOnLoad(e)
+                            // Check for final chunk and get the response
+                            var uploadResponse = JSON.parse(xhr.responseText)
+                            if (typeof uploadResponse.name === 'string') {
+                                list.append('<li>Uploaded: ' + uploadResponse.path + uploadResponse.name +
+                                    '</li>')
+                                list2.append('<input type="hidden" name="file_names[]" value="' +
+                                    uploadResponse.name +
+                                    '" ><input type="hidden" name="types[]" value="' +
+                                    uploadResponse.type + '" >')
+                            }
+                        }
+                    })
+            }
+        };
+
+
         const level = document.getElementById('level')
         const imagePartial = document.getElementById('image_partial')
         const iconPartial = document.getElementById('icon_partial')

@@ -115,7 +115,7 @@ class TouchScreenContentController extends Controller
      */
     public function edit($id)
     {
-        $all_menus = Menu::where('screen_type', 'touchtable')->where('type', 'side')->get();
+        $all_menus = Menu::where('screen_type', 'touchtable')->get();
         $menus = array();
         foreach ($all_menus as $value) {
             $name = array();
