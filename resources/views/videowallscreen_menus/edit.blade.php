@@ -288,6 +288,7 @@
 
                 <ul id="file-upload-list2" class="list-unstyled"></ul>
                 <ul id="file-upload-list2-ar" class="list-unstyled"></ul>
+                <ul id="file-upload-list2-bg" class="list-unstyled"></ul>
 
                 <div class="text-right">
                     <button type="submit" class="btn btn-primary">Update <i class="icon-add ml-2"></i></button>
@@ -296,9 +297,12 @@
         </div>
         <form action="{{ route('videowall.media.upload') }}" class="dropzone mt-3" id="dropzone_multiple"></form>
         <form action="{{ route('videowall.media.upload') }}" class="dropzone mt-3" id="dropzone_multiple_ar"></form>
+        <form action="{{ route('videowall.media.upload') }}" class="dropzone mt-3" id="dropzone_multiple_bg"></form>
 
         <ul id="file-upload-list" class="list-unstyled"></ul>
         <ul id="file-upload-list-ar" class="list-unstyled"></ul>
+        <ul id="file-upload-list-bg" class="list-unstyled"></ul>
+
     </div>
 @endsection
 
@@ -417,6 +421,46 @@
                                 list2_ar.append('<input type="hidden" name="intro_video_ar[]" value="' +
                                     uploadResponse.name +
                                     '" ><input type="hidden" name="types_ar[]" value="' +
+                                    uploadResponse.type + '" >')
+                            }
+                        }
+                    })
+            }
+        };
+        var list_bg = $('#file-upload-list-bg');
+        var list2_bg = $('#file-upload-list2-bg');
+
+        Dropzone.options.dropzoneMultipleBg = {
+            paramName: "media", // The name that will be used to transfer the file
+            dictDefaultMessage: 'Background <h1> Video </h1>',
+            maxFilesize: 1024, // MB
+            addRemoveLinks: true,
+            chunking: true,
+            chunkSize: 2000000,
+            // If true, the individual chunks of a file are being uploaded simultaneously.
+            parallelChunkUploads: true,
+            acceptedFiles: 'video/*',
+            init: function () {
+                this.on('addedfile', function () {
+                    list_bg.append('<li>Uploading</li>')
+                }),
+                    this.on('sending', function (file, xhr, formData) {
+                        formData.append("_token", "{{ csrf_token() }}");
+
+                        // This will track all request so we can get the correct request that returns final response:
+                        // We will change the load callback but we need to ensure that we will call original
+                        // load callback from dropzone
+                        var dropzoneOnLoad = xhr.onload;
+                        xhr.onload = function (e) {
+                            dropzoneOnLoad(e)
+                            // Check for final chunk and get the response
+                            var uploadResponse = JSON.parse(xhr.responseText)
+                            if (typeof uploadResponse.name === 'string') {
+                                list_bg.append('<li>Uploaded: ' + uploadResponse.path + uploadResponse.name +
+                                    '</li>')
+                                list2_bg.append('<input type="hidden" name="bg_video[]" value="' +
+                                    uploadResponse.name +
+                                    '" ><input type="hidden" name="types_bg[]" value="' +
                                     uploadResponse.type + '" >')
                             }
                         }

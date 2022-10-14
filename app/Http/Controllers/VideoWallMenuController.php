@@ -121,7 +121,9 @@ class VideoWallMenuController extends Controller
             }
             $data['screen_type'] = 'videowall';
             // return $data;
-
+            if ($request->bg_video) {
+                $data['bg_video'] = $request->bg_video[0];
+            }
             $menu = Menu::create($data);
 
             $slug = Screen::where('id', $request->screen_id)->first()->slug;
@@ -151,6 +153,7 @@ class VideoWallMenuController extends Controller
                     ]);
                 }
             }
+
             return redirect()->route('videowall.menus.index')->with('success', 'Menu is added!');
         } catch (\Throwable $th) {
             Log::error($th->getMessage());
@@ -255,6 +258,9 @@ class VideoWallMenuController extends Controller
                 $data['image_ar'] = null;
                 $data['icon_en'] = null;
                 $data['icon_ar'] = null;
+            }
+            if ($request->bg_video) {
+                $data['bg_video'] = $request->bg_video[0];
             }
             $imagePath = 'public/media';
             if ($file = $request->file('intro_video')) {
