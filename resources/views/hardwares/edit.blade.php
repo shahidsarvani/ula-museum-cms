@@ -1,48 +1,57 @@
 @extends('layout.app')
 
 @section('title')
-    Edit Role
+    Edit Hardware
 @endsection
 
 @section('header_scripts')
-    <script src="{{ asset('assets/global_assets/js/plugins/forms/inputs/duallistbox/duallistbox.min.js') }}"></script>
-    <script src="{{ asset('assets/global_assets/js/demo_pages/form_dual_listboxes.js') }}"></script>
 @endsection
 
 @section('content')
     <div class="card">
         <div class="card-header">
-            <h5 class="card-title">Edit Role</h5>
+            <h5 class="card-title">Edit Hardware</h5>
         </div>
 
         <div class="card-body">
-            <form action="{{ route('roles.update', $role->id) }}" method="post">
+            <form action="{{ route('hardwares.update', $hardware->id) }}" method="post">
                 @csrf
                 @method('PUT')
                 <div class="row">
-                    <div class="col-md-12">
+                    <div class="col-md-6">
                         <div class="form-group">
                             <label>Name:</label>
-                            <input type="text" class="form-control" placeholder="admin" value="{{ $role->name }}"
-                                name="name" required>
+                            <input type="text" class="form-control" name="name" value="{{ $hardware->name }}" required>
                         </div>
                     </div>
-                    {{-- <div class="col-md-6">
+                    <div class="col-md-6">
                         <div class="form-group">
-                            <label>Guard:</label>
-                            <input type="text" class="form-control" placeholder="web" name="guard_name">
+                            <label>IP:</label>
+                            <input type="text" class="form-control" name="ip" value="{{ $hardware->ip }}" required>
                         </div>
-                    </div> --}}
-                </div>
-
-                <div class="form-group">
-                    <label>Permissions:</label>
-                    <select multiple="multiple" class="form-control listbox" name="permissions[]" data-fouc>
-                        @foreach ($permissions as $item)
-                            <option value="{{ $item->id }}" @if (in_array($item->id, $permissions_role)) selected @endif>
-                                {{ $item->name }}</option>
-                        @endforeach
-                    </select>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>MAC Address:</label>
+                            <input type="text" class="form-control" name="mac_address" value="{{ $hardware->mac_address }}" required>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>App Path:</label>
+                            <input type="text" class="form-control" name="app_path" value="{{ $hardware->app_path }}" required>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Status:</label>
+                            <select name="is_active" id="is_active" class="form-control" required>
+                                <option value="">Select Option</option>D
+                                <option value="0" @if(!$hardware->is_active) selected @endif>Inactive</option>D
+                                <option value="1" @if($hardware->is_active) selected @endif>Active</option>
+                            </select>
+                        </div>
+                    </div>
                 </div>
                 <div class="text-right">
                     <button type="submit" class="btn btn-primary">Update <i class="icon-add ml-2"></i></button>

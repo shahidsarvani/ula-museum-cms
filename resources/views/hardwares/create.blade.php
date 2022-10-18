@@ -1,45 +1,56 @@
 @extends('layout.app')
 
 @section('title')
-    Add Role
+    Add Hardware
 @endsection
 
 @section('header_scripts')
-    <script src="{{ asset('assets/global_assets/js/plugins/forms/inputs/duallistbox/duallistbox.min.js') }}"></script>
-    <script src="{{ asset('assets/global_assets/js/demo_pages/form_dual_listboxes.js') }}"></script>
 @endsection
 
 @section('content')
     <div class="card">
         <div class="card-header">
-            <h5 class="card-title">Add Role</h5>
+            <h5 class="card-title">Add Hardware</h5>
         </div>
 
         <div class="card-body">
-            <form action="{{ route('roles.store') }}" method="post">
+            <form action="{{ route('hardwares.store') }}" method="post">
                 @csrf
                 <div class="row">
-                    <div class="col-md-12">
+                    <div class="col-md-6">
                         <div class="form-group">
                             <label>Name:</label>
-                            <input type="text" class="form-control" placeholder="admin" name="name" required>
+                            <input type="text" class="form-control" name="name" required>
                         </div>
                     </div>
-                    {{-- <div class="col-md-6">
+                    <div class="col-md-6">
                         <div class="form-group">
-                            <label>Guard:</label>
-                            <input type="text" class="form-control" placeholder="web" name="guard_name">
+                            <label>IP:</label>
+                            <input type="text" class="form-control" name="ip" required>
                         </div>
-                    </div> --}}
-                </div>
-
-                <div class="form-group">
-                    <label>Permissions:</label>
-                    <select multiple="multiple" class="form-control listbox" name="permissions[]" data-fouc>
-                        @foreach ($permissions as $item)
-                            <option value="{{ $item->id }}">{{ $item->name }}</option>
-                        @endforeach
-                    </select>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>MAC Address:</label>
+                            <input type="text" class="form-control" name="mac_address" required>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>App Path:</label>
+                            <input type="text" class="form-control" name="app_path" required>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Status:</label>
+                            <select name="is_active" id="is_active" class="form-control" required>
+                                <option value="">Select Option</option>D
+                                <option value="0">Inactive</option>D
+                                <option value="1">Active</option>
+                            </select>
+                        </div>
+                    </div>
                 </div>
                 <div class="text-right">
                     <button type="submit" class="btn btn-primary">Add <i class="icon-add ml-2"></i></button>

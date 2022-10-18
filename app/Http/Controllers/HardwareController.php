@@ -16,7 +16,7 @@ class HardwareController extends Controller
     public function index()
     {
         //
-        $hardwares = Hardware::whereStatus(1)->get();
+        $hardwares = Hardware::all();
         return view('hardwares.index', compact('hardwares'));
     }
 
@@ -40,6 +40,7 @@ class HardwareController extends Controller
     public function store(Request $request)
     {
         //
+        // return $request;
         try {
             $data = $request->except('_token');
             Hardware::create($data);
