@@ -24,7 +24,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @if ($hardwares)
+                    @if (!$hardwares->isEmpty())
                         @foreach ($hardwares as $item)
                             <tr>
                                 <td>{{ $loop->iteration }}</td>

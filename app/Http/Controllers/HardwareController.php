@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Hardware;
+use App\Models\HardwareSchedule;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
@@ -28,7 +30,9 @@ class HardwareController extends Controller
     public function create()
     {
         //
-        return view('hardwares.create');
+        $days = Hardware::get_enums('day');
+        // return $fields;
+        return view('hardwares.create', compact('days'));
     }
 
     /**
@@ -41,9 +45,11 @@ class HardwareController extends Controller
     {
         //
         // return $request;
+
         try {
             $data = $request->except('_token');
-            Hardware::create($data);
+            $hardware = Hardware::create($data);
+            $this->add_items($hardware->id, $request);
             return redirect()->route('hardwares.index')->with('success', 'Hardware Added!');
         } catch (\Throwable $th) {
             //throw $th;
@@ -69,10 +75,13 @@ class HardwareController extends Controller
      * @param  \App\Models\Hardware  $hardware
      * @return \Illuminate\Http\Response
      */
-    public function edit(Hardware $hardware)
+    public function edit($id)
     {
         //
-        return view('hardwares.edit', compact('hardware'));
+        $hardware = Hardware::with('schedule_times')->find($id);
+        // return $hardware;
+        $days = Hardware::get_enums('day');
+        return view('hardwares.edit', compact('hardware', 'days'));
     }
 
     /**
@@ -88,6 +97,8 @@ class HardwareController extends Controller
         try {
             $data = $request->except('_token', '_method');
             $hardware->update($data);
+            $this->remove_items($hardware);
+            $this->add_items($hardware->id, $request);
             return redirect()->route('hardwares.index')->with('success', 'Hardware Updated!');
         } catch (\Throwable $th) {
             //throw $th;
@@ -112,6 +123,38 @@ class HardwareController extends Controller
             //throw $th;
             Log::info($th->getMessage());
             return redirect()->route('hardwares.index')->with('error', 'Error: Something went wrong!');
+        }
+    }
+
+    public function add_items($hardware_id, $request)
+    {
+        if($request->has('day') && count($request->day) > 0) {
+            $now = Carbon::now();
+            $records = array();
+            foreach($request->day as $key=>$day) {
+                $temp = array();
+                $temp['hardware_id'] = $hardware_id;
+                $temp['day'] = $day;
+                $temp['start_time'] = $request->start_time[$key];
+                $temp['end_time'] = $request->end_time[$key];
+                $temp['is_active'] = $request->day_is_active[$key];
+                $temp['created_at'] = $now;
+                $temp['updated_at'] = $now;
+                array_push($records, $temp);
+            }
+            HardwareSchedule::insert($records);
+        }
+    }
+    public function remove_items($hardware)
+    {
+        $item_ids = $hardware->schedule_times->pluck('id');
+        if(count($item_ids) > 0) {
+            $items = HardwareSchedule::whereIn('id', $item_ids)->get();
+            if(count($items) > 0) {
+                foreach ($items as $item) {
+                    $item->delete();
+                }
+            }
         }
     }
 }

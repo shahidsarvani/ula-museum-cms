@@ -15,7 +15,7 @@ class EnumGeneral
             foreach( explode(',', $matches[1]) as $value )
             {
                 $v = trim( $value, "'" );
-                $enum = Arr::add($enum, $v, $v);
+                $enum = Arr::add($enum, $v, ucfirst($v));
             }
             return $enum;
         }catch(\Illuminate\Database\QueryException $ex){

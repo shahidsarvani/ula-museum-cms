@@ -45,12 +45,60 @@
                         <div class="form-group">
                             <label>Status:</label>
                             <select name="is_active" id="is_active" class="form-control" required>
-                                <option value="">Select Option</option>D
-                                <option value="0">Inactive</option>D
+                                <option value="">Select Option</option>
+                                <option value="0">Inactive</option>
                                 <option value="1">Active</option>
                             </select>
                         </div>
                     </div>
+                </div>
+                <div class="text-right">
+                    <button type="button" class="btn btn-success" id="add_schedule_item">Add Schedule Time</button>
+                </div>
+                <div class="row mb-3 schedule_items">
+                    {{-- <div class="col-md-12 schedule_item">
+                        <div class="row">
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label>Day:</label>
+                                    <select name="day[]" class="form-control" required>
+                                        <option value="">Select Option</option>
+                                        @foreach ($days as $key => $day)
+                                            <option value="{{ $key }}">{{ $day }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label>Start Time:</label>
+                                    <input type="text" class="form-control" name="start_time[]" required>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label>End Time:</label>
+                                    <input type="text" class="form-control" name="end_time[]" required>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label>Status:</label>
+                                    <select name="day_is_active[]" class="form-control" required>
+                                        <option value="">Select Option</option>
+                                        <option value="0">Inactive</option>
+                                        <option value="1">Active</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label for="">&nbsp;</label>
+                                    <button type="button" class="btn btn-danger form-control" onclick="deleteItem(this)">Delete</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div> --}}
                 </div>
                 <div class="text-right">
                     <button type="submit" class="btn btn-primary">Add <i class="icon-add ml-2"></i></button>
@@ -58,4 +106,61 @@
             </form>
         </div>
     </div>
+@endsection
+
+@section('footer_scripts')
+    <script>
+        var html_text = `<div class="col-md-12 schedule_item">
+                        <div class="row">
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label>Day:</label>
+                                    <select name="day[]" class="form-control" required>
+                                        <option value="">Select Option</option>
+                                        @foreach ($days as $key => $day)
+                                            <option value="{{ $key }}">{{ $day }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label>Start Time:</label>
+                                    <input type="time" class="form-control" name="start_time[]" required>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label>End Time:</label>
+                                    <input type="time" class="form-control" name="end_time[]" required>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label>Status:</label>
+                                    <select name="day_is_active[]" class="form-control" required>
+                                        <option value="">Select Option</option>
+                                        <option value="0">Inactive</option>
+                                        <option value="1">Active</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label for="">&nbsp;</label>
+                                    <button type="button" class="btn btn-danger form-control" onclick="deleteItem(this)">Delete</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>`
+        var addItemBtn = document.getElementById('add_schedule_item')
+    
+        addItemBtn.addEventListener('click', function() {
+            $('.schedule_items').append(html_text)
+        })
+
+        function deleteItem(elem) {
+            $(elem).parents('.schedule_item').remove()
+        }
+    </script>
 @endsection
