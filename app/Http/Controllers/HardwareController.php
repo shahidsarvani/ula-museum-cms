@@ -45,7 +45,6 @@ class HardwareController extends Controller
     {
         //
         // return $request;
-
         try {
             $data = $request->except('_token');
             $hardware = Hardware::create($data);

@@ -15,5 +15,11 @@ class HardwareSchedule extends Model
        'start_time',
        'end_time',
        'is_active',
+       'time',
+       'action',
     ];
+
+    public function hardware() {
+        return $this->belongsTo(Hardware::class, 'hardware_id');
+    }
 }

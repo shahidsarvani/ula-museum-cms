@@ -78,12 +78,12 @@
                         </span>
                     </a>
                 </li>
-                
+
                 @can(['add-hardware', 'edit-hardware', 'delete-hardware', 'view-hardware'])
-                    <li class="nav-item nav-item-submenu @if (Route::is('hardwares.*')) nav-item-open @endif">
+                    <li class="nav-item nav-item-submenu @if (Route::is('hardwares.*') || Route::is('schedule.*')) nav-item-open @endif">
                         <a href="#" class="nav-link"><i class="icon-menu3"></i> <span>Hardware</span></a>
                         <ul class="nav nav-group-sub" data-submenu-title="Menu"
-                            @if (Route::is('hardwares.*')) style="display: block" @endif>
+                            @if (Route::is('hardwares.*') || Route::is('schedule.*')) style="display: block" @endif>
                             @can('add-hardware')
                                 <li class="nav-item"><a href="{{ route('hardwares.create') }}"
                                         class="nav-link @if (Route::is('hardwares.create')) active @endif">Add Hardware</a></li>
@@ -92,6 +92,16 @@
                                 'view-hardware'])
                                 <li class="nav-item"><a href="{{ route('hardwares.index') }}"
                                         class="nav-link @if (Route::is(['hardwares.index', 'hardwares.edit'])) active @endif">Hardware List</a></li>
+                            @endcan
+                            @can(['add-schedule', 'update-schedule', 'edit-schedule', 'delete-schedule',
+                                'view-schedule'])
+                                <li class="nav-item"><a href="{{ route('schedule.index') }}"
+                                        class="nav-link @if (Route::is(['schedule.index', 'schedule.edit'])) active @endif">Schedule </a></li>
+                            @endcan
+                            @can(['add-schedule', 'update-schedule', 'edit-schedule', 'delete-schedule',
+                                'view-schedule'])
+                                <li class="nav-item"><a href="{{ route('schedule.create') }}"
+                                        class="nav-link @if (Route::is(['schedule.create', 'schedule.edit'])) active @endif">Create Schedule </a></li>
                             @endcan
                         </ul>
                     </li>

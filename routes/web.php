@@ -59,6 +59,7 @@ Route::middleware([
     Route::resource('slides', SlideController::class);
     Route::resource('layouts', LayoutController::class);
     Route::resource('hardwares', HardwareController::class);
+    Route::resource('schedule', \App\Http\Controllers\HardwareScheduleController::class);
 
     Route::prefix('touchtable-screen')->name('touchtable.')->group(function () {
         Route::resource('screens', \App\Http\Controllers\TouchTableScreenController::class);

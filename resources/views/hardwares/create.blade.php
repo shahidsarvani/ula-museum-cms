@@ -35,10 +35,20 @@
                             <input type="text" class="form-control" name="mac_address" required>
                         </div>
                     </div>
+{{--                    <div class="col-md-6">--}}
+{{--                        <div class="form-group">--}}
+{{--                            <label>App Path:</label>--}}
+{{--                            <input type="text" class="form-control" name="app_path" required>--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label>App Path:</label>
-                            <input type="text" class="form-control" name="app_path" required>
+                            <label>Hardware Type:</label>
+                            <select name="type" id="type" class="form-control" required>
+                                <option value="">Select Option</option>
+                                <option value="pc">PC</option>
+                                <option value="screen">Screen</option>
+                            </select>
                         </div>
                     </div>
                     <div class="col-md-6">
@@ -154,7 +164,7 @@
                         </div>
                     </div>`
         var addItemBtn = document.getElementById('add_schedule_item')
-    
+
         addItemBtn.addEventListener('click', function() {
             $('.schedule_items').append(html_text)
         })

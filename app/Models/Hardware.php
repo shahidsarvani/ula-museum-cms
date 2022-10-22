@@ -14,11 +14,12 @@ class Hardware extends Model
         'name',
         'ip',
         'mac_address',
-        'app_path', 
+        'app_path',
         'is_active',
+        'type',
     ];
 
-    
+
     public static function get_enums($columnName)
     {
         return EnumGeneral::getEnumValues('hardware_schedules', $columnName);

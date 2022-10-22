@@ -18,7 +18,8 @@
                         <th>Name</th>
                         <th>IP</th>
                         <th>MAC Address</th>
-                        <th>App Path</th>
+{{--                        <th>App Path</th>--}}
+                        <th>Type</th>
                         <th>Status</th>
                         <th>Action</th>
                     </tr>
@@ -31,7 +32,8 @@
                                 <td>{{ $item->name }}</td>
                                 <td>{{ $item->ip }}</td>
                                 <td>{{ $item->mac_address }}</td>
-                                <td>{{ $item->app_path }}</td>
+{{--                                <td>{{ $item->app_path }}</td>--}}
+                                <td>{{ $item->type }}</td>
                                 <td>
                                     @if ($item->is_active)
                                         <span class="badge badge-info">Active</span>
