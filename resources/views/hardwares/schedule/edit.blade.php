@@ -20,17 +20,17 @@
 
                 <div class="col-md-12 schedule_item">
                     <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="hardware_id">Hardware:</label>
-                                <select id="hardware_id" name="hardware_id" class="form-control" required>
-                                    <option value="">Select Hardware</option>
-                                    @foreach ($hardware as $key => $hard)
-                                        <option @if($schedule->hardware_id == $hard->id) selected @endif value="{{ $hard->id }}">{{ $hard->name }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
+{{--                        <div class="col-md-6">--}}
+{{--                            <div class="form-group">--}}
+{{--                                <label for="hardware_id">Hardware:</label>--}}
+{{--                                <select id="hardware_id" name="hardware_id" class="form-control" required>--}}
+{{--                                    <option value="">Select Hardware</option>--}}
+{{--                                    @foreach ($hardware as $key => $hard)--}}
+{{--                                        <option @if($schedule->hardware_id == $hard->id) selected @endif value="{{ $hard->id }}">{{ $hard->name }}</option>--}}
+{{--                                    @endforeach--}}
+{{--                                </select>--}}
+{{--                            </div>--}}
+{{--                        </div>--}}
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label>Day:</label>

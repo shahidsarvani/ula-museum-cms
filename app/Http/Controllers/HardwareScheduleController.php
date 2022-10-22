@@ -17,7 +17,16 @@ class HardwareScheduleController extends Controller
     public function index()
     {
         $hardware_schedule = HardwareSchedule::with('hardware')->get();
-        $days = Hardware::get_enums('day');
+//        $days = Hardware::get_enums('day');
+        $days = [
+            1 => 'Monday',
+            2 => 'Tuesday',
+            3 => 'Wednesday',
+            4 => 'Thursday',
+            5 => 'Friday',
+            6 => 'Saturday',
+            7 => 'Sunday'
+        ];
         return view('hardwares.schedule.index', compact('hardware_schedule', 'days'));
     }
 
@@ -28,7 +37,17 @@ class HardwareScheduleController extends Controller
      */
     public function create()
     {
-        $days = Hardware::get_enums('day');
+//        $days = Hardware::get_enums('day');
+        $days = [
+            1 => 'Monday',
+            2 => 'Tuesday',
+            3 => 'Wednesday',
+            4 => 'Thursday',
+            5 => 'Friday',
+            6 => 'Saturday',
+            7 => 'Sunday'
+        ];
+
         $hardware = Hardware::where('is_active', 1)->get();
         return view('hardwares.schedule.create', compact('days', 'hardware'));
     }
@@ -71,8 +90,17 @@ class HardwareScheduleController extends Controller
      */
     public function edit($id)
     {
+        $days = [
+            1 => 'Monday',
+            2 => 'Tuesday',
+            3 => 'Wednesday',
+            4 => 'Thursday',
+            5 => 'Friday',
+            6 => 'Saturday',
+            7 => 'Sunday'
+        ];
         $schedule = HardwareSchedule::where('id', $id)->first();
-        $days = Hardware::get_enums('day');
+//        $days = Hardware::get_enums('day');
         $hardware = Hardware::where('is_active', 1)->get();
         return view('hardwares.schedule.edit', compact('schedule', 'days', 'hardware'));
 

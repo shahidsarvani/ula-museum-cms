@@ -12,8 +12,6 @@ class HardwareSchedule extends Model
     protected $fillable = [
        'hardware_id',
        'day', //['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday']
-       'start_time',
-       'end_time',
        'is_active',
        'time',
        'action',

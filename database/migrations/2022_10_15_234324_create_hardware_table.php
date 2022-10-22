@@ -18,7 +18,6 @@ class CreateHardwareTable extends Migration
             $table->string('name');
             $table->string('ip');
             $table->string('mac_address');
-            $table->string('app_path');
             $table->boolean('is_active');
             $table->timestamps();
         });

@@ -15,10 +15,7 @@ class CreateHardwareSchedulesTable extends Migration
     {
         Schema::create('hardware_schedules', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('hardware_id');
-            $table->enum('day', ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday']);
-            $table->time('start_time');
-            $table->time('end_time');
+            $table->enum('day', [1, 2, 3, 4, 5, 6, 7]); //['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday']
             $table->boolean('is_active');
             $table->timestamps();
         });

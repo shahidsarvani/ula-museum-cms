@@ -14,7 +14,6 @@ class Hardware extends Model
         'name',
         'ip',
         'mac_address',
-        'app_path',
         'is_active',
         'type',
     ];

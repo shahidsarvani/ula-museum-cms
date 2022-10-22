@@ -18,7 +18,7 @@
                 <thead>
                 <tr>
                     <th>#</th>
-                    <th>Hardware</th>
+{{--                    <th>Hardware</th>--}}
                     <th>Day</th>
                     <th>Time</th>
                     <th>Action</th>
@@ -31,8 +31,8 @@
                     @foreach ($hardware_schedule as $item)
                         <tr>
                             <td>{{ $loop->iteration }}</td>
-                            <td>{{ $item->hardware->name }}</td>
-                            <td>{{ $item->day }}</td>
+{{--                            <td>{{ $item->hardware->name }}</td>--}}
+                            <td>{{ $days[$item->day] }}</td>
                             <td>{{ $item->time }}</td>
                             {{--                                <td>{{ $item->app_path }}</td>--}}
                             <td>{{ $item->action }}</td>
