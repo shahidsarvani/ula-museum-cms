@@ -15,7 +15,7 @@ class AddTypeColumnToHardwareTable extends Migration
     {
         Schema::table('hardware', function (Blueprint $table) {
             $table->enum('type', ['pc', 'screen'])->after('mac_address');
-            $table->string('app_path')->nullable()->change();
+//            $table->string('app_path')->nullable()->change();
         });
     }
 

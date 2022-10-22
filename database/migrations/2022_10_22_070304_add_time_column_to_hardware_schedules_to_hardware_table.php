@@ -17,8 +17,8 @@ class AddTimeColumnToHardwareSchedulesToHardwareTable extends Migration
             //
             $table->time('time');
             $table->enum('action', ['wakeup', 'shutdown']);
-            $table->time('start_time')->nullable()->change();
-            $table->time('end_time')->nullable()->change();
+//            $table->time('start_time')->nullable()->change();
+//            $table->time('end_time')->nullable()->change();
         });
     }
 
