@@ -73,7 +73,11 @@ class ApiController extends Controller
                 'image_en' => env('APP_URL') . '/storage/app/public/media/' . $menu->image_en,
                 'image_ar' => env('APP_URL') . '/storage/app/public/media/' . $menu->image_ar,
                 'media' => $menu->media->map(function ($med) {
-                    return env('APP_URL') . '/storage/app/public/media/' . $med->name;
+                    return [
+                        'id' => $med->id,
+                        'type' => $med->type,
+                        'link' => env('APP_URL') . '/storage/app/public/media/' . $med->name,
+                    ];
                 }),
             ];
         }
