@@ -46,7 +46,7 @@ class ApiController extends Controller
                                             'id' => $med->id,
                                             'type' => $med->type,
                                             'link' => env('APP_URL') . '/storage/app/public/media/' . $med->name,
-                                        ]
+                                        ];
                                     }
                                 })->filter()->values(),
                             ];
@@ -63,7 +63,7 @@ class ApiController extends Controller
                                             'id' => $med->id,
                                             'type' => $med->type,
                                             'link' => env('APP_URL') . '/storage/app/public/media/' . $med->name,
-                                        ]
+                                        ];
                                     }
                                 })->filter()->values(),
                             ];
