@@ -77,7 +77,7 @@ class HardwareController extends Controller
     public function edit($id)
     {
         //
-        $hardware = Hardware::with('schedule_times')->find($id);
+        $hardware = Hardware::find($id);
         // return $hardware;
         $days = Hardware::get_enums('day');
         return view('hardwares.edit', compact('hardware', 'days'));
@@ -96,8 +96,6 @@ class HardwareController extends Controller
         try {
             $data = $request->except('_token', '_method');
             $hardware->update($data);
-            $this->remove_items($hardware);
-            $this->add_items($hardware->id, $request);
             return redirect()->route('hardwares.index')->with('success', 'Hardware Updated!');
         } catch (\Throwable $th) {
             //throw $th;
