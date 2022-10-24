@@ -20,7 +20,7 @@
             <form action="{{ route('touchtable.content.store') }}" method="post">
                 @csrf
                 <div class="row">
-                    <div class="col-md-4">
+                    <div class="col-md-6">
                         <div class="form-group">
                             <label>Language</label>
                             <select id="lang" class="form-control" name="lang" required>
@@ -30,7 +30,13 @@
                             </select>
                         </div>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label id="title">Title</label>
+                            <input type="text" class="form-control" name="title" id="title" placeholder="Enter Content Title">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
                         <div class="form-group">
                             <label>Screen:</label>
                             <select name="screen_id" id="screen_id" class="form-control">
@@ -41,12 +47,41 @@
                             </select>
                         </div>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-6">
                         <div class="form-group">
                             <label>Menu</label>
                             <select name="menu_id" id="menu_id" class="form-control" required>
                                 <option value="">Select Menu *</option>
                             </select>
+                        </div>
+                    </div>
+                    <div id="background_color" class="col-md-6">
+                        <div class="form-group">
+                            <label for="background_color">Background Color:</label>
+                            <input name="background_color" id="background_color" class="form-control"
+                                   type="color" value="#ffffff">
+                            @error('background_color')
+                            <p class="text-danger">{{ $message }}</p>
+                            @enderror
+                        </div>
+                    </div>
+                    <div id="text_color" class="col-md-6">
+                        <div class="form-group">
+                            <label for="text_color">Text Color:</label>
+                            <input name="text_color" id="text_color" class="form-control" type="color"
+                                   value="#000000">
+                            @error('text_color')
+                            <p class="text-danger">{{ $message }}</p>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="text_bg_image">Text Background image:</label>
+                            <input name="text_bg_image" id="text_bg_image" class="form-control" type="file">
+                            @error('text_bg_image')
+                            <p class="text-danger">{{ $message }}</p>
+                            @enderror
                         </div>
                     </div>
                     <div class="col-md-12">

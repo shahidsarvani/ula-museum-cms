@@ -41,8 +41,13 @@ class ApiController extends Controller
                                 'name' => $menu->name_ar,
                                 'content' => $c->content,
                                 'media' => $c->media->map(function ($med) {
-                                    if ($med->lang == 'en')
-                                        return env('APP_URL') . '/storage/app/public/media/' . $med->name;
+                                    if ($med->lang == 'en') {
+                                        return [
+                                            'id' => $med->id,
+                                            'type' => $med->type,
+                                            'link' => env('APP_URL') . '/storage/app/public/media/' . $med->name,
+                                        ]
+                                    }
                                 })->filter()->values(),
                             ];
                         }
@@ -53,8 +58,13 @@ class ApiController extends Controller
                                 'name' => $menu->name_en,
                                 'content' => $c->content,
                                 'media' => $c->media->map(function ($med) {
-                                    if ($med->lang == 'ar')
-                                        return env('APP_URL') . '/storage/app/public/media/' . $med->name;
+                                    if ($med->lang == 'ar') {
+                                        return [
+                                            'id' => $med->id,
+                                            'type' => $med->type,
+                                            'link' => env('APP_URL') . '/storage/app/public/media/' . $med->name,
+                                        ]
+                                    }
                                 })->filter()->values(),
                             ];
                         }
@@ -201,6 +211,9 @@ class ApiController extends Controller
             $response[$content->lang] = [
                 'id' => $menu->id,
                 'content' => $content->content,
+                'background_color' => $content->background_color,
+                'text_color' => $content->text_color,
+                'text_bg_image' => $content->text_bg_image,
                 'name' => $content->lang == 'ar' ? $menu->name_ar : $menu->name_en,
                 'media' => $content->media->map(function ($media) {
                     return [

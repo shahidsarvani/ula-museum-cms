@@ -137,6 +137,35 @@
                             </select>
                         </div>
                     </div>
+                    <div id="background_color" class="col-md-6">
+                        <div class="form-group">
+                            <label for="background_color">Background Color:</label>
+                            <input name="background_color" id="background_color" class="form-control"
+                                   type="color" value="{{$content->background_color}}">
+                            @error('background_color')
+                            <p class="text-danger">{{ $message }}</p>
+                            @enderror
+                        </div>
+                    </div>
+                    <div id="text_color" class="col-md-6">
+                        <div class="form-group">
+                            <label for="text_color">Text Color:</label>
+                            <input name="text_color" id="text_color" class="form-control" type="color"
+                                   value="{{$content->text_color}}">
+                            @error('text_color')
+                            <p class="text-danger">{{ $message }}</p>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="text_bg_image">Text Background image:</label>
+                            <input name="text_bg_image" id="text_bg_image" class="form-control" type="file">
+                            @error('text_bg_image')
+                            <p class="text-danger">{{ $message }}</p>
+                            @enderror
+                        </div>
+                    </div>
                     <div class="col-md-12">
                         <div class="form-group">
                             <label>Content:</label>
