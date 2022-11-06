@@ -18,6 +18,8 @@
     <script src="{{ asset('assets/global_assets/js/main/bootstrap.bundle.min.js') }}"></script>
     <!-- /core JS files -->
 
+    <script src="https://cdn.ckeditor.com/4.7.1/full/ckeditor.js"></script>
+
     <script src="{{ asset('assets/js/app.js') }}"></script>
     @yield('header_scripts')
     <script src="{{ asset('assets/js/custom.js') }}"></script>
