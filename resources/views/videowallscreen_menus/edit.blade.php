@@ -202,6 +202,17 @@
                             <input type="file" name="map_image" class="form-control">
                         </div>
                     </div>
+                    <div class="col-md-6">
+                        <div class="image-area_">
+                            <div class="image-area">
+                                @if($menu->map_image != null)
+                                    <img src="{{asset('/storage/app/public/media/' . $menu->map_image)}}">
+                                    <a class="remove-image" href="{{ '/video-wall-screen/menu/map-img/remove/' . $menu->id }}"
+                                       style="display: inline;">&#215;</a>
+                                @endif
+                            </div>
+                        </div>
+                    </div>
 {{--                    <div class="col-md-6">--}}
 {{--                        <div class="form-group">--}}
 {{--                            <label>Introductory Video:</label>--}}

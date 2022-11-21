@@ -94,6 +94,7 @@ Route::middleware([
         Route::resource('content', VideoWallContentController::class);
         Route::resource('menus', VideoWallMenuController::class);
         Route::get('menu/bg/remove/{id}', [VideoWallMenuController::class, 'removeBgImage']);
+        Route::get('menu/map-img/remove/{id}', [VideoWallMenuController::class, 'removeMapImgImage']);
         Route::get('menu/intro/video/remove/{id}/{key}', [VideoWallMenuController::class, 'removeIntroVideo']);
         Route::get('media', [VideoWallMediaController::class, 'video_wall_video_index'])->name('media.index');
         Route::get('media/create', [VideoWallMediaController::class, 'video_wall_video_create'])->name('media.create');

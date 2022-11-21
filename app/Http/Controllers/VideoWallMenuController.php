@@ -391,6 +391,14 @@ class VideoWallMenuController extends Controller
         return redirect()->back()->with('success', 'Image deleted successfully!');
     }
 
+    public function removeMapImgImage($id) {
+        $menu = Menu::where('id', $id)->first();
+        Helper::removePhysicalFile('media/' . $menu->bg_image);
+        $menu->map_image = null;
+        $menu->save();
+        return redirect()->back()->with('success', 'Image deleted successfully!');
+    }
+
     public function removeIntroVideo($id, $key): \Illuminate\Http\RedirectResponse
     {
         $menu = Menu::where('id', $id)->first();
