@@ -136,6 +136,12 @@
                             <input type="file" name="bg_image" class="form-control">
                         </div>
                     </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Map Image:</label>
+                            <input type="file" name="map_image" class="form-control">
+                        </div>
+                    </div>
 {{--                    <div class="col-md-6">--}}
 {{--                        <div class="form-group">--}}
 {{--                            <label>Introductory Video English:</label>--}}

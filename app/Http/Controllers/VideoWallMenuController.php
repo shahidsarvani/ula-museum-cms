@@ -70,13 +70,19 @@ class VideoWallMenuController extends Controller
     public function store(Request $request)
     {
         try {
-            $data = $request->except('_token', 'intro_video_ar', 'intro_video', 'image_en', 'image_ar', 'icon_en', 'icon_ar');
+            $data = $request->except('_token', 'intro_video_ar', 'intro_video', 'image_en', 'image_ar', 'icon_en', 'icon_ar', 'map_image');
             // return $data;
             if (!$request->menu_id) {
                 // return $data;
                 $data['menu_id'] = 0;
             }
             $imagePath = 'public/media';
+            if ($file = $request->file('map_image')) {
+                $ext = $file->getClientOriginalExtension();
+                $name = 'map_image_' . md5(uniqId()) . '.' . $ext;
+                $file->storeAs($imagePath, $name);
+                $data['map_image'] = $name;
+            }
             if ($file = $request->file('intro_video')) {
                 $ext = $file->getClientOriginalExtension();
                 $name = 'intro_video_' . md5(uniqId()) . '.' . $ext;
@@ -237,7 +243,7 @@ class VideoWallMenuController extends Controller
         // return $menu;
         // return $request;
         try {
-            $data = $request->except('_token', 'image_en', 'image_ar', 'icon_en', 'icon_ar');
+            $data = $request->except('_token', 'image_en', 'image_ar', 'icon_en', 'icon_ar', 'map_image');
             // return $data;
             if (!$request->menu_id) {
                 // return $data;
@@ -263,6 +269,12 @@ class VideoWallMenuController extends Controller
                 $data['bg_video'] = $request->bg_video[0];
             }
             $imagePath = 'public/media';
+            if ($file = $request->file('map_image')) {
+                $ext = $file->getClientOriginalExtension();
+                $name = 'map_image_' . md5(uniqId()) . '.' . $ext;
+                $file->storeAs($imagePath, $name);
+                $data['map_image'] = $name;
+            }
             if ($file = $request->file('intro_video')) {
                 $ext = $file->getClientOriginalExtension();
                 $name = 'intro_video_' . md5(uniqId()) . '.' . $ext;

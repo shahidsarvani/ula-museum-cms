@@ -458,6 +458,7 @@ class ApiController extends Controller
                 'image' => $menu->image_en,
                 'child' => $children,
                 'bg_image' => env('APP_URL') . '/storage/app/public/media/' . $menu->bg_image,
+                'map_image' => env('APP_URL') . '/storage/app/public/media/' . $menu->map_image,
                 'intro_video' => [
                     'type' => 'video',
                     'path' => env('APP_URL') . '/storage/app/public/media/' . $menu->intro_video
@@ -471,6 +472,7 @@ class ApiController extends Controller
                 'image' => $menu->image_ar,
                 'child' => $children,
                 'bg_image' => env('APP_URL') . '/storage/app/public/media/' . $menu->bg_image,
+                'map_image' => env('APP_URL') . '/storage/app/public/media/' . $menu->map_image,
                 'intro_video' => [
                     'type' => 'video',
                     'path' => env('APP_URL') . '/storage/app/public/media/' . $menu->intro_video
@@ -484,6 +486,7 @@ class ApiController extends Controller
                     'id' => $content->id,
                     'title' => $content->title,
                     'menu_name' => $menuu->name_en,
+                    'map_image' => env('APP_URL') . '/storage/app/public/media/' . $menuu->map_image,
                     'intro_video' => collect(json_decode($menuu->intro_video))->map(function ($media) {
                         return [
                             'type' => 'video',
@@ -509,6 +512,7 @@ class ApiController extends Controller
                     'id' => $content->id,
                     'title' => $content->title,
                     'menu_name' => $menuu->name_ar,
+                    'map_image' => env('APP_URL') . '/storage/app/public/media/' . $menuu->map_image,
                     'intro_video' => collect(json_decode($menuu->intro_video))->map(function ($media) {
                         return [
                             'type' => 'video',
