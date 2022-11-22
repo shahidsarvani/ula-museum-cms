@@ -261,6 +261,7 @@ class ApiController extends Controller
                 'name' => $menu->name_en,
                 'image' => env('APP_URL') . '/storage/app/public/media/' . $menu->image_en,
                 'content' => $content_en->content,
+                'children' => $menu->children,
             ];
             $content_ar = VideowallContent::where('menu_id', $menu->id)->where('lang', 'ar')->first();
             $res['ar'][] = [
@@ -271,6 +272,7 @@ class ApiController extends Controller
                 'name' => $menu->name_ar,
                 'image' => env('APP_URL') . '/storage/app/public/media/' . $menu->image_ar,
                 'content' => $content_ar->content,
+                'children' => $menu->children,
             ];
         }
 
