@@ -245,11 +245,14 @@ class ApiController extends Controller
             ], 422);
         }
 
-        $menus = Menu::where('screen_type', 'videowall', 'videowall_content')->where('menu_id', 0)->whereHas('screen', function ($query) {
+        $menus = Menu::where('screen_type', 'videowall')->where('menu_id', 0)->whereHas('screen', function ($query) {
             $query->where('slug', \request()->screen);
         })->orderBy('order', 'ASC')->with('screen')->get();
+
+
         $res = [];
         foreach ($menus as $menu) {
+            $content_en = VideowallContent::where('menu_id', $menu->id)->where('lang', 'en')->first();
             $res['en'][] = [
                 'id' => $menu->id,
                 'screen_id' => $menu->screen->id,
@@ -257,8 +260,9 @@ class ApiController extends Controller
                 'bg_video' => !!$menu->bg_video ? env('APP_URL') . '/storage/app/public/media/' . $menu->bg_video : null,
                 'name' => $menu->name_en,
                 'image' => env('APP_URL') . '/storage/app/public/media/' . $menu->image_en,
-                'content' => $menu->videowall_content->content,
+                'content' => $content_en->content,
             ];
+            $content_ar = VideowallContent::where('menu_id', $menu->id)->where('lang', 'ar')->first();
             $res['ar'][] = [
                 'id' => $menu->id,
                 'screen_id' => $menu->screen->id,
@@ -266,7 +270,7 @@ class ApiController extends Controller
                 'bg_video' => !!$menu->bg_video ? env('APP_URL') . '/storage/app/public/media/' . $menu->bg_video : null,
                 'name' => $menu->name_ar,
                 'image' => env('APP_URL') . '/storage/app/public/media/' . $menu->image_ar,
-                'content' => $menu->videowall_content->content,
+                'content' => $content_ar->content,
             ];
         }
 
