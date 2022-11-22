@@ -48,7 +48,6 @@ class VideoWallContentController extends Controller
     {
         $request->validate([
             'lang' => 'required',
-            'title' => 'required',
             'screen_id' => 'required|integer',
             'menu_id' => 'required|integer',
             'content' => 'required',
