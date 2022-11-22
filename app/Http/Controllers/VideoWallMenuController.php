@@ -69,7 +69,7 @@ class VideoWallMenuController extends Controller
      */
     public function store(Request $request)
     {
-        try {
+//        try {
             $data = $request->except('_token', 'intro_video_ar', 'intro_video', 'image_en', 'image_ar', 'icon_en', 'icon_ar', 'map_image');
             // return $data;
             if (!$request->menu_id) {
@@ -161,16 +161,16 @@ class VideoWallMenuController extends Controller
             }
 
             return redirect()->route('videowall.menus.index')->with('success', 'Menu is added!');
-        } catch (\Throwable $th) {
-            Log::error($th->getMessage());
-            if ((Arr::exists($data, 'image_en') && $data['image_en'] !== '') || (Arr::exists($data, 'image_ar') && $data['image_ar'] !== '')) {
-                Storage::delete(['/public/media/' . $data['image_en'], '/public/media/' . $data['image_ar']]);
-            }
-            if ((Arr::exists($data, 'icon_en') && $data['icon_en'] !== '') || (Arr::exists($data, 'icon_ar') && $data['icon_ar'] !== '')) {
-                Storage::delete(['/public/media/' . $data['icon_en'], '/public/media/' . $data['icon_ar']]);
-            }
-            return redirect()->back()->with('error', 'Error: Something went wrong!');
-        }
+//        } catch (\Throwable $th) {
+//            Log::error($th->getMessage());
+//            if ((Arr::exists($data, 'image_en') && $data['image_en'] !== '') || (Arr::exists($data, 'image_ar') && $data['image_ar'] !== '')) {
+//                Storage::delete(['/public/media/' . $data['image_en'], '/public/media/' . $data['image_ar']]);
+//            }
+//            if ((Arr::exists($data, 'icon_en') && $data['icon_en'] !== '') || (Arr::exists($data, 'icon_ar') && $data['icon_ar'] !== '')) {
+//                Storage::delete(['/public/media/' . $data['icon_en'], '/public/media/' . $data['icon_ar']]);
+//            }
+//            return redirect()->back()->with('error', 'Error: Something went wrong!');
+//        }
     }
 
     /**
