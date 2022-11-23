@@ -799,7 +799,7 @@ class ApiController extends Controller
             ], 422);
         }
 
-        $menu = Menu::where('screen_type', 'videowall')->where('menu_id', 0)->whereHas('screen', function ($query) {
+        $main_menu = Menu::where('screen_type', 'videowall')->where('menu_id', 0)->whereHas('screen', function ($query) {
             $query->where('slug', \request()->screen);
         })->first();
 
@@ -812,7 +812,7 @@ class ApiController extends Controller
 
         $res = [];
         foreach ($side_menu as $menu) {
-            $content = VideowallContent::where('menu_id', $menu->id)->where('lang', 'en')->first();
+            $content = VideowallContent::where('menu_id', $menu->id)->with('media')->where('lang', 'en')->first();
             $res['en'][] = [
                 'id' => $menu->id,
                 'name' => $menu->name_en,
@@ -820,9 +820,11 @@ class ApiController extends Controller
                 'screen' => $menu->screen->name_en,
                 'image' => $menu->image_en,
                 'content' => $content->content,
+                'media' => $content->media,
                 'bg_image' => env('APP_URL') . '/storage/app/public/media/' . $menu->bg_image,
             ];
-            $content = VideowallContent::where('menu_id', $menu->id)->where('lang', 'ar')->first();
+            $content = VideowallContent::where('menu_id', $menu->id)->with('media')->where('lang', 'ar')->first();
+
             $res['ar'][] = [
                 'id' => $menu->id,
                 'name' => $menu->name_ar,
@@ -830,31 +832,33 @@ class ApiController extends Controller
                 'screen' => $menu->screen->name_ar,
                 'image' => $menu->image_ar,
                 'content' => $content->content,
+                'media' => $content->media,
                 'bg_image' => env('APP_URL') . '/storage/app/public/media/' . $menu->bg_image,
             ];
         }
 
         $content_en = VideowallContent::where('menu_id', $menu->id)->where('lang', 'en')->first();
+
         $res['main_menu']['en'] = [
-            'id' => $menu->id,
-            'screen_id' => $menu->screen->id,
-            'bg_image' => env('APP_URL') . '/storage/app/public/media/' . $menu->bg_image,
-            'bg_video' => !!$menu->bg_video ? env('APP_URL') . '/storage/app/public/media/' . $menu->bg_video : null,
-            'name' => $menu->name_en,
-            'image' => env('APP_URL') . '/storage/app/public/media/' . $menu->image_en,
+            'id' => $main_menu->id,
+            'screen_id' => $main_menu->screen->id,
+            'bg_image' => env('APP_URL') . '/storage/app/public/media/' . $main_menu->bg_image,
+            'bg_video' => !!$main_menu->bg_video ? env('APP_URL') . '/storage/app/public/media/' . $main_menu->bg_video : null,
+            'name' => $main_menu->name_en,
+            'image' => env('APP_URL') . '/storage/app/public/media/' . $main_menu->image_en,
             'content' => $content_en->content,
-            'children' => $menu->children,
+            'children' => $main_menu->children,
         ];
-        $content_ar = VideowallContent::where('menu_id', $menu->id)->where('lang', 'ar')->first();
+        $content_ar = VideowallContent::where('menu_id', $main_menu->id)->where('lang', 'ar')->first();
         $res['main_menu']['ar'] = [
-            'id' => $menu->id,
-            'screen_id' => $menu->screen->id,
-            'bg_image' => env('APP_URL') . '/storage/app/public/media/' . $menu->bg_image,
-            'bg_video' => !!$menu->bg_video ? env('APP_URL') . '/storage/app/public/media/' . $menu->bg_video : null,
-            'name' => $menu->name_ar,
-            'image' => env('APP_URL') . '/storage/app/public/media/' . $menu->image_ar,
+            'id' => $main_menu->id,
+            'screen_id' => $main_menu->screen->id,
+            'bg_image' => env('APP_URL') . '/storage/app/public/media/' . $main_menu->bg_image,
+            'bg_video' => !!$main_menu->bg_video ? env('APP_URL') . '/storage/app/public/media/' . $main_menu->bg_video : null,
+            'name' => $main_menu->name_ar,
+            'image' => env('APP_URL') . '/storage/app/public/media/' . $main_menu->image_ar,
             'content' => $content_ar->content,
-            'children' => $menu->children,
+            'children' => $main_menu->children,
         ];
 
         return response()->json($res, 200);
