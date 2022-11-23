@@ -785,5 +785,80 @@ class ApiController extends Controller
         }
         return \response()->json($gallery);
     }
+
+    public function getQuestionAnswer(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'screen' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'errors' => $validator->errors(),
+                'status' => 422,
+            ], 422);
+        }
+
+        $menu = Menu::where('screen_type', 'videowall')->where('menu_id', 0)->whereHas('screen', function ($query) {
+            $query->where('slug', \request()->screen);
+        })->first();
+
+        $side_menu = Menu::where('screen_type', 'videowall')
+            ->where('type', 'side')
+            ->where('level', 1)->whereHas('screen', function ($query) {
+                $query->where('slug', \request()->screen);
+            })
+            ->with('screen', 'videowall_content')->orderBy('order', 'ASC')->get();
+
+        $res = [];
+        foreach ($side_menu as $menu) {
+            $content = VideowallContent::where('menu_id', $menu->id)->where('lang', 'en')->first();
+            $res['en'][] = [
+                'id' => $menu->id,
+                'name' => $menu->name_en,
+                'screen_id' => $menu->screen->id,
+                'screen' => $menu->screen->name_en,
+                'image' => $menu->image_en,
+                'content' => $content->content,
+                'bg_image' => env('APP_URL') . '/storage/app/public/media/' . $menu->bg_image,
+            ];
+            $content = VideowallContent::where('menu_id', $menu->id)->where('lang', 'ar')->first();
+            $res['ar'][] = [
+                'id' => $menu->id,
+                'name' => $menu->name_ar,
+                'screen_id' => $menu->screen->id,
+                'screen' => $menu->screen->name_ar,
+                'image' => $menu->image_ar,
+                'content' => $content->content,
+                'bg_image' => env('APP_URL') . '/storage/app/public/media/' . $menu->bg_image,
+            ];
+        }
+
+        $content_en = VideowallContent::where('menu_id', $menu->id)->where('lang', 'en')->first();
+        $res['main_menu']['en'] = [
+            'id' => $menu->id,
+            'screen_id' => $menu->screen->id,
+            'bg_image' => env('APP_URL') . '/storage/app/public/media/' . $menu->bg_image,
+            'bg_video' => !!$menu->bg_video ? env('APP_URL') . '/storage/app/public/media/' . $menu->bg_video : null,
+            'name' => $menu->name_en,
+            'image' => env('APP_URL') . '/storage/app/public/media/' . $menu->image_en,
+            'content' => $content_en->content,
+            'children' => $menu->children,
+        ];
+        $content_ar = VideowallContent::where('menu_id', $menu->id)->where('lang', 'ar')->first();
+        $res['main_menu']['ar'] = [
+            'id' => $menu->id,
+            'screen_id' => $menu->screen->id,
+            'bg_image' => env('APP_URL') . '/storage/app/public/media/' . $menu->bg_image,
+            'bg_video' => !!$menu->bg_video ? env('APP_URL') . '/storage/app/public/media/' . $menu->bg_video : null,
+            'name' => $menu->name_ar,
+            'image' => env('APP_URL') . '/storage/app/public/media/' . $menu->image_ar,
+            'content' => $content_ar->content,
+            'children' => $menu->children,
+        ];
+
+        return response()->json($res, 200);
+    }
+
     //-- /API For Video Wall --//
 }
