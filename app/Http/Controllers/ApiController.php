@@ -820,7 +820,15 @@ class ApiController extends Controller
                 'screen' => $menu->screen->name_en,
                 'image' => $menu->image_en,
                 'content' => $content->content,
-                'media' => $content->media,
+                'media' => $content->media->map(function ($med) {
+                    if ($med->lang == 'en') {
+                        return [
+                            'id' => $med->id,
+                            'type' => $med->type,
+                            'link' => env('APP_URL') . '/storage/app/public/media/' . $med->name,
+                        ];
+                    }
+                })->filter()->values(),
                 'bg_image' => env('APP_URL') . '/storage/app/public/media/' . $menu->bg_image,
             ];
             $content = VideowallContent::where('menu_id', $menu->id)->with('media')->where('lang', 'ar')->first();
@@ -832,7 +840,15 @@ class ApiController extends Controller
                 'screen' => $menu->screen->name_ar,
                 'image' => $menu->image_ar,
                 'content' => $content->content,
-                'media' => $content->media,
+                'media' => $content->media->map(function ($med) {
+                    if ($med->lang == 'ar') {
+                        return [
+                            'id' => $med->id,
+                            'type' => $med->type,
+                            'link' => env('APP_URL') . '/storage/app/public/media/' . $med->name,
+                        ];
+                    }
+                })->filter()->values(),
                 'bg_image' => env('APP_URL') . '/storage/app/public/media/' . $menu->bg_image,
             ];
         }
