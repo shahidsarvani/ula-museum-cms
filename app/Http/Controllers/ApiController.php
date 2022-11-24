@@ -25,7 +25,7 @@ class ApiController extends Controller
     //
     public function get_touchtable_main_menu()
     {
-        $menus = Menu::where('screen_type', 'touchtable')->where('menu_id', 0)->with('media')->orderBy('order', 'ASC')->get();
+        $menus = Menu::where('is_active', true)->where('screen_type', 'touchtable')->where('menu_id', 0)->with('media')->orderBy('order', 'ASC')->get();
         $contents = TouchScreenContent::whereIn('menu_id', $menus->pluck('id')->toArray())->with('media')->get();
 
         $response = array();
@@ -86,7 +86,7 @@ class ApiController extends Controller
 
     public function get_touchtable_footer_menu($menu_id)
     {
-        $menus = Menu::where('screen_type', 'touchtable')->where('menu_id', $menu_id)->where('type', 'footer')->orderBy('order', 'ASC')->get();
+        $menus = Menu::where('is_active', true)->where('screen_type', 'touchtable')->where('menu_id', $menu_id)->where('type', 'footer')->orderBy('order', 'ASC')->get();
         // return $menus;
         $response = array();
         foreach ($menus as $menu) {
@@ -104,7 +104,7 @@ class ApiController extends Controller
 
     public function get_touchtable_side_menu($menu_id)
     {
-        $menus = Menu::where('screen_type', 'touchtable')->with(['children' => function ($q) {
+        $menus = Menu::where('is_active', true)->where('screen_type', 'touchtable')->with(['children' => function ($q) {
             $q->orderBy('order', 'ASC')->with('touch_screen_content');
         }])->where('menu_id', $menu_id)->where('type', 'side')->where('level', 1)->orderBy('order', 'ASC')
             ->with('touch_screen_content', 'media')
@@ -172,7 +172,7 @@ class ApiController extends Controller
 
     public function get_all_media($menu_id, $lang)
     {
-        $menus = Menu::where('menu_id', $menu_id)->get()->pluck('id')->toArray();
+        $menus = Menu::where('is_active', true)->where('menu_id', $menu_id)->get()->pluck('id')->toArray();
         $mediaItems = Media::whereIn('menu_id', $menus)->where('screen_type', 'touchtable')->where('lang', $lang)->orderBy('order', 'ASC')->get();
         // return $mediaItems;
         $response = array();
@@ -208,7 +208,7 @@ class ApiController extends Controller
     public function get_touchtable_content($menu_id)
     {
 
-        $menu = Menu::where('id', $menu_id)->first();
+        $menu = Menu::where('is_active', true)->where('id', $menu_id)->first();
         $contents = TouchScreenContent::where('menu_id', $menu_id)->with('media')->get();
         $response = array();
         foreach ($contents as $content) {
@@ -245,7 +245,7 @@ class ApiController extends Controller
             ], 422);
         }
 
-        $menus = Menu::where('screen_type', 'videowall')->where('menu_id', 0)->whereHas('screen', function ($query) {
+        $menus = Menu::where('is_active', true)->where('screen_type', 'videowall')->where('menu_id', 0)->whereHas('screen', function ($query) {
             $query->where('slug', \request()->screen);
         })->orderBy('order', 'ASC')->with('screen', 'children')->get();
 
@@ -281,7 +281,7 @@ class ApiController extends Controller
 
     public function get_videowall_footer_menu($menu_id)
     {
-        $menus = Menu::where('screen_type', 'videowall')->where('menu_id', $menu_id)->where('type', 'footer')->orderBy('order', 'ASC')->get();
+        $menus = Menu::where('is_active', true)->where('screen_type', 'videowall')->where('menu_id', $menu_id)->where('type', 'footer')->orderBy('order', 'ASC')->get();
         // return $menus;
         $response = array();
         foreach ($menus as $menu) {
@@ -299,7 +299,7 @@ class ApiController extends Controller
 
     public function get_videowall_side_menu($menu_id)
     {
-        $side_menu = Menu::where('screen_type', 'videowall')->with(['children' => function ($q) {
+        $side_menu = Menu::where('is_active', true)->where('screen_type', 'videowall')->with(['children' => function ($q) {
             $q->orderBy('order', 'ASC');
         }])->where('type', 'side')->where('level', 1)->orderBy('order', 'ASC')->limit(3)->get();
 
@@ -311,7 +311,7 @@ class ApiController extends Controller
             ];
             return $temp;
         })->toArray();
-        $menus = Menu::where('screen_type', 'videowall')->where('id', 2)->with('screen')->get();
+        $menus = Menu::where('is_active', true)->where('screen_type', 'videowall')->where('id', 2)->with('screen')->get();
         $response['content'] = $menus->map(function ($menu) {
             return [
                 'id' => $menu->id,
@@ -364,7 +364,7 @@ class ApiController extends Controller
             ], 422);
         }
 
-        $side_menu = Menu::where('screen_type', 'videowall')->where('type', 'side')->where('level', 1)->whereHas('screen', function ($query) {
+        $side_menu = Menu::where('is_active', true)->where('screen_type', 'videowall')->where('type', 'side')->where('level', 1)->whereHas('screen', function ($query) {
             $query->where('slug', \request()->screen);
         })->with('screen', 'videowall_content')->orderBy('order', 'ASC')->get();
         $contents = VideowallContent::where('menu_id', 1)->with('media', 'screen')->get();
@@ -434,8 +434,8 @@ class ApiController extends Controller
             ], 422);
         }
         $contents = VideowallContent::where('menu_id', $id)->with('menu', 'screen', 'media')->get();
-        $menuu = Menu::where('id', $id)->first();
-        $child_menus = Menu::where('menu_id', $id)->where('level', 1)->whereHas('screen', function ($query) {
+        $menuu = Menu::where('is_active', true)->where('id', $id)->first();
+        $child_menus = Menu::where('is_active', true)->where('menu_id', $id)->where('level', 1)->whereHas('screen', function ($query) {
             $query->where('slug', \request()->screen);
         })->with('screen', 'videowall_content')->with('children')->orderBy('order', 'ASC')->get();
 
@@ -566,7 +566,7 @@ class ApiController extends Controller
     public function get_videowall_content($menu_id, $lang)
     {
 
-        $menu = Menu::with(['videowall_content' => function ($q) use ($lang) {
+        $menu = Menu::where('is_active', true)->with(['videowall_content' => function ($q) use ($lang) {
             $q->whereLang($lang);
         }, 'media' => function ($q) use ($lang) {
             $q->whereLang($lang);
@@ -653,7 +653,7 @@ class ApiController extends Controller
             ], 422);
         }
 
-        $menus = Menu::where('id', $request->menuid)->where('screen_type', 'videowall')->with('children', 'media', 'screen', 'videowall_content')
+        $menus = Menu::where('is_active', true)->where('id', $request->menuid)->where('screen_type', 'videowall')->with('children', 'media', 'screen', 'videowall_content')
             ->whereHas('screen', function ($q) use ($request) {
                 $q->where('slug', $request->screen);
             })->first();
@@ -677,10 +677,10 @@ class ApiController extends Controller
     public function getMenuContentById(Request $request, $id): \Illuminate\Http\JsonResponse
     {
         $res = [];
-        $menu = Menu::where('menu_id', $id)->get()->pluck('id')->toArray();
+        $menu = Menu::where('is_active', true)->where('menu_id', $id)->get()->pluck('id')->toArray();
         $contents = VideowallContent::whereIn('menu_id', $menu)->with('media', 'screen', 'menu')->whereHas('screen', function ($query) {
             $query->where('slug', \request()->screen);
-        })->orderBy(Menu::select('order')->whereColumn('menus.menu_id', 'videowall_contents.menu_id'), 'DESC')
+        })->orderBy(Menu::where('is_active', true)->select('order')->whereColumn('menus.menu_id', 'videowall_contents.menu_id'), 'DESC')
             ->get();
 
         foreach ($contents as $content) {
@@ -770,7 +770,7 @@ class ApiController extends Controller
 
     public function getFirstGalleryById($id)
     {
-        $menu = Menu::where('menu_id', $id)->get()->pluck('id')->toArray();
+        $menu = Menu::where('is_active', true)->where('menu_id', $id)->get()->pluck('id')->toArray();
         $media = Media::whereIn('menu_id', $menu)->with('menu')->get();
         $gallery = [];
         foreach ($media as $m) {
@@ -799,11 +799,11 @@ class ApiController extends Controller
             ], 422);
         }
 
-        $main_menu = Menu::where('screen_type', 'videowall')->where('menu_id', 0)->whereHas('screen', function ($query) {
+        $main_menu = Menu::where('is_active', true)->where('screen_type', 'videowall')->where('menu_id', 0)->whereHas('screen', function ($query) {
             $query->where('slug', \request()->screen);
         })->first();
 
-        $side_menu = Menu::where('screen_type', 'videowall')
+        $side_menu = Menu::where('is_active', true)->where('screen_type', 'videowall')
             ->where('type', 'side')
             ->where('level', 1)->whereHas('screen', function ($query) {
                 $query->where('slug', \request()->screen);
