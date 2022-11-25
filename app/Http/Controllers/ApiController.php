@@ -50,7 +50,7 @@ class ApiController extends Controller
                                         return [
                                             'id' => $med->id,
                                             'type' => $med->type,
-                                            'link' => env('APP_URL') . '/storage/app/public/media/' . $med->name,
+                                            'link' => url('/') . '/storage/app/public/media/' . $med->name,
                                         ];
                                     }
                                 })->filter()->values(),
@@ -67,7 +67,7 @@ class ApiController extends Controller
                                         return [
                                             'id' => $med->id,
                                             'type' => $med->type,
-                                            'link' => env('APP_URL') . '/storage/app/public/media/' . $med->name,
+                                            'link' => url('/') . '/storage/app/public/media/' . $med->name,
                                         ];
                                     }
                                 })->filter()->values(),
@@ -75,13 +75,13 @@ class ApiController extends Controller
                         }
                     })->filter()->values(),
                 ],
-                'image_en' => env('APP_URL') . '/storage/app/public/media/' . $menu->image_en,
-                'image_ar' => env('APP_URL') . '/storage/app/public/media/' . $menu->image_ar,
+                'image_en' => url('/') . '/storage/app/public/media/' . $menu->image_en,
+                'image_ar' => url('/') . '/storage/app/public/media/' . $menu->image_ar,
                 'media' => $menu->media->map(function ($med) {
                     return [
                         'id' => $med->id,
                         'type' => $med->type,
-                        'link' => env('APP_URL') . '/storage/app/public/media/' . $med->name,
+                        'link' => url('/') . '/storage/app/public/media/' . $med->name,
                     ];
                 }),
             ];
@@ -125,7 +125,7 @@ class ApiController extends Controller
                 'name' => $menu->name_en,
                 'content' => $menu->touch_screen_content ? $menu->touch_screen_content->content : null,
                 'media' => $menu->media->map(function ($med) {
-                    return env('APP_URL') . '/storage/app/public/media/' . $med->name;
+                    return url('/') . '/storage/app/public/media/' . $med->name;
                 }),
                 'child' => $menu->children->map(function ($m) {
                    return [
@@ -133,7 +133,7 @@ class ApiController extends Controller
                        'name' => $m->name_en,
                        'content' => !!$m->touch_screen_content ? $m->touch_screen_content->content : null,
                        'media' => $m->media->map(function ($med) {
-                           return env('APP_URL') . '/storage/app/public/media/' . $med->name;
+                           return url('/') . '/storage/app/public/media/' . $med->name;
                 }),
                    ];
                 })
@@ -143,7 +143,7 @@ class ApiController extends Controller
                 'name' => $menu->name_ar,
                 'content' => $menu->touch_screen_content->content,
                 'media' => $menu->media->map(function ($med) {
-                    return env('APP_URL') . '/storage/app/public/media/' . $med->name;
+                    return url('/') . '/storage/app/public/media/' . $med->name;
                 }),
                 'child' => $menu->children->map(function ($m) {
                     return [
@@ -151,7 +151,7 @@ class ApiController extends Controller
                         'name' => $m->name_en,
                         'content' => !!$m->touch_screen_content ? $m->touch_screen_content->content : null,
                         'media' => $m->media->map(function ($med) {
-                            return env('APP_URL') . '/storage/app/public/media/' . $med->name;
+                            return url('/') . '/storage/app/public/media/' . $med->name;
                 }),
                     ];
                 })
@@ -187,7 +187,7 @@ class ApiController extends Controller
         foreach ($mediaItems as $key => $value) {
             $temp = [
                 'id' => $value->id,
-                'path' => env('APP_URL') . '/storage/app/public/media/' . $value->name,
+                'path' => url('/') . '/storage/app/public/media/' . $value->name,
                 'type' => $value->type,
                 'description' => $value->description
             ];
@@ -231,7 +231,7 @@ class ApiController extends Controller
                     return [
                         'id' => $media->id,
                         'type' => $media->type,
-                        'path' => env('APP_URL') . '/storage/app/public/media/' . $media->name,
+                        'path' => url('/') . '/storage/app/public/media/' . $media->name,
                     ];
                 })
             ];
@@ -264,10 +264,10 @@ class ApiController extends Controller
             $res['en'][] = [
                 'id' => $menu->id,
                 'screen_id' => $menu->screen->id,
-                'bg_image' => env('APP_URL') . '/storage/app/public/media/' . $menu->bg_image,
-                'bg_video' => !!$menu->bg_video ? env('APP_URL') . '/storage/app/public/media/' . $menu->bg_video : null,
+                'bg_image' => url('/') . '/storage/app/public/media/' . $menu->bg_image,
+                'bg_video' => !!$menu->bg_video ? url('/') . '/storage/app/public/media/' . $menu->bg_video : null,
                 'name' => $menu->name_en,
-                'image' => env('APP_URL') . '/storage/app/public/media/' . $menu->image_en,
+                'image' => url('/') . '/storage/app/public/media/' . $menu->image_en,
                 'content' => $content_en->content,
                 'children' => $menu->children,
             ];
@@ -275,10 +275,10 @@ class ApiController extends Controller
             $res['ar'][] = [
                 'id' => $menu->id,
                 'screen_id' => $menu->screen->id,
-                'bg_image' => env('APP_URL') . '/storage/app/public/media/' . $menu->bg_image,
-                'bg_video' => !!$menu->bg_video ? env('APP_URL') . '/storage/app/public/media/' . $menu->bg_video : null,
+                'bg_image' => url('/') . '/storage/app/public/media/' . $menu->bg_image,
+                'bg_video' => !!$menu->bg_video ? url('/') . '/storage/app/public/media/' . $menu->bg_video : null,
                 'name' => $menu->name_ar,
-                'image' => env('APP_URL') . '/storage/app/public/media/' . $menu->image_ar,
+                'image' => url('/') . '/storage/app/public/media/' . $menu->image_ar,
                 'content' => $content_ar->content,
                 'children' => $menu->children,
             ];
@@ -297,8 +297,8 @@ class ApiController extends Controller
                 'id' => $menu->id,
                 'name_en' => $menu->name_en,
                 'name_ar' => $menu->name_ar,
-                'icon_en' => env('APP_URL') . '/storage/app/public/media/' . $menu->icon_en,
-                'icon_ar' => env('APP_URL') . '/storage/app/public/media/' . $menu->icon_ar,
+                'icon_en' => url('/') . '/storage/app/public/media/' . $menu->icon_en,
+                'icon_ar' => url('/') . '/storage/app/public/media/' . $menu->icon_ar,
             ];
             array_push($response, $temp);
         }
@@ -386,7 +386,7 @@ class ApiController extends Controller
                 'screen_id' => $menu->screen->id,
                 'screen' => $menu->screen->name_en,
                 'image' => $menu->image_en,
-                'bg_image' => env('APP_URL') . '/storage/app/public/media/' . $menu->bg_image,
+                'bg_image' => url('/') . '/storage/app/public/media/' . $menu->bg_image,
             ];
             $res['ar']['sideMenu'][] = [
                 'id' => $menu->id,
@@ -394,7 +394,7 @@ class ApiController extends Controller
                 'screen_id' => $menu->screen->id,
                 'screen' => $menu->screen->name_ar,
                 'image' => $menu->image_ar,
-                'bg_image' => env('APP_URL') . '/storage/app/public/media/' . $menu->bg_image,
+                'bg_image' => url('/') . '/storage/app/public/media/' . $menu->bg_image,
             ];
         }
 
@@ -405,10 +405,10 @@ class ApiController extends Controller
                     'name' => $content->content,
                     'screen_id' => $content->screen->id,
                     'screen' => $content->screen->name_en,
-                    'text_bg_image' => env('APP_URL') . '/storage/app/public/media/' . $content->text_bg_image,
+                    'text_bg_image' => url('/') . '/storage/app/public/media/' . $content->text_bg_image,
                     'media' =>
                         $content->media->map(function ($media) {
-                            return env('APP_URL') . '/storage/app/public/media/' . $media->name;
+                            return url('/') . '/storage/app/public/media/' . $media->name;
                         }),
                 ];
             }
@@ -418,10 +418,10 @@ class ApiController extends Controller
                     'name' => $content->content,
                     'screen_id' => $content->screen->id,
                     'screen' => $content->screen->name_ar,
-                    'text_bg_image' => env('APP_URL') . '/storage/app/public/media/' . $content->text_bg_image,
+                    'text_bg_image' => url('/') . '/storage/app/public/media/' . $content->text_bg_image,
                     'media' =>
                         $content->media->map(function ($media) {
-                            return env('APP_URL') . '/storage/app/public/media/' . $media->name;
+                            return url('/') . '/storage/app/public/media/' . $media->name;
                         }),
                 ];
             }
@@ -459,10 +459,10 @@ class ApiController extends Controller
                         'screen' => $menu->screen->name_en,
                         'image' => $child->image_en,
                         'child_menus' => $child->children->toArray(),
-                        'bg_image' => env('APP_URL') . '/storage/app/public/media/' . $child->bg_image,
+                        'bg_image' => url('/') . '/storage/app/public/media/' . $child->bg_image,
                         'intro_video' => [
                             'type' => 'video',
-                            'path' => env('APP_URL') . '/storage/app/public/media/' . $child->intro_video
+                            'path' => url('/') . '/storage/app/public/media/' . $child->intro_video
                         ],
                     ];
             }
@@ -473,11 +473,11 @@ class ApiController extends Controller
                 'screen' => $menu->screen->name_en,
                 'image' => $menu->image_en,
                 'child' => $children,
-                'bg_image' => env('APP_URL') . '/storage/app/public/media/' . $menu->bg_image,
-                'map_image' => env('APP_URL') . '/storage/app/public/media/' . $menu->map_image,
+                'bg_image' => url('/') . '/storage/app/public/media/' . $menu->bg_image,
+                'map_image' => url('/') . '/storage/app/public/media/' . $menu->map_image,
                 'intro_video' => [
                     'type' => 'video',
-                    'path' => env('APP_URL') . '/storage/app/public/media/' . $menu->intro_video
+                    'path' => url('/') . '/storage/app/public/media/' . $menu->intro_video
                 ],
             ];
             $res['ar']['menus'][] = [
@@ -487,11 +487,11 @@ class ApiController extends Controller
                 'screen' => $menu->screen->name_ar,
                 'image' => $menu->image_ar,
                 'child' => $children,
-                'bg_image' => env('APP_URL') . '/storage/app/public/media/' . $menu->bg_image,
-                'map_image' => env('APP_URL') . '/storage/app/public/media/' . $menu->map_image,
+                'bg_image' => url('/') . '/storage/app/public/media/' . $menu->bg_image,
+                'map_image' => url('/') . '/storage/app/public/media/' . $menu->map_image,
                 'intro_video' => [
                     'type' => 'video',
-                    'path' => env('APP_URL') . '/storage/app/public/media/' . $menu->intro_video
+                    'path' => url('/') . '/storage/app/public/media/' . $menu->intro_video
                 ],
             ];
         }
@@ -502,23 +502,23 @@ class ApiController extends Controller
                     'id' => $content->id,
                     'title' => $content->title,
                     'menu_name' => $menuu->name_en,
-                    'map_image' => env('APP_URL') . '/storage/app/public/media/' . $menuu->map_image,
+                    'map_image' => url('/') . '/storage/app/public/media/' . $menuu->map_image,
                     'intro_video' => collect(json_decode($menuu->intro_video))->map(function ($media) {
                         return [
                             'type' => 'video',
-                            'path' => env('APP_URL') . '/storage/app/public/media/' . $media
+                            'path' => url('/') . '/storage/app/public/media/' . $media
                         ];
                     }),
                     'content' => $content->content,
                     'screen_id' => $content->screen->id,
                     'screen' => $content->screen->name_en,
-                    'text_bg_image' => env('APP_URL') . '/storage/app/public/media/' . $content->text_bg_image,
+                    'text_bg_image' => url('/') . '/storage/app/public/media/' . $content->text_bg_image,
                     'media' =>
                         $content->media->map(function ($media) {
                             if ($media->lang == 'en')
                             return [
                                 'type' => $media->type,
-                                'path' => env('APP_URL') . '/storage/app/public/media/' . $media->name
+                                'path' => url('/') . '/storage/app/public/media/' . $media->name
                             ];
                         })->filter()->values(),
                 ];
@@ -528,23 +528,23 @@ class ApiController extends Controller
                     'id' => $content->id,
                     'title' => $content->title,
                     'menu_name' => $menuu->name_ar,
-                    'map_image' => env('APP_URL') . '/storage/app/public/media/' . $menuu->map_image,
+                    'map_image' => url('/') . '/storage/app/public/media/' . $menuu->map_image,
                     'intro_video' => collect(json_decode($menuu->intro_video))->map(function ($media) {
                         return [
                             'type' => 'video',
-                            'path' => env('APP_URL') . '/storage/app/public/media/' . $media
+                            'path' => url('/') . '/storage/app/public/media/' . $media
                         ];
                     }),
                     'content' => $content->content,
                     'screen_id' => $content->screen->id,
                     'screen' => $content->screen->name_ar,
-                    'text_bg_image' => env('APP_URL') . '/storage/app/public/media/' . $content->text_bg_image,
+                    'text_bg_image' => url('/') . '/storage/app/public/media/' . $content->text_bg_image,
                     'media' =>
                         $content->media->map(function ($media) {
                             if ($media->lang == 'ar')
                                 return [
                                 'type' => $media->type,
-                                'path' => env('APP_URL') . '/storage/app/public/media/' . $media->name
+                                'path' => url('/') . '/storage/app/public/media/' . $media->name
                             ];
                         })->filter()->values(),
                 ];
@@ -624,7 +624,7 @@ class ApiController extends Controller
         $response = array();
         foreach ($media as $key => $value) {
             if (!!$value)
-                $response[] = env('APP_URL') . '/storage/app/public/media/' . $value->name;
+                $response[] = url('/') . '/storage/app/public/media/' . $value->name;
         }
         return stripslashes(json_encode($response));
         return $response;
@@ -639,7 +639,7 @@ class ApiController extends Controller
         $response = array();
         foreach ($media as $key => $value) {
             if (!!$value)
-                $response[] = env('APP_URL') . '/storage/app/public/media/' . $value->name;
+                $response[] = url('/') . '/storage/app/public/media/' . $value->name;
         }
         return stripslashes(json_encode($response));
         return $response;
@@ -670,7 +670,7 @@ class ApiController extends Controller
         $child = array();
         $content = $menus->videowall_content->content;
         $media = $menus->media->map(function ($media) {
-            return env('APP_URL') . '/storage/app/public/media/' . $media->name;
+            return url('/') . '/storage/app/public/media/' . $media->name;
         });
 
         return response()->json(array(
@@ -702,11 +702,11 @@ class ApiController extends Controller
                 'title' => $content->title,
                 'screen_id' => $content->screen_id,
                 'screen' => $content->screen['name_' . $content->lang],
-                'text_bg_image' => env('APP_URL') . '/storage/app/public/media/' . $content->text_bg_image,
+                'text_bg_image' => url('/') . '/storage/app/public/media/' . $content->text_bg_image,
                 'media' => $content->media->map(function ($media) use ($content) {
                     if ($media->lang == $content->lang && !!$media->name) {
                         return [
-                            'link' => env('APP_URL') . '/storage/app/public/media/' . $media->name,
+                            'link' => url('/') . '/storage/app/public/media/' . $media->name,
                             'type' => $media->type,
                             'lang' => $media->lang,
                         ];
@@ -744,7 +744,7 @@ class ApiController extends Controller
                         'media' =>
                             $item->media->map(function ($media) {
                                 if ($media->lang === 'en')
-                                    return env('APP_URL') . '/storage/app/public/media/' . $media->name;
+                                    return url('/') . '/storage/app/public/media/' . $media->name;
                             })->filter()->values(),
                     );
                 }
@@ -760,7 +760,7 @@ class ApiController extends Controller
                         'media' =>
                             $item->media->map(function ($media) {
                                 if ($media->lang === 'ar')
-                                    return env('APP_URL') . '/storage/app/public/media/' . $media->name;
+                                    return url('/') . '/storage/app/public/media/' . $media->name;
                             })->filter()->values(),
                     );
                 }
@@ -772,7 +772,7 @@ class ApiController extends Controller
     public function getSiteLogo(Request $request)
     {
         $logo = Setting::where('key', 'logo')->first();
-        $logo = $logo ? env('APP_URL') . '/storage/app/public/media/' . $logo->value : env('APP_URL') . '/assets/global_assets/images/placeholders/placeholder.jpg';
+        $logo = $logo ? url('/') . '/storage/app/public/media/' . $logo->value : url('/') . '/assets/global_assets/images/placeholders/placeholder.jpg';
         return response()->json($logo);
     }
 
@@ -783,11 +783,11 @@ class ApiController extends Controller
         $gallery = [];
         foreach ($media as $m) {
             $gallery['en'][$m->menu->name_en][] = [
-                'path' => env('APP_URL') . '/storage/app/public/media/' . $m->name,
+                'path' => url('/') . '/storage/app/public/media/' . $m->name,
                 'type' => $m->type
             ];
             $gallery['ar'][$m->menu->name_ar][] = [
-                'path' => env('APP_URL') . '/storage/app/public/media/' . $m->name,
+                'path' => url('/') . '/storage/app/public/media/' . $m->name,
                 'type' => $m->type
             ];
         }
@@ -796,7 +796,6 @@ class ApiController extends Controller
 
     public function getQuestionAnswer(Request $request)
     {
-        dd(request()->route()->getDomain(), url('/'));
         $validator = Validator::make($request->all(), [
             'screen' => 'required',
         ]);
@@ -834,11 +833,11 @@ class ApiController extends Controller
                         return [
                             'id' => $med->id,
                             'type' => $med->type,
-                            'link' => env('APP_URL') . '/storage/app/public/media/' . $med->name,
+                            'link' => url('/') . '/storage/app/public/media/' . $med->name,
                         ];
                     }
                 })->filter()->values(),
-                'bg_image' => env('APP_URL') . '/storage/app/public/media/' . $menu->bg_image,
+                'bg_image' => url('/') . '/storage/app/public/media/' . $menu->bg_image,
             ];
             $content = VideowallContent::where('menu_id', $menu->id)->with('media')->where('lang', 'ar')->first();
 
@@ -854,11 +853,11 @@ class ApiController extends Controller
                         return [
                             'id' => $med->id,
                             'type' => $med->type,
-                            'link' => route('/') . '/storage/app/public/media/' . $med->name,
+                            'link' => url('/') . '/storage/app/public/media/' . $med->name,
                         ];
                     }
                 })->filter()->values(),
-                'bg_image' => env('APP_URL') . '/storage/app/public/media/' . $menu->bg_image,
+                'bg_image' => url('/') . '/storage/app/public/media/' . $menu->bg_image,
             ];
         }
 
@@ -867,10 +866,10 @@ class ApiController extends Controller
         $res['main_menu']['en'] = [
             'id' => $main_menu->id,
             'screen_id' => $main_menu->screen->id,
-            'bg_image' => env('APP_URL') . '/storage/app/public/media/' . $main_menu->bg_image,
-            'bg_video' => !!$main_menu->bg_video ? env('APP_URL') . '/storage/app/public/media/' . $main_menu->bg_video : null,
+            'bg_image' => url('/') . '/storage/app/public/media/' . $main_menu->bg_image,
+            'bg_video' => !!$main_menu->bg_video ? url('/') . '/storage/app/public/media/' . $main_menu->bg_video : null,
             'name' => $main_menu->name_en,
-            'image' => env('APP_URL') . '/storage/app/public/media/' . $main_menu->image_en,
+            'image' => url('/') . '/storage/app/public/media/' . $main_menu->image_en,
             'content' => $content_en->content,
             'children' => $main_menu->children,
         ];
@@ -878,10 +877,10 @@ class ApiController extends Controller
         $res['main_menu']['ar'] = [
             'id' => $main_menu->id,
             'screen_id' => $main_menu->screen->id,
-            'bg_image' => env('APP_URL') . '/storage/app/public/media/' . $main_menu->bg_image,
-            'bg_video' => !!$main_menu->bg_video ? env('APP_URL') . '/storage/app/public/media/' . $main_menu->bg_video : null,
+            'bg_image' => url('/') . '/storage/app/public/media/' . $main_menu->bg_image,
+            'bg_video' => !!$main_menu->bg_video ? url('/') . '/storage/app/public/media/' . $main_menu->bg_video : null,
             'name' => $main_menu->name_ar,
-            'image' => env('APP_URL') . '/storage/app/public/media/' . $main_menu->image_ar,
+            'image' => url('/') . '/storage/app/public/media/' . $main_menu->image_ar,
             'content' => $content_ar->content,
             'children' => $main_menu->children,
         ];
