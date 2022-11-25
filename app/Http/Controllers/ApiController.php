@@ -796,6 +796,7 @@ class ApiController extends Controller
 
     public function getQuestionAnswer(Request $request)
     {
+        dd(request()->route()->getDomain(), url('/'));
         $validator = Validator::make($request->all(), [
             'screen' => 'required',
         ]);
@@ -853,7 +854,7 @@ class ApiController extends Controller
                         return [
                             'id' => $med->id,
                             'type' => $med->type,
-                            'link' => env('APP_URL') . '/storage/app/public/media/' . $med->name,
+                            'link' => route('/') . '/storage/app/public/media/' . $med->name,
                         ];
                     }
                 })->filter()->values(),
