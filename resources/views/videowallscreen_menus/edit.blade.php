@@ -223,7 +223,7 @@
 {{--                            <div class="image-area_">--}}
 {{--                            <div class="image-area">--}}
 {{--                                @if($menu->intro_video != null)--}}
-{{--                                <video style="width: 100px;'" src="{{ URL::asset('public/storage/media/' . $menu->intro_video) }}" muted controls></video>--}}
+{{--                                <video style="width: 100px;'" src="{{ URL::asset('storage/app/public/media/' . $menu->intro_video) }}" muted controls></video>--}}
 {{--                                <a class="remove-image" href="{{ '/video-wall-screen/menu/intro/video/remove/' . $menu->id . '/intro_video' }}"--}}
 {{--                                   style="display: inline;">&#215;</a>--}}
 {{--                                @endif--}}
@@ -240,7 +240,7 @@
 {{--                            <div class="image-area_">--}}
 {{--                                <div class="image-area">--}}
 {{--                                    @if($menu->intro_video_ar != null)--}}
-{{--                                    <video style="width: 100px;'" src="{{ URL::asset('public/storage/media/' . $menu->intro_video_ar) }}" muted controls></video>--}}
+{{--                                    <video style="width: 100px;'" src="{{ URL::asset('storage/app/public/media/' . $menu->intro_video_ar) }}" muted controls></video>--}}
 {{--                                    <a class="remove-image" href="{{ '/video-wall-screen/menu/intro/video/remove/' . $menu->id . '/intro_video_ar' }}"--}}
 {{--                                       style="display: inline;">&#215;</a>--}}
 {{--                                    @endif--}}

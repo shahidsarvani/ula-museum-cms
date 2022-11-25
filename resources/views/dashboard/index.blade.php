@@ -23,7 +23,7 @@
                         </label>
                         <span class="form-text text-muted">Accepted formats: png, jpg. Max size: 2MB.</span>
                         <img class="site_logo" width="100%"
-                            src="{{ $logo ? asset('public/storage/media/' . $logo->value) : '' }}">
+                            src="{{ $logo ? asset('storage/app/public/media/' . $logo->value) : '' }}">
                         <span class="form-text text-muted logo_name"></span>
                         @error('logo')
                             <p class="text-danger">{{ $message }}</p>
