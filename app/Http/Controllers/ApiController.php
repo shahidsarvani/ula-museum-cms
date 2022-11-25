@@ -9,6 +9,7 @@ use App\Models\Setting;
 use App\Models\TouchScreenContent;
 use App\Models\VideowallContent;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Validator;
@@ -25,8 +26,12 @@ class ApiController extends Controller
     //
     public function get_touchtable_main_menu()
     {
-        $menus = Menu::where('is_active', true)->where('screen_type', 'touchtable')->where('menu_id', 0)->with('media')->orderBy('order', 'ASC')->get();
-        $contents = TouchScreenContent::whereIn('menu_id', $menus->pluck('id')->toArray())->with('media')->get();
+        $menus = Cache::remember('touchtable_main_menu', 60, function () {
+            return Menu::where('is_active', true)->where('screen_type', 'touchtable')->where('menu_id', 0)->with('media')->orderBy('order', 'ASC')->get();
+        });
+        $contents = $menus = Cache::remember('touchtable_menu_contents', 60, function () use ($menus) {
+            TouchScreenContent::whereIn('menu_id', $menus->pluck('id')->toArray())->with('media')->get();
+        });
 
         $response = array();
         foreach ($menus as $menu) {
@@ -86,8 +91,9 @@ class ApiController extends Controller
 
     public function get_touchtable_footer_menu($menu_id)
     {
-        $menus = Menu::where('is_active', true)->where('screen_type', 'touchtable')->where('menu_id', $menu_id)->where('type', 'footer')->orderBy('order', 'ASC')->get();
-        // return $menus;
+        $menus = Cache::remember('get_touchtable_footer_menu', 60, function () use ($menu_id) {
+            return Menu::where('is_active', true)->where('screen_type', 'touchtable')->where('menu_id', $menu_id)->where('type', 'footer')->orderBy('order', 'ASC')->get();
+        });
         $response = array();
         foreach ($menus as $menu) {
             $temp = [
@@ -97,18 +103,20 @@ class ApiController extends Controller
                 'icon_en' => asset('public/storage/media/' . $menu->icon_en),
                 'icon_ar' => asset('public/storage/media/' . $menu->icon_ar),
             ];
-            array_push($response, $temp);
+            $response[] = $temp;
         }
         return response()->json($response, 200);
     }
 
     public function get_touchtable_side_menu($menu_id)
     {
-        $menus = Menu::where('is_active', true)->where('screen_type', 'touchtable')->with(['children' => function ($q) {
-            $q->orderBy('order', 'ASC')->with('touch_screen_content');
-        }])->where('menu_id', $menu_id)->where('type', 'side')->where('level', 1)->orderBy('order', 'ASC')
-            ->with('touch_screen_content', 'media')
-            ->get();
+        $menus = Cache::remember('get_touchtable_footer_menu', 60, function () use ($menu_id) {
+            return Menu::where('is_active', true)->where('screen_type', 'touchtable')->with(['children' => function ($q) {
+                $q->orderBy('order', 'ASC')->with('touch_screen_content');
+            }])->where('menu_id', $menu_id)->where('type', 'side')->where('level', 1)->orderBy('order', 'ASC')
+                ->with('touch_screen_content', 'media')
+                ->get();
+        });
 
         $response = array();
         foreach ($menus as $menu) {
