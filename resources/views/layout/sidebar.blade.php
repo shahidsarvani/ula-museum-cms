@@ -558,8 +558,8 @@
                 @endcan --}}
 
                 <li class="nav-item-header">
-                    <div class="text-uppercase font-size-xs line-height-xs mt-1">With RFID Screen</div> <i
-                            class="icon-menu" title="With RFID Screen"></i>
+                    <div class="text-uppercase font-size-xs line-height-xs mt-1">General Settings</div> <i
+                            class="icon-menu" title="General Settings"></i>
                 </li>
                 @can(['add-permission', 'edit-permission', 'delete-permission', 'view-permission'])
                     <li class="nav-item nav-item-submenu @if (Route::is('permissions.*')) nav-item-open @endif">
