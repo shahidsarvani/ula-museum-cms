@@ -31,7 +31,7 @@ var DropzoneUpload = (function () {
             dictDefaultMessage: 'Drop files to upload <span>or CLICK</span>',
             maxFilesize: 400000000, // MB
             addRemoveLinks: true,
-            chunking: true,
+            chunking: false,
             timeout: 120000,
             chunkSize: 1000000,
             // If true, the individual chunks of a file are being uploaded simultaneously.

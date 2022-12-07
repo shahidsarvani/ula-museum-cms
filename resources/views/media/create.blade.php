@@ -74,7 +74,7 @@
             dictDefaultMessage: 'Drop files to upload <span>or CLICK</span>',
             maxFilesize: 10000000000000, // MB
             addRemoveLinks: true,
-            chunking: true,
+            chunking: false,
             chunkSize: 10000000,
             // If true, the individual chunks of a file are being uploaded simultaneously.
             parallelChunkUploads: true,
